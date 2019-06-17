@@ -6,23 +6,24 @@ import DynamicTable from './DynamicTable/DynamicTable'
 class App extends Component {
   state = {
     rows: [
-      [ "Neutron 3", "Izotope", "30% off", "2019/6/4", "2019/6/30", "AudioDeluxe" ],
-      [ "T-verb",  "Eventide", "70% off", "2019/6/3",  "2019/6/25", "JRR Shop" ],
+      { id: 1, name: "Neutron 3", company: "Izotope", details: "30% off", added: "2019/6/4", ends: "2019/6/30", link: { text: "AudioDeluxe", url: "https://www.audiodeluxe.com/products/audio-plug-ins/izotope-neutron-3-advanced" }},
+      { id: 2, name: "Tverb", company: "Eventide", details: "70% off", added: "2019/6/3", ends: "2019/6/25", link: { text: "JRR Shop", url: "https://www.jrrshop.com/eventide-tverb" }},
+      { id: 3, name: "Addictive Drums", company: "XLN Audio", details: "50% off", added: "2019/6/2", ends: "2019/6/25", link: { text: "AudioDeluxe", url: "https://www.audiodeluxe.com/products/xln-audio-addictive-drums-2-custom" }},
     ]
   }
 
   columns = [
-    { name: 'Plugin', },
-    { name: 'Company' },
-    { name: 'Details' },
-    { name: 'Added' },
-    { name: 'End' },
-    { name: 'Store' },
+    { title: 'Plugin', key: 'name' },
+    { title: 'Company', key: 'company' },
+    { title: 'Details', key: 'details' },
+    { title: 'Added', key: 'added' },
+    { title: 'End', key: 'ends' },
+    { title: 'Store', key: 'link', type: 'link' },
   ]
 
-  clickHandler = (i) => {
+  clickHandler = (id) => {
     const rows = [...this.state.rows]
-    rows.splice(i, 1)
+    rows.splice(rows.findIndex(r => r.id === id), 1)
     this.setState({ rows: rows });
   }
 
