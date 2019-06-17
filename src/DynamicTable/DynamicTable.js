@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import DynamicTableRow from './DynamicTableRow/DynamicTableRow'
 
 class DynamicTable extends Component {
@@ -6,7 +7,7 @@ class DynamicTable extends Component {
     super(props);
 
     this.state = {
-      rows: props.rows,
+     rows: props.rows,
       sortColumn: props.defaultSortColumn !== undefined ? props.defaultSortColumn : 0,
       sortDir: props.defaultSortDir !== undefined ? props.defaultSortDir : 'asc',
     }
@@ -25,9 +26,12 @@ class DynamicTable extends Component {
     })
     this.setState({ rows: rows, sortColumn: i, sortDir: sortDir })
   }
+	
   render() {
+    const HeadCell = styled.th`
+      padding: 5px;                                           background-color: #333;                                 color: white;                                         `
     const allColumns = this.props.columns.map((col, i) => {
-      return <th onClick={() => { this.sortRows(i) }}>{col.name}</th>
+      return <HeadCell onClick={() => { this.sortRows(i) }}>{col.name}</HeadCell>
     })
     const allRows = this.state.rows.map((row, i) => {
       return <DynamicTableRow rowData={row} click={() => this.props.clicked(i)} />

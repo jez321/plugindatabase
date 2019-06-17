@@ -1,7 +1,12 @@
 import React from 'react'
-const dynamictablerow = props => {
+import styled from 'styled-components'
+
+const dynamictablerow = props => {	
+    const Cell = styled.td`
+        padding: 5px;
+    `
     const allCells = props.rowData.map((data, i) => {
-      return <td>{data}</td>
+      return <Cell>{data}</Cell>
     })
       return (
         <tr onClick={props.click}>
