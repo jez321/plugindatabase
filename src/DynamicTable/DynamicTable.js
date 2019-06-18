@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import DynamicTableRow from './DynamicTableRow/DynamicTableRow'
 
 const DynamicTable = props => {
   const [rows, setRows] = useState(props.rows);
-  const [sortColumn, setSortColumn] = useState(props.defaultSortColumn !== undefined ? props.defaultSortColumn : 0);
+  const [sortColumn, setSortColumn] = useState(props.defaultSortColumn !== undefined ? props.defaultSortColumn : props.columns[0].key);
   const [sortDir, setSortDir] = useState(props.defaultSortDir !== undefined ? props.defaultSortDir : 'asc');
 
   const sortRows = (columnKey) => {
@@ -47,4 +48,12 @@ const DynamicTable = props => {
   </table>
   );
 }
+
+DynamicTable.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.object),
+  columns: PropTypes.arrayOf(PropTypes.object),
+  clicked: PropTypes.func,
+  defaultSortDir: PropTypes.string,
+}
+
 export default DynamicTable;
