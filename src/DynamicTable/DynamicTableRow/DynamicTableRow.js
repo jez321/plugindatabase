@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const dynamictablerow = props => {	
+const DynamicTableRow = props => {	
     const Cell = styled.td`
         padding: 5px;
     `
@@ -20,4 +20,4 @@ const dynamictablerow = props => {
       );
     }
 
-  export default dynamictablerow;
+  export default DynamicTableRow;
