@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import DynamicTableRow from './DynamicTableRow/DynamicTableRow'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 const DynamicTable = props => {
   const [rows, setRows] = useState(props.rows);
@@ -29,23 +32,39 @@ const DynamicTable = props => {
     color: white;
     cursor:pointer;
   `
+
+  const Table = styled.table`
+    border-collapse: collapse;
+    width: 100%;
+  `
+  const TableWrap = styled.div`
+    margin: auto;
+    @media (max-width: 959px) {
+      width: 90%;
+    }
+    @media (min-width: 960px) {
+      width: 940px;
+    }
+  `
   const allColumns = props.columns.map((col) => {
-    return <HeadCell key={col.key} onClick={() => { sortRows(col.key) }}>{col.title}</HeadCell>
+  return <HeadCell key={col.key} onClick={() => { sortRows(col.key) }}>{col.title} { sortColumn === col.key ? <FontAwesomeIcon icon={ sortDir === 'asc' ? faChevronUp : faChevronDown} /> : null} </HeadCell>
   })
   const allRows = rows.map((row, i) => {
     return <DynamicTableRow key={row.id} rowData={row} columnData={props.columns} click={() => props.clicked(row.id)} />
   })
   return (
-    <table>
-      <thead>
-      <tr>
-        { allColumns }
-      </tr>
-    </thead>
-    <tbody>
-      { allRows }
-    </tbody>
-  </table>
+    <TableWrap>
+      <Table>
+        <thead>
+        <tr>
+          { allColumns }
+        </tr>
+      </thead>
+      <tbody>
+        { allRows }
+      </tbody>
+    </Table>
+  </TableWrap>
   );
 }
 

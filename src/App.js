@@ -27,7 +27,7 @@ const App = props => {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" style={{ fontSize: "32px;", marginTop: "20px", marginBottom: "20px" }}>
         <span style={ { color: "#115599" } }>Plugin</span> Database
       </header>
       <section>
