@@ -39,11 +39,11 @@ const DynamicTable = props => {
   `
   const TableWrap = styled.div`
     margin: auto;
-    @media (max-width: 959px) {
-      width: 90%;
+    @media (max-width: 1400px) {
+      width: 96%;
     }
-    @media (min-width: 960px) {
-      width: 940px;
+    @media (min-width: 1401px) {
+      width: 80%;
     }
   `
   const allColumns = props.columns.map((col) => {

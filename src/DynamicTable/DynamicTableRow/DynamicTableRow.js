@@ -4,7 +4,10 @@ import styled from 'styled-components'
 
 const DynamicTableRow = props => {	
   const Cell = styled.td`
-      padding: 5px;
+      padding: 10px 0;
+  `
+  const Row = styled.tr`
+      border-bottom: solid #eee 1px;
   `
   const allCells = props.columnData.map((col, i) => {
     const data = props.rowData[col.key];
@@ -15,9 +18,9 @@ const DynamicTableRow = props => {
     }
   })
   return (
-    <tr onClick={props.click}>
+    <Row onClick={props.click}>
         {allCells}
-    </tr>
+    </Row>
   )
 }
 
