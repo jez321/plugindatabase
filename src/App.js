@@ -29,7 +29,7 @@ const App = props => {
   }
 
   // Display cards or table depending on current width
-  const dataDisplay = isTabletOrMobile ? <CardList data={deals}></CardList> : <DynamicTable columns={columns} clicked={clickHandler} rows={deals} />
+  const dataDisplay = isTabletOrMobile ? <CardList data-test="component-card-list" data={deals}></CardList> : <DynamicTable data-test="component-dynamic-table" columns={columns} clicked={clickHandler} rows={deals} />
 
   return (
     <div className="App">
