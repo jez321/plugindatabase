@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-const Card = props => {	
-  const Card = styled.div`
+const Card = (props) => {
+  const CardWrapper = styled.div`
       padding: 10px;
       margin-bottom:5px;
       background-color: #333;
@@ -17,7 +17,7 @@ const Card = props => {
       a { 
         color: #4aabff;
       }
-  `
+  `;
   const SplitDiv = styled.div`
     display: flex;
     justify-content: space-between;
@@ -25,35 +25,44 @@ const Card = props => {
       padding:0;
       margin:0;
     }
-  `
+  `;
 
   const Header = styled.h2`
     margin:2px 0;
-  `
+  `;
+
+  const { data } = props;
   return (
-    <Card>
+    <CardWrapper>
       <SplitDiv>
-        <p>{props.data.company}</p>
-        <p>{props.data.added}</p>
+        <p>{data.company}</p>
+        <p>{data.added}</p>
       </SplitDiv>
-      <Header>{ props.data.name }</Header>
+      <Header>{data.name}</Header>
       <section>
-        <strong>Ends:</strong> { props.data.ends }
+        <strong>Ends:</strong>
+        {' '}
+        {data.ends}
       </section>
       <section>
-       { props.data.details }
+        {data.details}
       </section>
       <section>
-       <a target="_blank" href={ props.data.link.url }>{ props.data.link.text }</a>
+        <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.text}</a>
       </section>
-    </Card>
-  )
-}
+    </CardWrapper>
+  );
+};
 
 Card.propTypes = {
-  columnData: PropTypes.arrayOf(PropTypes.object),
-  rowData: PropTypes.object,
-  click: PropTypes.func,
-}
+  data: PropTypes.shape({
+    company: PropTypes.string,
+    added: PropTypes.string,
+    name: PropTypes.string,
+    ends: PropTypes.string,
+    details: PropTypes.string,
+    link: PropTypes.shape({ url: PropTypes.string, link: PropTypes.string }),
+  }).isRequired,
+};
 
 export default Card;
