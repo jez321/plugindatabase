@@ -12,13 +12,13 @@ const DynamicTableRow = props => {
   const allCells = props.columnData.map((col, i) => {
     const data = props.rowData[col.key];
     if (col.type && col.type === 'link') {
-      return <Cell key={col.key + '_' + i}><a target='_blank' rel='noopener noreferrer' href={data.url}>{data.text}</a></Cell>
+      return <Cell data-test="component-cell" key={col.key + '_' + i}><a target='_blank' rel='noopener noreferrer' href={data.url}>{data.text}</a></Cell>
     } else {
-      return <Cell key={col.key + '_' + i}>{data}</Cell>
+      return <Cell data-test="component-cell" key={col.key + '_' + i}>{data}</Cell>
     }
   })
   return (
-    <Row onClick={props.click}>
+    <Row data-test="component-row" onClick={props.click}>
         {allCells}
     </Row>
   )

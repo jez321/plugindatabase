@@ -47,7 +47,7 @@ const DynamicTable = props => {
     }
   `
   const allColumns = props.columns.map((col) => {
-  return <HeadCell key={col.key} onClick={() => { sortRows(col.key) }}>{col.title} { sortColumn === col.key ? <FontAwesomeIcon icon={ sortDir === 'asc' ? faChevronUp : faChevronDown} /> : null} </HeadCell>
+  return <HeadCell data-test="component-head-cell" key={col.key} onClick={() => { sortRows(col.key) }}>{col.title} { sortColumn === col.key ? <FontAwesomeIcon icon={ sortDir === 'asc' ? faChevronUp : faChevronDown} /> : null} </HeadCell>
   })
   const allRows = rows.map((row, i) => {
     return <DynamicTableRow key={row.id} rowData={row} columnData={props.columns} click={() => props.clicked(row.id)} />
