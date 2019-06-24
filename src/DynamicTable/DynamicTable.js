@@ -39,10 +39,18 @@ const DynamicTable = (props) => {
   };
 
   const HeadCell = styled.th`
-    padding: 5px;
+    padding: 10px 5px;
     background-color: #333;
     color: white;
     cursor: pointer;
+    .fa-chevron-up, .fa-chevron-down {
+      position: absolute;
+      right:-18px;
+      top: 3px;
+    }
+    span {
+      position: relative;
+    }
   `;
 
   const Table = styled.table`
@@ -51,12 +59,6 @@ const DynamicTable = (props) => {
   `;
   const TableWrap = styled.div`
     margin: auto;
-    @media (max-width: 1400px) {
-      width: 96%;
-    }
-    @media (min-width: 1401px) {
-      width: 80%;
-    }
   `;
   const allColumns = columns.map(col => (
     <HeadCell
@@ -66,14 +68,14 @@ const DynamicTable = (props) => {
         sortRows(col.key);
       }}
     >
-      {col.title}
-      {' '}
-      {stateSortColumn === col.key ? (
-        <FontAwesomeIcon
-          icon={sortDir === 'asc' ? faChevronUp : faChevronDown}
-        />
-      ) : null}
-      {' '}
+      <span>
+        {col.title}
+        {stateSortColumn === col.key ? (
+          <FontAwesomeIcon
+            icon={sortDir === 'asc' ? faChevronUp : faChevronDown}
+          />
+        ) : null}
+      </span>
     </HeadCell>
   ));
   const allRows = stateRows.map(row => (

@@ -1,7 +1,18 @@
 .App {
-  text-align: center;
+  text-align: left;
+  margin: auto;
 }
 
+@media (max-width: 1400px) {
+  .App {
+    width: 96%;
+  }
+}
+@media (min-width: 1401px) {
+  .App {
+    width: 1400px;
+  }
+}
 .App-header {
   background-color:white;
   align-items: center;
