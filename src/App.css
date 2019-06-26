@@ -1,6 +1,7 @@
 .App {
   text-align: left;
   margin: auto;
+  padding: 0 10px;
 }
 
 @media (max-width: 1400px) {
@@ -15,9 +16,11 @@
 }
 .App-header {
   background-color:white;
-  align-items: center;
   font-size: calc(10px + 3vmin);
   color: #333;
+  display:flex;
+  justify-content:space-between;
+  text-align:left;
 }
 
 .App-link {

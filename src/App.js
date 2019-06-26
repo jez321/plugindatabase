@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
+import style from 'styled-components';
 import DynamicTable from './DynamicTable/DynamicTable';
 import CardList from './CardList/CardList';
 
@@ -37,7 +38,7 @@ const App = () => {
       link: { text: 'AudioDeluxe', url: 'https://www.audiodeluxe.com/products/xln-audio-addictive-drums-2-custom' },
     },
   ]);
-  const isTabletOrMobile = useMedia({ maxWidth: 800 });
+  const isTabletOrMobile = useMedia({ maxWidth: 1000 });
 
   // DynamicTable settings
   const columns = [
@@ -56,6 +57,18 @@ const App = () => {
     setDeals(newRows);
   };
 
+  const PageTitle = style.div`
+    color: #aaa;
+  `;
+
+  const SearchBox = style.input`
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: solid 1px #ccc;
+    font-size: 22px;
+    padding: 10px 15px;
+    `;
+
   // Display cards or table depending on current width
   const dataDisplay = isTabletOrMobile
     ? <CardList data-test="component-card-list" data={deals} />
@@ -69,9 +82,15 @@ const App = () => {
           fontSize: '32px', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px',
         }}
       >
-        <span style={{ color: '#115599' }}>Plugin</span>
-        Database
+        <div>
+          <span style={{ color: '#115599' }}>Plugin</span>
+          Database
+        </div>
+        <PageTitle>Deals</PageTitle>
       </header>
+      <section className="search-wrap">
+        <SearchBox placeholder="Search..." id="search-box" type="text" />
+      </section>
       <section>
         {dataDisplay}
       </section>

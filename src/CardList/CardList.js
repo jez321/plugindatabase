@@ -7,7 +7,6 @@ const CardList = (props) => {
   const ListWrap = styled.ul`
   list-style-type:none;
   padding:0;
-  margin: 0 10px;
   `;
   const { data } = props;
   const cards = data.map(d => <Card key={d.id} data={d} />);

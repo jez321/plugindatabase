@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const DynamicTableRow = (props) => {
   const Cell = styled.td`
-      padding: 10px 5px;
+      padding: 10px;
   `;
   const Row = styled.tr`
       border-bottom: solid #eee 1px;

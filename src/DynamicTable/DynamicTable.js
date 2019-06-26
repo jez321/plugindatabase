@@ -39,7 +39,7 @@ const DynamicTable = (props) => {
   };
 
   const HeadCell = styled.th`
-    padding: 10px 5px;
+    padding: 10px;
     background-color: #333;
     color: white;
     cursor: pointer;
