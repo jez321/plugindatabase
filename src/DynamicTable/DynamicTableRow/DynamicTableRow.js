@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+const Cell = styled.td`
+padding: 10px;
+`;
+const Row = styled.tr`
+border-bottom: solid #eee 1px;
+`;
 const DynamicTableRow = (props) => {
-  const Cell = styled.td`
-      padding: 10px;
-  `;
-  const Row = styled.tr`
-      border-bottom: solid #eee 1px;
-  `;
   const { columnData } = props;
   const allCells = columnData.map((col) => {
     const data = props.rowData[col.key];
@@ -23,9 +23,8 @@ const DynamicTableRow = (props) => {
     return <Cell data-test="component-cell" key={`${id}_${col.key}`}>{data}</Cell>;
   });
 
-  const { clicked } = props;
   return (
-    <Row data-test="component-row" onClick={clicked}>
+    <Row data-test="component-row">
       {allCells}
     </Row>
   );
@@ -42,7 +41,6 @@ DynamicTableRow.propTypes = {
     ends: PropTypes.string,
     link: PropTypes.shape({ text: PropTypes.string, url: PropTypes.string }),
   }).isRequired,
-  clicked: PropTypes.func.isRequired,
 };
 
 export default DynamicTableRow;
