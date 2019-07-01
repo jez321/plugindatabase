@@ -18,6 +18,11 @@ const DynamicTable = (props) => {
   const [sortDir, setSortDir] = useState(
     defaultSortDir !== undefined ? defaultSortDir : 'asc',
   );
+  useEffect(() => {
+    // Update the document title using the browser API+
+    const newRows = getSorted([...stateRows], props.columns, stateSortColumn, sortDir);
+    setRows(newRows);
+  }, [rows]);
 
   const sortRows = (columnKey) => {
     const newRows = [...stateRows];
