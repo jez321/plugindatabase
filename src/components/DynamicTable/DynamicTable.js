@@ -31,6 +31,12 @@ const TableWrap = styled.div`
 margin: auto;
 `;
 
+const NoContentRow = styled.tr`
+td {
+  text-align:center;
+  padding: 10px;
+}
+`;
 const getSorted = (rows, columns, sortColumn, sortDir) => {
   rows.sort((a, b) => {
     if (columns.find(c => c.key === sortColumn).type === 'link') {
@@ -93,20 +99,25 @@ const DynamicTable = (props) => {
     </HeadCell>
   ));
 
-  const allRows = stateRows.map(row => (
-    <DynamicTableRow
-      key={row.id}
-      rowData={row}
-      columnData={props.columns}
-    />
-  ));
+  let tableRowContent;
+  if (stateRows.length > 0) {
+    tableRowContent = stateRows.map(row => (
+      <DynamicTableRow
+        key={row.id}
+        rowData={row}
+        columnData={props.columns}
+      />
+    ));
+  } else {
+    tableRowContent = <NoContentRow><td colSpan={props.columns.length}>No items</td></NoContentRow>;
+  }
   return (
     <TableWrap>
       <Table>
         <thead>
           <tr>{allColumns}</tr>
         </thead>
-        <tbody>{allRows}</tbody>
+        <tbody>{tableRowContent}</tbody>
       </Table>
     </TableWrap>
   );

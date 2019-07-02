@@ -8,13 +8,21 @@ list-style-type:none;
 padding:0;
 margin:0;
 `;
+const NoItemsMsg = styled.div`
+  font-size:20px;
+  text-align:center;
+`;
 const CardList = (props) => {
   const { data } = props;
   const cards = data.map(d => <Card key={d.id} data={d} />);
   return (
-    <ListWrap>
-      {cards}
-    </ListWrap>
+    data.length > 0 ? (
+      <ListWrap>
+        {cards}
+      </ListWrap>
+    ) : (
+      <NoItemsMsg>No items</NoItemsMsg>
+    )
   );
 };
 
