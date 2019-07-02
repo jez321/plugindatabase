@@ -58,11 +58,12 @@ const DynamicTable = (props) => {
   const [sortDir, setSortDir] = useState(
     defaultSortDir !== undefined ? defaultSortDir : 'asc',
   );
+
+  // update/resort rows when they get changed (by search etc.)
   useEffect(() => {
-    // Update the document title using the browser API+
-    const newRows = getSorted([...stateRows], props.columns, stateSortColumn, sortDir);
+    const newRows = getSorted([...rows], columns, stateSortColumn, sortDir);
     setRows(newRows);
-  });
+  }, [rows, columns, stateRows, stateSortColumn, sortDir]);
 
   const sortRows = (columnKey) => {
     const revSortDir = sortDir === 'asc' ? 'desc' : 'asc';

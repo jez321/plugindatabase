@@ -5,6 +5,7 @@ import style from 'styled-components';
 import DynamicTable from './DynamicTable/DynamicTable';
 import CardList from './CardList/CardList';
 import SearchBox from './SearchBox/SearchBox';
+import * as SC from '../constants/Style';
 
 const mockDeals = [
   {
@@ -39,27 +40,27 @@ const mockDeals = [
   },
 ];
 
+const columns = [
+  { title: 'Plugin', key: 'name' },
+  { title: 'Company', key: 'company' },
+  { title: 'Details', key: 'details' },
+  { title: 'Added', key: 'added' },
+  { title: 'End', key: 'ends' },
+  { title: 'Store', key: 'link', type: 'link' },
+];
+
+const PageTitle = style.div`
+color: #aaa;
+`;
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const isTabletOrMobile = useMedia({ maxWidth: 1000 });
+  const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
 
   // DynamicTable settings
-  const columns = [
-    { title: 'Plugin', key: 'name' },
-    { title: 'Company', key: 'company' },
-    { title: 'Details', key: 'details' },
-    { title: 'Added', key: 'added' },
-    { title: 'End', key: 'ends' },
-    { title: 'Store', key: 'link', type: 'link' },
-  ];
-
   function searchChanged(st) {
     setSearchTerm(st);
   }
-
-  const PageTitle = style.div`
-    color: #aaa;
-  `;
 
   // Display cards or table depending on current width
   const displayDeals = mockDeals.filter(deal => deal.name.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1);
