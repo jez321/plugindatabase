@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
 import style from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import DynamicTable from './DynamicTable/DynamicTable';
 import CardList from './CardList/CardList';
 import SearchBox from './SearchBox/SearchBox';
@@ -49,8 +51,13 @@ const columns = [
   { title: 'Store', key: 'link', type: 'link' },
 ];
 
-const PageTitle = style.div`
+const NavigationButton = style.div`
 color: #aaa;
+padding:0 20px;
+float:left;
+&.selected {
+  color:#1f77ff;
+}
 `;
 
 const App = () => {
@@ -73,14 +80,21 @@ const App = () => {
       <header
         className="App-header"
         style={{
-          fontSize: '32px', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px',
+          fontSize: '32px', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px', marginRight: '20px',
         }}
       >
-        <div>
+        <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
           Database
         </div>
-        <PageTitle>Deals</PageTitle>
+        <NavigationButton className="selected">Deals</NavigationButton>
+        <NavigationButton>Plugins</NavigationButton>
+        <div style={{ float: 'right' }}>
+          <FontAwesomeIcon
+            icon={faUserCircle}
+          />
+        </div>
+        <div style={{ clear: 'both' }} />
       </header>
       <section className="search-wrap">
         <SearchBox changed={searchChanged} />

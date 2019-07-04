@@ -32,7 +32,8 @@
             2,
             120,
             2
-        ]
+        ],
+        "linebreak-style": 0
     },
     "extends": [
         "airbnb"
