@@ -103,7 +103,7 @@ const DynamicTable = (props) => {
   if (stateRows.length > 0) {
     tableRowContent = stateRows.map(row => (
       <DynamicTableRow
-        key={row.id}
+        key={row.id_deal}
         rowData={row}
         columnData={props.columns}
       />

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
 import style from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import Axios from 'axios';
 import DynamicTable from './DynamicTable/DynamicTable';
 import CardList from './CardList/CardList';
 import SearchBox from './SearchBox/SearchBox';
@@ -45,10 +46,10 @@ const mockDeals = [
 const columns = [
   { title: 'Plugin', key: 'name' },
   { title: 'Company', key: 'company' },
-  { title: 'Details', key: 'details' },
-  { title: 'Added', key: 'added' },
-  { title: 'End', key: 'ends' },
-  { title: 'Store', key: 'link', type: 'link' },
+  { title: 'Description', key: 'description' },
+  { title: 'Added', key: 'added', type: 'date' },
+  { title: 'End', key: 'end_date', type: 'date' },
+  { title: 'Link', key: 'link', type: 'link' },
 ];
 
 const NavigationButton = style.div`
@@ -62,18 +63,23 @@ float:left;
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [deals, setDeals] = useState([]);
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
-
+  useEffect(() => {
+    Axios.get(`http://localhost:3001/deals?search=${searchTerm}`).then((response) => {
+      setDeals(response.data);
+    });
+  });
   // DynamicTable settings
   function searchChanged(st) {
     setSearchTerm(st);
   }
 
   // Display cards or table depending on current width
-  const displayDeals = mockDeals.filter(deal => deal.name.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1);
+  // const displayDeals = deals.filter(deal => deal.name.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1);
   const dataDisplay = isTabletOrMobile
-    ? <CardList data-test="component-card-list" data={displayDeals} />
-    : <DynamicTable data-test="component-dynamic-table" columns={columns} rows={displayDeals} />;
+    ? <CardList data-test="component-card-list" data={deals} />
+    : <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} />;
 
   return (
     <div className="App">
@@ -86,13 +92,6 @@ const App = () => {
         <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
           Database
-        </div>
-        <NavigationButton className="selected">Deals</NavigationButton>
-        <NavigationButton>Plugins</NavigationButton>
-        <div style={{ float: 'right' }}>
-          <FontAwesomeIcon
-            icon={faUserCircle}
-          />
         </div>
         <div style={{ clear: 'both' }} />
       </header>

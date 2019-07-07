@@ -42,10 +42,10 @@ const Card = (props) => {
       <section>
         <strong>Ends:</strong>
         {' '}
-        {data.ends}
+        {data.end_date}
       </section>
       <section>
-        {data.details}
+        {data.description}
       </section>
       <section>
         <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.text}</a>
@@ -59,9 +59,9 @@ Card.propTypes = {
     company: PropTypes.string,
     added: PropTypes.string,
     name: PropTypes.string,
-    ends: PropTypes.string,
-    details: PropTypes.string,
-    link: PropTypes.shape({ url: PropTypes.string, link: PropTypes.string }),
+    end_date: PropTypes.string,
+    description: PropTypes.string,
+    link: PropTypes.shape({ url: PropTypes.string, title: PropTypes.string }),
   }).isRequired,
 };
 

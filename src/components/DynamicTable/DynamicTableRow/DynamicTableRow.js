@@ -16,7 +16,14 @@ const DynamicTableRow = (props) => {
     if (col.type && col.type === 'link') {
       return (
         <Cell data-test="component-cell" key={`${id}_${col.key}`}>
-          <a target="_blank" rel="noopener noreferrer" href={data.url}>{data.text}</a>
+          <a target="_blank" rel="noopener noreferrer" href={data.url}>{data.title}</a>
+        </Cell>
+      );
+    }
+    if (col.type && col.type === 'date') {
+      return (
+        <Cell data-test="component-cell" key={`${id}_${col.key}`}>
+          {new Date(data.replace(' ', 'T')).toLocaleDateString()}
         </Cell>
       );
     }
@@ -33,13 +40,13 @@ const DynamicTableRow = (props) => {
 DynamicTableRow.propTypes = {
   columnData: PropTypes.arrayOf(PropTypes.object).isRequired,
   rowData: PropTypes.shape({
-    id: PropTypes.number,
+    id_deal: PropTypes.number,
     name: PropTypes.string,
     company: PropTypes.string,
-    details: PropTypes.string,
+    description: PropTypes.string,
     added: PropTypes.string,
-    ends: PropTypes.string,
-    link: PropTypes.shape({ text: PropTypes.string, url: PropTypes.string }),
+    end_date: PropTypes.string,
+    link: PropTypes.shape({ title: PropTypes.string, url: PropTypes.string }),
   }).isRequired,
 };
 
