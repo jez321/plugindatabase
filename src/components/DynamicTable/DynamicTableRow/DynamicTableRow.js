@@ -13,6 +13,7 @@ const DynamicTableRow = (props) => {
   const allCells = columnData.map((col) => {
     const data = props.rowData[col.key];
     const { id } = props.rowData;
+    if (data === null) { return <Cell data-test="component-cell" key={`${id}_${col.key}`} />; }
     if (col.type && col.type === 'link') {
       return (
         <Cell data-test="component-cell" key={`${id}_${col.key}`}>
