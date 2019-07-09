@@ -13,7 +13,7 @@ const DynamicTableRow = (props) => {
   const allCells = columnData.map((col) => {
     const data = props.rowData[col.key];
     const { id } = props.rowData;
-    if (data === null) { return <Cell data-test="component-cell" key={`${id}_${col.key}`} />; }
+    if (data === null) { return <Cell data-test="component-cell" key={`${id}_${col.key}`}>Unknown</Cell>; }
     if (col.type && col.type === 'link') {
       return (
         <Cell data-test="component-cell" key={`${id}_${col.key}`}>
@@ -25,6 +25,13 @@ const DynamicTableRow = (props) => {
       return (
         <Cell data-test="component-cell" key={`${id}_${col.key}`}>
           {new Date(data.replace(' ', 'T')).toLocaleDateString()}
+        </Cell>
+      );
+    }
+    if (col.type && col.type === 'price') {
+      return (
+        <Cell style={{ textAlign: 'right' }} data-test="component-cell" key={`${id}_${col.key}`}>
+          {`$${data}`}
         </Cell>
       );
     }
