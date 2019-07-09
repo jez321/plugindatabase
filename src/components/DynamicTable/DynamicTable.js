@@ -37,6 +37,7 @@ td {
   padding: 10px;
 }
 `;
+/*
 const getSorted = (rows, columns, sortColumn, sortDir) => {
   rows.sort((a, b) => {
     if (columns.find(c => c.key === sortColumn).type === 'link') {
@@ -50,10 +51,10 @@ const getSorted = (rows, columns, sortColumn, sortDir) => {
   });
   return rows;
 };
-
+*/
 const DynamicTable = (props) => {
   const {
-    rows, defaultSortColumn, defaultSortDir, columns,
+    rows, defaultSortColumn, defaultSortDir, columns, sortChanged,
   } = props;
   const [stateRows, setRows] = useState(rows);
   const [stateSortColumn, setSortColumn] = useState(
@@ -64,20 +65,28 @@ const DynamicTable = (props) => {
   const [sortDir, setSortDir] = useState(
     defaultSortDir !== undefined ? defaultSortDir : 'asc',
   );
-
   // update/resort rows when they get changed (by search etc.)
   useEffect(() => {
-    const newRows = getSorted([...rows], columns, stateSortColumn, sortDir);
-    setRows(newRows);
+    // const newRows = getSorted([...rows], columns, stateSortColumn, sortDir);
+    setRows([...rows]);
   }, [rows, columns, stateRows, stateSortColumn, sortDir]);
-
+  useEffect(() => {
+    setSortDir('desc');
+    setSortColumn('added');
+    sortChanged('added', 'desc');
+  }, []);
   const sortRows = (columnKey) => {
     const revSortDir = sortDir === 'asc' ? 'desc' : 'asc';
     const newSortDir = stateSortColumn === columnKey ? revSortDir : 'asc';
-    const newRows = getSorted([...stateRows], props.columns, columnKey, newSortDir);
+    // const newRows = getSorted([...stateRows], props.columns, columnKey, newSortDir);
+    setSortDir(newSortDir);
+    setSortColumn(columnKey);
+    sortChanged(columnKey, newSortDir);
+    /*
     setSortDir(newSortDir);
     setSortColumn(columnKey);
     setRows(newRows);
+    */
   };
 
   const allColumns = columns.map(col => (
@@ -128,6 +137,7 @@ DynamicTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   defaultSortDir: PropTypes.string,
   defaultSortColumn: PropTypes.string,
+  sortChanged: PropTypes.func.isRequired,
 };
 
 DynamicTable.defaultProps = {

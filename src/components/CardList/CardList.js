@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from './Card/Card';
@@ -13,8 +13,11 @@ const NoItemsMsg = styled.div`
   text-align:center;
 `;
 const CardList = (props) => {
-  const { data } = props;
-  const cards = data.map(d => <Card key={d.id} data={d} />);
+  const { data, sortChanged } = props;
+  const cards = data.map(d => <Card key={d.id_deal} data={d} />);
+  useEffect(() => {
+    sortChanged('added', 'desc');
+  }, []);
   return (
     data.length > 0 ? (
       <ListWrap>
@@ -28,6 +31,7 @@ const CardList = (props) => {
 
 CardList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  sortChanged: PropTypes.func.isRequired,
 };
 
 export default CardList;

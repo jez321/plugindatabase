@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
-import style from 'styled-components';
 import api from '../api/api';
 import DynamicTable from './DynamicTable/DynamicTable';
 import CardList from './CardList/CardList';
@@ -20,23 +19,23 @@ const columns = [
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortCol, setSortCol] = useState('added');
+  const [sortDir, setSortDir] = useState('desc');
   const [deals, setDeals] = useState([]);
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
   useEffect(() => {
-    api.get(`deals?search=${searchTerm}`).then((response) => {
+    api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`).then((response) => {
       setDeals(response.data);
     });
-  });
+  }, [searchTerm, sortDir, sortCol, isTabletOrMobile]);
   // DynamicTable settings
   function searchChanged(st) {
     setSearchTerm(st);
   }
-
-  // Display cards or table depending on current width
-  // const displayDeals = deals.filter(deal => deal.name.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1);
-  const dataDisplay = isTabletOrMobile
-    ? <CardList data-test="component-card-list" data={deals} />
-    : <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} />;
+  function sortChanged(newSortCol, newSortDir) {
+    setSortCol(newSortCol);
+    setSortDir(newSortDir);
+  }
 
   return (
     <div className="App">
@@ -56,7 +55,11 @@ const App = () => {
         <SearchBox changed={searchChanged} />
       </section>
       <section>
-        {dataDisplay}
+        {isTabletOrMobile ? (
+          <CardList data-test="component-card-list" data={deals} sortChanged={sortChanged} />
+        ) : (
+          <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} sortChanged={sortChanged} />
+        )}
       </section>
     </div>
   );
