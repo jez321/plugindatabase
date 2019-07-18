@@ -10,9 +10,10 @@ import * as SC from '../constants/Style';
 const columns = [
   { title: 'Plugin', key: 'name' },
   { title: 'Company', key: 'company' },
+  { title: 'Category', key: 'category' },
   { title: 'Price', key: 'price', type: 'price' },
   { title: 'Description', key: 'description' },
-  { title: 'Added', key: 'added', type: 'date' },
+  { title: 'Start', key: 'start_date', type: 'date' },
   { title: 'End', key: 'end_date', type: 'date' },
   { title: 'Link', key: 'link', type: 'link' },
 ];
