@@ -1,10 +1,7 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import EnzymeAdapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 import DynamicTableRow from './DynamicTableRow';
-import TestUtil from '../../test/TestUtil';
-
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+import TestUtil from '../../../test/testUtil';
 
 const columnData = [{ title: 'Name', key: 'name' }, { title: 'Count', key: 'count' }];
 const rowData = { name: 'Test Name', count: 5 };

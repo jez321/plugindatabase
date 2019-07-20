@@ -1,32 +1,27 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import EnzymeAdapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 import DynamicTable from './DynamicTable';
-import TestUtil from '../test/TestUtil';
-
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+import TestUtil from '../../test/testUtil';
 
 const columns = [{ title: 'Name', key: 'name' }, { title: 'Count', key: 'count' }];
-const rows = [{ id: 1, name: 'Test Name', count: 5 }];
+const rows = [{ id_deal: 1, name: 'Test Name', count: 5 }];
+const defaultProps = { columns, rows, sortChanged: () => { } };
 
 const setup = (props = {}, state = null) => {
-  const wrapper = shallow(<DynamicTable {...props} />);
+  const setupProps = { ...defaultProps, ...props };
+  const wrapper = shallow(<DynamicTable {...setupProps} />);
   if (state) wrapper.setState(state);
   return wrapper;
 };
 
-// column header setup
-// row data setup
-const setupWithTestData = (state = null) => setup({ columns, rows, clicked: () => { } }, state);
-
 test('renders DynamicTableRow', () => {
-  const wrapper = setupWithTestData();
+  const wrapper = setup({});
   const row = wrapper.find('DynamicTableRow');
   expect(row.length).toBe(1);
 });
 
 test('renders column headers in correct order', () => {
-  const wrapper = setupWithTestData();
+  const wrapper = setup({});
   const columnHeads = TestUtil.findByDataTestAttrVal(wrapper, 'component-head-cell');
   columns.forEach((col, i) => {
     // test indexOf since text() may have sort icon after title

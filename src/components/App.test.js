@@ -1,11 +1,8 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import EnzymeAdapter from 'enzyme-adapter-react-16';
-import './matchMedia.mock';
+import { shallow } from 'enzyme';
+import '../matchMedia.mock';
 import App from './App';
-import TestUtil from './test/TestUtil';
-
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+import TestUtil from '../test/testUtil';
 
 const setup = (props = {}, state = null) => {
   const wrapper = shallow(<App {...props} />);

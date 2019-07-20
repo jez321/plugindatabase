@@ -78,15 +78,9 @@ const DynamicTable = (props) => {
   const sortRows = (columnKey) => {
     const revSortDir = sortDir === 'asc' ? 'desc' : 'asc';
     const newSortDir = stateSortColumn === columnKey ? revSortDir : 'asc';
-    // const newRows = getSorted([...stateRows], props.columns, columnKey, newSortDir);
     setSortDir(newSortDir);
     setSortColumn(columnKey);
     sortChanged(columnKey, newSortDir);
-    /*
-    setSortDir(newSortDir);
-    setSortColumn(columnKey);
-    setRows(newRows);
-    */
   };
 
   const allColumns = columns.map(col => (
