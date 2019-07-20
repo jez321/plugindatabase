@@ -35,7 +35,7 @@ const Card = (props) => {
   return (
     <CardWrapper>
       <SplitDiv>
-        <p>{data.company}</p>
+        <p>{data.company} | {data.category}</p>
         <p>{new Date(data.added.replace(' ', 'T')).toLocaleDateString()}</p>
       </SplitDiv>
       <Header>{data.name}</Header>
