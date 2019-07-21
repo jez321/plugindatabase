@@ -33,9 +33,15 @@ margin:2px 0;
 const Card = (props) => {
   const { data } = props;
   return (
-    <CardWrapper>
+    <CardWrapper data-test="component-card-wrapper">
       <SplitDiv>
-        <p>{data.company} | {data.category}</p>
+        <p>
+{data.company}
+{' '}
+|
+{' '}
+{data.category}
+</p>
         <p>{new Date(data.added.replace(' ', 'T')).toLocaleDateString()}</p>
       </SplitDiv>
       <Header>{data.name}</Header>

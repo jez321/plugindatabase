@@ -4,34 +4,32 @@ import DynamicTableRow from './DynamicTableRow';
 import TestUtil from '../../../test/testUtil';
 
 const columnData = [{ title: 'Name', key: 'name' }, { title: 'Count', key: 'count' }];
-const rowData = { name: 'Test Name', count: 5 };
+const rowData = { id: 1, name: 'Test Name', count: 5 };
+const defaultProps = { columnData, rowData, clicked: () => { } };
 
 const setup = (props = {}, state = null) => {
-  const wrapper = shallow(<DynamicTableRow {...props} />);
+  const setupProps = { ...defaultProps, ...props };
+  const wrapper = shallow(<DynamicTableRow {...setupProps} />);
   if (state) wrapper.setState(state);
   return wrapper;
 };
 
-// column header setup
-// row data setup
-const setupWithTestData = (state = null) => setup({ columnData, rowData, clicked: () => { } }, state);
-
-test('renders one row', () => {
-  const wrapper = setupWithTestData();
-  const row = TestUtil.findByDataTestAttrVal(wrapper, 'component-row');
-  expect(row.length).toBe(1);
+test('renders a row', () => {
+  const wrapper = setup();
+  const rows = TestUtil.findByDataTestAttrVal(wrapper, 'component-row');
+  expect(rows.length).toBe(1);
 });
 
 test('renders correct number of data columns', () => {
-  const wrapper = setupWithTestData();
+  const wrapper = setup();
   const dataColumns = TestUtil.findByDataTestAttrVal(wrapper, 'component-cell');
   expect(dataColumns.length).toBe(columnData.length);
 });
 
 test('renders correct data in data columns', () => {
-  const wrapper = setupWithTestData();
+  const wrapper = setup();
   const dataColumns = TestUtil.findByDataTestAttrVal(wrapper, 'component-cell');
-  columnData.forEach((col, i) => {
-    expect(dataColumns.at(i).text()).toBe(rowData[col.key].toString());
+  dataColumns.forEach((col, i) => {
+    expect(dataColumns.at(i).text()).toBe(rowData[columnData[i].key].toString());
   });
 });

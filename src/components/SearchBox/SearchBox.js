@@ -17,7 +17,7 @@ width:400px;
   }
 }
 `;
-const SearchBox = props => <SearchInput type="text" placeholder="Search..." onChange={(event) => { props.changed(event.target.value); }} />;
+const SearchBox = props => <SearchInput data-test="component-search-input" type="text" placeholder="Search..." onChange={(event) => { props.changed(event.target.value); }} />;
 
 SearchBox.propTypes = {
   changed: PropTypes.func.isRequired,

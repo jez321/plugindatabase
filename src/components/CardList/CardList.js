@@ -14,7 +14,7 @@ const NoItemsMsg = styled.div`
 `;
 const CardList = (props) => {
   const { data, sortChanged } = props;
-  const cards = data.map(d => <Card key={d.id_deal} data={d} />);
+  const cards = data.map(d => <Card data-test="component-card" key={d.id_deal} data={d} />);
   useEffect(() => {
     sortChanged('added', 'desc');
   }, []);
