@@ -42,3 +42,7 @@ test('renders two cards', () => {
   const row = TestUtil.findByDataTestAttrVal(wrapper, 'component-card');
   expect(row.length).toBe(2);
 });
+
+test('does not throw warning with expected props', () => {
+  TestUtil.checkProps(CardList, defaultProps);
+});

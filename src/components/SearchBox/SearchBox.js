@@ -23,5 +23,4 @@ SearchBox.propTypes = {
   changed: PropTypes.func.isRequired,
 };
 
-
 export default SearchBox;

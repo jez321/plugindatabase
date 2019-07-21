@@ -28,3 +28,7 @@ test('renders column headers in correct order', () => {
     expect(columnHeads.at(i).text().indexOf(col.title)).toBe(0);
   });
 });
+
+test('does not throw warning with expected props', () => {
+  TestUtil.checkProps(DynamicTable, defaultProps);
+});

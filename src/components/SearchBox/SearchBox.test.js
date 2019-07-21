@@ -17,3 +17,7 @@ test('renders search input', () => {
   const input = TestUtil.findByDataTestAttrVal(wrapper, 'component-search-input');
   expect(input.length).toBe(1);
 });
+
+test('does not throw warning with expected props', () => {
+  TestUtil.checkProps(SearchBox, defaultProps);
+});

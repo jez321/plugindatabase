@@ -36,12 +36,12 @@ const Card = (props) => {
     <CardWrapper data-test="component-card-wrapper">
       <SplitDiv>
         <p>
-{data.company}
+          {data.company}
+          {' '}
+          |
 {' '}
-|
-{' '}
-{data.category}
-</p>
+          {data.category}
+        </p>
         <p>{new Date(data.added.replace(' ', 'T')).toLocaleDateString()}</p>
       </SplitDiv>
       <Header>{data.name}</Header>
@@ -67,12 +67,12 @@ const Card = (props) => {
 
 Card.propTypes = {
   data: PropTypes.shape({
-    company: PropTypes.string,
-    added: PropTypes.string,
-    name: PropTypes.string,
+    company: PropTypes.string.isRequired,
+    added: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     end_date: PropTypes.string,
-    description: PropTypes.string,
-    link: PropTypes.shape({ url: PropTypes.string, title: PropTypes.string }),
+    description: PropTypes.string.isRequired,
+    link: PropTypes.shape({ url: PropTypes.string.isRequired, title: PropTypes.string.isRequired }).isRequired,
   }).isRequired,
 };
 

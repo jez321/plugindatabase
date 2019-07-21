@@ -29,3 +29,7 @@ test('renders a card', () => {
   const rows = TestUtil.findByDataTestAttrVal(wrapper, 'component-card-wrapper');
   expect(rows.length).toBe(1);
 });
+
+test('does not throw warning with expected props', () => {
+  TestUtil.checkProps(Card, defaultProps);
+});

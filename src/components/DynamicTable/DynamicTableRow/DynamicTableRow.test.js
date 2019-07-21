@@ -33,3 +33,7 @@ test('renders correct data in data columns', () => {
     expect(dataColumns.at(i).text()).toBe(rowData[columnData[i].key].toString());
   });
 });
+
+test('does not throw warning with expected props', () => {
+  TestUtil.checkProps(DynamicTableRow, defaultProps);
+});

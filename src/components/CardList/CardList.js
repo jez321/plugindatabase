@@ -24,13 +24,21 @@ const CardList = (props) => {
         {cards}
       </ListWrap>
     ) : (
-      <NoItemsMsg>No items</NoItemsMsg>
-    )
+        <NoItemsMsg>No items</NoItemsMsg>
+      )
   );
 };
 
 CardList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      company: PropTypes.string.isRequired,
+      added: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      end_date: PropTypes.string,
+      description: PropTypes.string.isRequired,
+      link: PropTypes.shape({ url: PropTypes.string.isRequired, title: PropTypes.string.isRequired }).isRequired,
+    }).isRequired).isRequired,
   sortChanged: PropTypes.func.isRequired,
 };
 
