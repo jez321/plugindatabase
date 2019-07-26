@@ -6,6 +6,9 @@ import DynamicTable from './DynamicTable/DynamicTable';
 import CardList from './CardList/CardList';
 import SearchBox from './SearchBox/SearchBox';
 import * as SC from '../constants/Style';
+import { withAuth } from '@okta/okta-react';
+import { useAuth } from '../auth';
+import { Link } from 'react-router-dom';
 
 const columns = [
   { title: 'Plugin', key: 'name' },
@@ -18,7 +21,8 @@ const columns = [
   { title: 'Link', key: 'link', type: 'link' },
 ];
 
-const App = () => {
+const App = withAuth(({auth}) => {
+  const [authenticated, user] = useAuth(auth);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortCol, setSortCol] = useState('added');
   const [sortDir, setSortDir] = useState('desc');
@@ -39,31 +43,40 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <header
-        className="App-header"
-        style={{
-          fontSize: '32px', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px', marginRight: '20px',
-        }}
-      >
-        <div style={{ float: 'left', marginRight: '20px' }}>
-          <span style={{ color: '#115599' }}>Plugin</span>
-          Database
+        <div className="App">
+          <header
+            className="App-header"
+            style={{
+              fontSize: '32px', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px', marginRight: '20px',
+            }}
+          >
+            <div style={{ float: 'left', marginRight: '20px' }}>
+              <span style={{ color: '#115599' }}>Plugin</span>
+              Database
+            </div>
+            {authenticated !== null && (
+              <button
+                onClick={() => authenticated ? auth.logout() : auth.login()}
+                className="App-link"
+              >
+                Log {authenticated ? 'out' : 'in'}
+              </button>
+            )}
+            <Link to="login">Login</Link>
+            <div style={{ clear: 'both' }} />
+          </header>
+          <section className="search-wrap">
+            <SearchBox changed={searchChanged} />
+          </section>
+          <section>
+            {isTabletOrMobile ? (
+              <CardList data-test="component-card-list" data={deals} sortChanged={sortChanged} />
+            ) : (
+              <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} sortChanged={sortChanged} />
+            )}
+          </section>
         </div>
-        <div style={{ clear: 'both' }} />
-      </header>
-      <section className="search-wrap">
-        <SearchBox changed={searchChanged} />
-      </section>
-      <section>
-        {isTabletOrMobile ? (
-          <CardList data-test="component-card-list" data={deals} sortChanged={sortChanged} />
-        ) : (
-          <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} sortChanged={sortChanged} />
-        )}
-      </section>
-    </div>
   );
-};
+});
 
 export default App;
