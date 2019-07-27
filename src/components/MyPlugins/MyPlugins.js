@@ -73,14 +73,14 @@ const MyPlugins = (props) => {
         <Fragment>
             <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap%", width: "100%" }}>
                 <div>
-                    <PluginListTypes>
-                        <li>
+                    <PluginListTypes data-test="plugin-type-list">
+                        <li data-test="plugin-type-list-option">
                             <a href="#" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}>Owned (2)</a>
                         </li>
-                        <li>
+                        <li data-test="plugin-type-list-option">
                             <a href="#" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}>Wanted (22)</a>
                         </li>
-                        <li>
+                        <li data-test="plugin-type-list-option">
                             <a href="#" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}>All (442)</a>
                         </li>
                     </PluginListTypes>

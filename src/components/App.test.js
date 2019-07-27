@@ -14,13 +14,3 @@ test('renders without error', () => {
   const wrapper = setup();
   expect(wrapper).toBeTruthy();
 });
-
-test('renders either table or card list', () => {
-  const wrapper = setup();
-  const cardList = TestUtil.findByDataTestAttrVal(wrapper, 'component-card-list');
-  const dynamicTable = TestUtil.findByDataTestAttrVal(
-    wrapper,
-    'component-dynamic-table',
-  );
-  expect(cardList.length + dynamicTable.length).toBe(1);
-});
