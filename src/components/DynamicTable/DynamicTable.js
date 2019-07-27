@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import DynamicTableRow from './DynamicTableRow/DynamicTableRow';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const HeadCell = styled.th`
 padding: 10px;
@@ -54,7 +55,7 @@ const getSorted = (rows, columns, sortColumn, sortDir) => {
 */
 const DynamicTable = (props) => {
   const {
-    rows, defaultSortColumn, defaultSortDir, columns, sortChanged,
+    rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
   } = props;
   const [stateRows, setRows] = useState(rows);
   const [stateSortColumn, setSortColumn] = useState(
@@ -103,7 +104,12 @@ const DynamicTable = (props) => {
   ));
 
   let tableRowContent;
-  if (stateRows.length > 0) {
+  if (loading) {
+    tableRowContent = <NoContentRow><td style={{ height: '50px', verticalAlign: 'middle', textAlign: 'center', fontSize: '24px' }} colSpan={props.columns.length}>
+      <FontAwesomeIcon
+        icon={faSpinner} spin
+      /></td></NoContentRow>;
+  } else if (stateRows.length > 0) {
     tableRowContent = stateRows.map(row => (
       <DynamicTableRow
         key={row.id_deal}

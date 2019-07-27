@@ -20,6 +20,7 @@ const columns = [
 ];
 
 const Deals = (props) => {
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortCol, setSortCol] = useState('added');
     const [authenticated, setAuthenticated] = useState('authenticated');
@@ -34,7 +35,9 @@ const Deals = (props) => {
         setSortDir(newSortDir);
     }
     useEffect(() => {
+        setLoading(true);
         api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`).then((response) => {
+            setLoading(false);
             setDeals(response.data);
         });
     }, [searchTerm, sortDir, sortCol, isTabletOrMobile]);
@@ -45,9 +48,9 @@ const Deals = (props) => {
             </section>
             <section>
                 {isTabletOrMobile ? (
-                    <CardList data-test="component-card-list" data={deals} sortChanged={sortChanged} />
+                    <CardList data-test="component-card-list" loading={loading} data={deals} sortChanged={sortChanged} />
                 ) : (
-                        <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} sortChanged={sortChanged} />
+                        <DynamicTable data-test="component-dynamic-table" loading={loading} columns={columns} rows={deals} sortChanged={sortChanged} />
                     )}
             </section>
         </Fragment>
