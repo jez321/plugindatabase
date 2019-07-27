@@ -10,6 +10,7 @@ export default class Login extends Component {
     this.widget = new OktaSignIn({
       baseUrl: this.props.baseUrl,
       brandName: 'PluginDatabase',
+      logo: '/logo.png',
       features: {
         registration: true,                 // Enable self-service registration flow
         rememberMe: true                  // Enable voice call-based account recovery
