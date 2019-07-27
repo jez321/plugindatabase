@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import OktaSignIn from '@okta/okta-signin-widget';
 import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
+import { withAuth } from '@okta/okta-react';
+import OktaSignInWidget from './Signin'
+import { Redirect } from 'react-router-dom'
 //import '@okta/okta-signin-widget/dist/css/okta-theme.css';
 
-export default class Login extends Component {
-  componentDidMount() {
-    const el = ReactDOM.findDOMNode(this);
-    this.widget = new OktaSignIn({
-      baseUrl: this.props.baseUrl,
-      features: {
-        registration: true,                 // Enable self-service registration flow
-        rememberMe: true                  // Enable voice call-based account recovery
-      },
-      redirectUri: window.location.origin + '/implicit/callback'
-    });
-    this.widget.renderEl({el}, this.onSuccess, this.onError);
+export default withAuth(class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.onSuccess = this.onSuccess.bind(this);
+    this.onError = this.onError.bind(this);
+    this.state = {
+      authenticated: null
+    };
+    this.checkAuthentication();
   }
 
-  componentWillUnmount() {
-    this.widget.remove();
+  async checkAuthentication() {
+    const authenticated = await this.props.auth.isAuthenticated();
+    if (authenticated !== this.state.authenticated) {
+      this.setState({ authenticated });
+    }
+  }
+
+  componentDidUpdate() {
+    this.checkAuthentication();
   }
 
   onSuccess(res) {
@@ -27,17 +32,24 @@ export default class Login extends Component {
       return this.props.auth.redirect({
         sessionToken: res.session.token
       });
-   } else {
-    // The user can be in another authentication state that requires further action.
-    // For more information about these states, see:
-    //   https://github.com/okta/okta-signin-widget#rendereloptions-success-error
+    } else {
+      // The user can be in another authentication state that requires further action.
+      // For more information about these states, see:
+      //   https://github.com/okta/okta-signin-widget#rendereloptions-success-error
     }
   }
 
   onError(err) {
     console.log('error logging in', err);
   }
+
   render() {
-    return <div />;
+    if (this.state.authenticated === null) return null;
+    return this.state.authenticated ?
+      <Redirect to={{ pathname: '/' }} /> :
+      <OktaSignInWidget
+        baseUrl={this.props.baseUrl}
+        onSuccess={this.onSuccess}
+        onError={this.onError} />;
   }
-};
+});

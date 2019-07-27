@@ -1,82 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
-import api from '../api/api';
-import DynamicTable from './DynamicTable/DynamicTable';
-import CardList from './CardList/CardList';
-import SearchBox from './SearchBox/SearchBox';
 import * as SC from '../constants/Style';
 import { withAuth } from '@okta/okta-react';
 import { useAuth } from '../auth';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
-const columns = [
-  { title: 'Plugin', key: 'name' },
-  { title: 'Company', key: 'company' },
-  { title: 'Category', key: 'category' },
-  { title: 'Price', key: 'price', type: 'price' },
-  { title: 'Description', key: 'description' },
-  { title: 'Start', key: 'start_date', type: 'date' },
-  { title: 'End', key: 'end_date', type: 'date' },
-  { title: 'Link', key: 'link', type: 'link' },
-];
+const SignIn = styled.div`
+font-size:16px;
+text-align:right;
+font-weight:normal;
+float:right;
+p {
+  margin:0;
+  padding:0;
+  margin-bottom:2px;
+}
+`;
 
-const App = withAuth(({auth}) => {
-  const [authenticated, user] = useAuth(auth);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortCol, setSortCol] = useState('added');
-  const [sortDir, setSortDir] = useState('desc');
-  const [deals, setDeals] = useState([]);
+const App = withAuth((props) => {
+  if (window.location.pathname === '/login') return (
+    <div className="App">
+      {props.children}
+    </div>
+  );
+  const [auth, user] = useAuth(props.auth);
+  const [authenticated, setAuthenticated] = useState('authenticated');
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
   useEffect(() => {
-    api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`).then((response) => {
-      setDeals(response.data);
-    });
-  }, [searchTerm, sortDir, sortCol, isTabletOrMobile]);
-  // DynamicTable settings
-  function searchChanged(st) {
-    setSearchTerm(st);
+    checkAuthentication();
+  })
+  async function checkAuthentication() {
+    const at = await props.auth.isAuthenticated();
+    if (at !== authenticated) {
+      setAuthenticated(at);
+    }
   }
-  function sortChanged(newSortCol, newSortDir) {
-    setSortCol(newSortCol);
-    setSortDir(newSortDir);
-  }
-
   return (
-        <div className="App">
-          <header
-            className="App-header"
-            style={{
-              fontSize: '32px', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px', marginRight: '20px',
-            }}
-          >
-            <div style={{ float: 'left', marginRight: '20px' }}>
-              <span style={{ color: '#115599' }}>Plugin</span>
-              Database
+    <div className="App">
+      <header
+        className="App-header"
+        style={{
+          fontWeight: 'bold', marginTop: '20px', marginBottom: '20px', marginRight: '20px',
+        }}
+      >
+        <div style={{ float: 'left', marginRight: '20px' }}>
+          <span style={{ color: '#115599' }}>Plugin</span>
+          Database
             </div>
-            {authenticated !== null && (
-              <button
-                onClick={() => authenticated ? auth.logout() : auth.login()}
-                className="App-link"
-              >
-                Log {authenticated ? 'out' : 'in'}
-              </button>
-            )}
-            <Link to="login">Login</Link>
-            <div style={{ clear: 'both' }} />
-          </header>
-          <section className="search-wrap">
-            <SearchBox changed={searchChanged} />
-          </section>
-          <section>
-            {isTabletOrMobile ? (
-              <CardList data-test="component-card-list" data={deals} sortChanged={sortChanged} />
-            ) : (
-              <DynamicTable data-test="component-dynamic-table" columns={columns} rows={deals} sortChanged={sortChanged} />
-            )}
-          </section>
-        </div>
+        {authenticated !== null && (
+          authenticated ? (
+            <SignIn>
+              <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
+              <a href="#" onClick={() => props.auth.logout()}>Sign out</a>
+            </SignIn>
+          )
+            :
+            (
+              <SignIn>
+                <p>Not signed in</p>
+                <Link to="login">Sign in</Link>
+              </SignIn>
+            )
+        )}
+        {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/myplugins">My plugins</NavLink> : ''}
+        <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
+        <div style={{ clear: 'both' }} />
+      </header>
+      {props.children}
+    </div>
   );
 });
-
 export default App;
