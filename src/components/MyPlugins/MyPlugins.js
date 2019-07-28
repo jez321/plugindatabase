@@ -129,7 +129,7 @@ const MyPlugins = (props) => {
     useEffect(() => {
         // get from api
         setLoading(true);
-        api.get(`plugins?search=${searchTerm}`).then((response) => {
+        api.get(`plugins?search=${searchTerm}&sortby=name&sortdir=asc`).then((response) => {
             setLoading(false);
             setPlugins(response.data);
         });
