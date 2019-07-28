@@ -27,7 +27,7 @@ const PluginListTypes = styled.ul`
             cursor: pointer;
             display: block;
             color: #333;
-            border-radius:5px;
+            border-radius:4px;
             &:hover {
                 background: #E2F3FF;
             }
@@ -61,21 +61,25 @@ const PluginList = styled.ul`
     list-style-type: none;
     margin:0;
     padding:0;
+    max-width: 800px;
+    box-shadow: #aaa 2px 2px 4px;
     li {
+        background: #333;
+        color: white;
+        border-radius:4px;
         p {
             margin:0;
             padding:0;
         }
         font-size:24px;
-        line-height:24px;
-        padding: 15px 0;
-        border-bottom: 1px solid #eee;
+        padding: 10px;
+        margin-bottom: 5px;
         .small-text {
             font-size:70%;
         }
         a {
             cursor: pointer;
-            color: #333;
+            color: white
         }
         display: flex;
         justify-content: space-between;
@@ -83,13 +87,44 @@ const PluginList = styled.ul`
 `;
 
 const MyPlugins = (props) => {
+    // TODO: Save to db instead of localStorage
+    const lsOwned = localStorage.getItem('pluginsOwned');
+    const lsWanted = localStorage.getItem('pluginsWanted');
     const [plugins, setPlugins] = useState([]);
+    const [pluginsOwned, setPluginsOwned] = useState(lsOwned ? JSON.parse(lsOwned) : {});
+    const [pluginsWanted, setPluginsWanted] = useState(lsWanted ? JSON.parse(lsWanted) : {});
     const [searchTerm, setSearchTerm] = useState('');
-    const [pluginListType, setPluginListType] = useState('owned');
+    const [pluginListType, setPluginListType] = useState('all');
     const [loading, setLoading] = useState(true);
     const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
     function searchChanged(st) {
         setSearchTerm(st);
+    }
+    const togglePluginOwned = (p) => {
+        const temp = {...pluginsOwned};
+        if (pluginsOwned[p.id_plugin]) {
+            delete temp[p.id_plugin];
+        } else {
+            temp[p.id_plugin] = true;
+        }
+        localStorage.setItem('pluginsOwned', JSON.stringify(temp))
+        setPluginsOwned(temp);
+    }
+    const togglePluginWanted = (p) => {
+        const temp = {...pluginsWanted};
+        if (pluginsWanted[p.id_plugin]) {
+            delete temp[p.id_plugin];
+        } else {
+            temp[p.id_plugin] = true;
+        }
+        localStorage.setItem('pluginsWanted', JSON.stringify(temp))
+        setPluginsWanted(temp);
+    }
+    const isPluginOwned = (p) => {
+        return pluginsOwned[p.id_plugin];
+    }
+    const isPluginWanted = (p) => {
+        return pluginsWanted[p.id_plugin];
     }
     useEffect(() => {
         // get from api
@@ -105,13 +140,13 @@ const MyPlugins = (props) => {
                 <div>
                     <PluginListTypes className="clearfix" data-test="plugin-type-list">
                         <li data-test="plugin-type-list-option">
-                            <a role="button" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCheckCircle} /> Owned (25)</a>
+                            <a role="button" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCircle} /> All ({plugins.length})</a>
                         </li>
                         <li data-test="plugin-type-list-option">
-                            <a role="button" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faStar} /> Wanted (11)</a>
+                            <a role="button" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCheckCircle} /> Owned ({Object.keys(pluginsOwned).length})</a>
                         </li>
                         <li data-test="plugin-type-list-option">
-                            <a role="button" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCircle} /> All (231)</a>
+                            <a role="button" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faStar} /> Wanted ({Object.keys(pluginsWanted).length})</a>
                         </li>
                     </PluginListTypes>
                 </div>
@@ -127,26 +162,25 @@ const MyPlugins = (props) => {
                         </div>
                         :
                         <Fragment>
-                            {plugins.length === 0 ?
+                            {plugins.length === 0 || (pluginListType === "owned" && Object.keys(pluginsOwned).length === 0) || (pluginListType === "wanted" && Object.keys(pluginsWanted).length === 0) ?
                                 <div>
                                     No plugins
                                 </div>
                                 :
                                 <PluginList>
                                     {plugins.map((p, i) => {
+                                        if (pluginListType === "owned" && !pluginsOwned[p.id_plugin]) return;
+                                        if (pluginListType === "wanted" && !pluginsWanted[p.id_plugin]) return;
                                         return (
-                                            <li key={p.id_plugin} style={i === 0 ? { paddingTop: 0 } : {}}>
+                                            <li key={p.id_plugin}>
                                                 <div>
-                                                    <p className="small-text">{p.company}</p>
+                                                    <p className="small-text">{p.company} | {p.category}</p>
                                                     <p>{p.name}</p>
                                                 </div>
-                                                <div style={{ textAlign: "right" }}>
-                                                    <p className="small-text">{p.category}</p>
-                                                    <p>
-                                                        <a title="I own this!"><FontAwesomeIcon onClick={() => { }} icon={regFaCheckCircle} /></a>
+                                                <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px' }}>
+                                                        <a title={ isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={ isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
                                                         &nbsp;&nbsp;
-                                                        <a title="I want this!"><FontAwesomeIcon onClick={() => { }} icon={regFaStar} /></a>
-                                                    </p>
+                                                        <a title={ isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={ isPluginWanted(p) ? faStar : regFaStar} /></a>
                                                 </div>
                                             </li>
                                         );

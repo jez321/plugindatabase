@@ -4,8 +4,8 @@ import React from 'react';
 import * as SC from '../../constants/Style';
 
 const SearchInput = style.input`
-margin-bottom: 20px;
-border-radius: 5px;
+margin-bottom: 15px;
+;
 border: solid 1px #ccc;
 font-size: 22px;
 padding: 10px 15px;

@@ -48,9 +48,6 @@ const App = withAuth((props) => {
         <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
           Database
-          <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
-            Up to date and historical audio plugin sale information
-          </p>
         </div>
         {authenticated !== null && (
           authenticated ? (
@@ -70,6 +67,9 @@ const App = withAuth((props) => {
         {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/myplugins">My plugins</NavLink> : ''}
         <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
         <div style={{ clear: 'both' }} />
+          <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
+            Up to date and historical audio plugin sale information
+          </p>
       </header>
       {props.children}
     </div>
