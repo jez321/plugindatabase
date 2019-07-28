@@ -59,7 +59,7 @@ const Card = (props) => {
         {data.description}
       </section>
       <section>
-        <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.text}</a>
+        <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.title}</a>
       </section>
     </CardWrapper>
   );

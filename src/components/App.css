@@ -23,3 +23,12 @@
 .App-link {
   color: #61dafb;
 }
+
+a, a:visited {
+  color: #64aff1;
+  text-decoration: none;  
+}
+a:hover {
+  color: #2465a7;
+  text-decoration: underline;
+}
