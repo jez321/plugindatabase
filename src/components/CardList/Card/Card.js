@@ -32,6 +32,7 @@ margin:2px 0;
 
 const Card = (props) => {
   const { data } = props;
+  console.log(data)
   return (
     <CardWrapper data-test="component-card-wrapper">
       <SplitDiv>
@@ -59,7 +60,7 @@ const Card = (props) => {
         {data.description}
       </section>
       <section>
-        <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.text}</a>
+        <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.title}</a>
       </section>
     </CardWrapper>
   );
