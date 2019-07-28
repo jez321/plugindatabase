@@ -49,6 +49,9 @@ const App = () => {
         <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
           Database
+          <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
+            Up to date and historical audio plugin sale information
+          </p>
         </div>
         <div style={{ clear: 'both' }} />
       </header>
