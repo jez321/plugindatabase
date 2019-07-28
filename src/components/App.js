@@ -60,7 +60,7 @@ const App = withAuth((props) => {
             (
               <SignIn>
                 <p>Not signed in</p>
-                <Link to="login">Sign in</Link>
+                <Link to="login">Sign in/Sign up</Link>
               </SignIn>
             )
         )}
