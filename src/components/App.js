@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
 import * as SC from '../constants/Style';
@@ -64,12 +64,21 @@ const App = withAuth((props) => {
               </SignIn>
             )
         )}
+        { !isTabletOrMobile ? 
+        <Fragment>
         {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/myplugins">My plugins</NavLink> : ''}
         <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
+        </Fragment> : ''}
         <div style={{ clear: 'both' }} />
           <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
             Up to date and historical audio plugin sale information
           </p>
+          
+        { isTabletOrMobile ? 
+        <div className="clearfix" style={{marginBottom: "5px"}}>
+        {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'left'}} to="/myplugins">My plugins</NavLink> : ''}
+        <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'left'}} to="/deals">Deals</NavLink>
+        </div> : ''}
       </header>
       {props.children}
     </div>
