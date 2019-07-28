@@ -42,8 +42,7 @@ const App = withAuth((props) => {
       <header
         className="App-header"
         style={{
-          fontWeight: 'bold', marginTop: '20px', marginBottom: '20px', marginRight: '20px',
-        }}
+          fontWeight: 'bold', marginTop: '20px', marginBottom: '20px' }}
       >
         <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
