@@ -177,7 +177,7 @@ const MyPlugins = (props) => {
                                                     <p className="small-text">{p.company} | {p.category}</p>
                                                     <p>{p.name}</p>
                                                 </div>
-                                                <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px' }}>
+                                                <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px', whiteSpace: "nowrap" }}>
                                                         <a title={ isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={ isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
                                                         &nbsp;&nbsp;
                                                         <a title={ isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={ isPluginWanted(p) ? faStar : regFaStar} /></a>
