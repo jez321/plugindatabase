@@ -143,9 +143,9 @@ const MyPlugins = (props) => {
                                                 <div style={{ textAlign: "right" }}>
                                                     <p className="small-text">{p.category}</p>
                                                     <p>
-                                                        <a><FontAwesomeIcon onClick={() => { }} icon={regFaCheckCircle} /></a>
+                                                        <a title="I own this!"><FontAwesomeIcon onClick={() => { }} icon={regFaCheckCircle} /></a>
                                                         &nbsp;&nbsp;
-                                    <a><FontAwesomeIcon onClick={() => { }} icon={regFaStar} /></a>
+                                                        <a title="I want this!"><FontAwesomeIcon onClick={() => { }} icon={regFaStar} /></a>
                                                     </p>
                                                 </div>
                                             </li>
