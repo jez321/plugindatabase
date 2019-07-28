@@ -76,8 +76,8 @@ const App = withAuth((props) => {
           
         { isTabletOrMobile ? 
         <div className="clearfix" style={{marginBottom: "5px"}}>
-        {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'left'}} to="/myplugins">My plugins</NavLink> : ''}
-        <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'left'}} to="/deals">Deals</NavLink>
+        <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'none'}} to="/deals">Deals</NavLink>
+        {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'none'}} to="/myplugins">My plugins</NavLink> : ''}
         </div> : ''}
       </header>
       {props.children}
