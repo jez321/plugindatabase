@@ -1,7 +1,22 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom'
+import api from '../../api/api'
+import { useMedia } from 'use-media';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faCheckCircle, faSpinner, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import SearchBox from '../SearchBox/SearchBox';
+import * as SC from '../../constants/Style';
+
+const MyPluginsWrap = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap%;
+    width: 100%; 
+    @media (max-width: 979px) {
+        flex-direction: column;
+    }
+`;
 
 const PluginListTypes = styled.ul`
     list-style-type: none;
@@ -9,20 +24,22 @@ const PluginListTypes = styled.ul`
     padding:0;
     li {
         a {
+            cursor: pointer;
             display: block;
-            background: #999;
-            color: white;
+            color: #333;
+            border-radius:5px;
             &:hover {
-                background: #888;
+                background: #E2F3FF;
             }
             padding: 10px 20px;
             text-decoration: none;
             &.plugin-list-type-active {
-                background: #333;
+                background: #0868AE;
+                color: white;
             }
 
         }
-        margin-bottom:2px;
+        margin-bottom:4px;
     }
     .column {
       display: flex;
@@ -30,69 +47,116 @@ const PluginListTypes = styled.ul`
       flex-basis: 100%;
       flex: 1;
     }
+    @media (max-width: 979px) {
+      li {
+        float:left;
+      }
+      margin-bottom:10px;
+    }
+    @media (min-width: 980px) {
+      margin-right:20px;
+    }
 `;
-
 const PluginList = styled.ul`
     list-style-type: none;
     margin:0;
     padding:0;
     li {
-        a {
-            display: block;
-            background: #999;
-            color: white;
-            &:hover {
-                background: #888;
-            }
-            padding: 10px 20px;
-            text-decoration: none;
-            &.plugin-list-type-active {
-                background: #333;
-            }
-
+        p {
+            margin:0;
+            padding:0;
         }
-        margin-bottom:2px;
+        font-size:24px;
+        line-height:24px;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        .small-text {
+            font-size:70%;
+        }
+        a {
+            cursor: pointer;
+            color: #333;
+        }
+        display: flex;
+        justify-content: space-between;
     }
 `;
 
 const MyPlugins = (props) => {
-    const [list, setList] = useState([]);
-    const [pluginListType, setPluginListType] = useState("owned");
+    const [plugins, setPlugins] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [pluginListType, setPluginListType] = useState('owned');
     const [loading, setLoading] = useState(true);
+    const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
+    function searchChanged(st) {
+        setSearchTerm(st);
+    }
     useEffect(() => {
         // get from api
-        /*
         setLoading(true);
-        api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`).then((response) => {
+        api.get(`plugins?search=${searchTerm}`).then((response) => {
             setLoading(false);
-            setDeals(response.data);
-        });*/
-        setList([pluginListType, pluginListType, pluginListType, pluginListType, pluginListType]);
-    }, [pluginListType]);
+            setPlugins(response.data);
+        });
+    }, [pluginListType, searchTerm]);
     return (
         <Fragment>
-            <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap%", width: "100%" }}>
+            <MyPluginsWrap>
                 <div>
-                    <PluginListTypes data-test="plugin-type-list">
+                    <PluginListTypes className="clearfix" data-test="plugin-type-list">
                         <li data-test="plugin-type-list-option">
-                            <a href="#" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}>Owned (2)</a>
+                            <a role="button" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCheckCircle} /> Owned (25)</a>
                         </li>
                         <li data-test="plugin-type-list-option">
-                            <a href="#" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}>Wanted (22)</a>
+                            <a role="button" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faStar} /> Wanted (11)</a>
                         </li>
                         <li data-test="plugin-type-list-option">
-                            <a href="#" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}>All (442)</a>
+                            <a role="button" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCircle} /> All (231)</a>
                         </li>
                     </PluginListTypes>
                 </div>
-                <div style={{ flexGrow: 1, padding: "0 20px" }}>
-                    <PluginList>
-                        {list.map(l => {
-                            return <li>{l}</li>
-                        })}
-                    </PluginList>
+                <div style={{ flexGrow: 1, padding: "0" }}>
+                    <section className="search-wrap">
+                        <SearchBox changed={searchChanged} />
+                    </section>
+                    {loading ?
+                        <div style={{ textAlign: "center", fontSize: "24px", marginTop: "25px" }}>
+                            <FontAwesomeIcon
+                                icon={faSpinner} spin
+                            />
+                        </div>
+                        :
+                        <Fragment>
+                            {plugins.length === 0 ?
+                                <div>
+                                    No plugins
+                                </div>
+                                :
+                                <PluginList>
+                                    {plugins.map((p, i) => {
+                                        return (
+                                            <li key={p.id_plugin} style={i === 0 ? { paddingTop: 0 } : {}}>
+                                                <div>
+                                                    <p className="small-text">{p.company}</p>
+                                                    <p>{p.name}</p>
+                                                </div>
+                                                <div style={{ textAlign: "right" }}>
+                                                    <p className="small-text">{p.category}</p>
+                                                    <p>
+                                                        <a><FontAwesomeIcon onClick={() => { }} icon={regFaCheckCircle} /></a>
+                                                        &nbsp;&nbsp;
+                                    <a><FontAwesomeIcon onClick={() => { }} icon={regFaStar} /></a>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        );
+                                    })}
+                                </PluginList>
+                            }
+                        </Fragment>
+                    }
                 </div>
-            </div>
+            </MyPluginsWrap>
         </Fragment>
     )
 };

@@ -53,7 +53,7 @@ const App = withAuth((props) => {
           authenticated ? (
             <SignIn>
               <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
-              <a href="#" onClick={() => props.auth.logout()}>Sign out</a>
+              <a style={{ cursor: "pointer" }} onClick={() => props.auth.logout()}>Sign out</a>
             </SignIn>
           )
             :

@@ -6,7 +6,7 @@ import App from './components/App';
 import Login from './components/Login/Login';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import { Security, ImplicitCallback } from '@okta/okta-react';
+import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 import MyPlugins from './components/MyPlugins/MyPlugins';
 import Deals from './components/Deals/Deals';
 
@@ -24,7 +24,7 @@ ReactDOM.render(
           )} />
           <Route path="/login" exact render={() => <Login baseUrl='https://dev-786379.okta.com' />} />
           <Route path="/implicit/callback" component={ImplicitCallback} />
-          <Route path="/myplugins" exact component={MyPlugins} />
+          <SecureRoute path="/myplugins" exact component={MyPlugins} />
           <Route path="/deals" exact component={Deals} />
         </Switch>
       </App>

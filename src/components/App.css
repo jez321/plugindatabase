@@ -80,3 +80,16 @@
     height: 26px;
   }
 }
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+a, a:visited {
+  color: #4c90d6;
+  text-decoration: none;  
+}
+a:hover {
+  color: #2465a7;
+  text-decoration: underline;
+}

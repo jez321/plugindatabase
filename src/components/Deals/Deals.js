@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMedia } from 'use-media';
 import DynamicTable from '../DynamicTable/DynamicTable';

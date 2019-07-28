@@ -35,7 +35,7 @@ const CardList = (props) => {
         {cards}
       </div>
     ) : (
-        <NoItemsMsg>No items</NoItemsMsg>
+        <NoItemsMsg>No deals</NoItemsMsg>
       )
   );
 };

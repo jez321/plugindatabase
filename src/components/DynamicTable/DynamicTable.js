@@ -118,7 +118,7 @@ const DynamicTable = (props) => {
       />
     ));
   } else {
-    tableRowContent = <NoContentRow><td colSpan={props.columns.length}>No items</td></NoContentRow>;
+    tableRowContent = <NoContentRow><td colSpan={props.columns.length}>No deals</td></NoContentRow>;
   }
   return (
     <TableWrap>
