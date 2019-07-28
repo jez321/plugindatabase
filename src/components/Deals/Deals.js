@@ -14,8 +14,8 @@ const columns = [
     { title: 'Category', key: 'category' },
     { title: 'Price', key: 'price', type: 'price' },
     { title: 'Description', key: 'description' },
-    { title: 'Start', key: 'start_date', type: 'date' },
-    { title: 'End', key: 'end_date', type: 'date' },
+    { title: 'Added', key: 'added', type: 'date' },
+    { title: 'Ending', key: 'end_date', type: 'date' },
     { title: 'Link', key: 'link', type: 'link' },
 ];
 
