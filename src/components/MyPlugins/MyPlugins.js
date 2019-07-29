@@ -31,7 +31,7 @@ const PluginListTypes = styled.ul`
             &:hover {
                 background: #E2F3FF;
             }
-            padding: 10px 20px;
+            padding: 10px;
             text-decoration: none;
             &.plugin-list-type-active {
                 background: #0868AE;
