@@ -79,7 +79,10 @@ const PluginList = styled.ul`
         }
         a {
             cursor: pointer;
-            color: white
+            color: white;
+	    &:hover {
+	    	color: #ccc;
+	    }
         }
         display: flex;
         justify-content: space-between;
@@ -129,7 +132,7 @@ const MyPlugins = (props) => {
     useEffect(() => {
         // get from api
         setLoading(true);
-        api.get(`plugins?search=${searchTerm}&sortby=name&sortdir=asc`).then((response) => {
+        api.get(`plugins?search=${searchTerm}&sortby=name&sortdr=asc`).then((response) => {
             setLoading(false);
             setPlugins(response.data);
         });

@@ -36,6 +36,9 @@
 .App-header .nav-link:visited {
   color: #999;
 }
+.App-header .nav-link:hover {
+  color: #777;
+}
 .App-header .nav-link-active {
   color: #333;
 }
