@@ -23,6 +23,6 @@ test('renders plugin type list menu', () => {
 
 test('renders plugin type list menu options', () => {
     const wrapper = setup();
-    const pluginTypeList = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list-option');
-    expect(pluginTypeList.length).toBe(3);
+    const pluginTypeListOptions = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list-option');
+    expect(pluginTypeListOptions.length).toBe(3);
 });

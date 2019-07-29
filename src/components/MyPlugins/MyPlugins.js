@@ -104,7 +104,7 @@ const MyPlugins = (props) => {
         setSearchTerm(st);
     }
     const togglePluginOwned = (p) => {
-        const temp = {...pluginsOwned};
+        const temp = { ...pluginsOwned };
         if (pluginsOwned[p.id_plugin]) {
             delete temp[p.id_plugin];
         } else {
@@ -114,7 +114,7 @@ const MyPlugins = (props) => {
         setPluginsOwned(temp);
     }
     const togglePluginWanted = (p) => {
-        const temp = {...pluginsWanted};
+        const temp = { ...pluginsWanted };
         if (pluginsWanted[p.id_plugin]) {
             delete temp[p.id_plugin];
         } else {
@@ -181,9 +181,9 @@ const MyPlugins = (props) => {
                                                     <p>{p.name}</p>
                                                 </div>
                                                 <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px', whiteSpace: "nowrap" }}>
-                                                        <a title={ isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={ isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
-                                                        &nbsp;&nbsp;
-                                                        <a title={ isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={ isPluginWanted(p) ? faStar : regFaStar} /></a>
+                                                    <a title={isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
+                                                    &nbsp;&nbsp;
+                                                        <a title={isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={isPluginWanted(p) ? faStar : regFaStar} /></a>
                                                 </div>
                                             </li>
                                         );
