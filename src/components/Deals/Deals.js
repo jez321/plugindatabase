@@ -21,7 +21,6 @@ const Deals = (props) => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortCol, setSortCol] = useState('added');
-    const [authenticated, setAuthenticated] = useState('authenticated');
     const [sortDir, setSortDir] = useState('desc');
     const [deals, setDeals] = useState([]);
     const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });

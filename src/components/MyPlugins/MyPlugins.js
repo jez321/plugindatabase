@@ -61,9 +61,11 @@ const PluginList = styled.ul`
     list-style-type: none;
     margin:0;
     padding:0;
-    max-width: 800px;
-    box-shadow: #aaa 2px 2px 4px;
+    @media (min-width: 980px) {
+        display: inline-block;
+    }
     li {
+        box-shadow: #aaa 2px 2px 4px;
         background: #333;
         color: white;
         border-radius:4px;
@@ -72,7 +74,7 @@ const PluginList = styled.ul`
             padding:0;
         }
         font-size:24px;
-        padding: 10px;
+        padding: 10px 15px;
         margin-bottom: 5px;
         .small-text {
             font-size:70%;
@@ -80,12 +82,13 @@ const PluginList = styled.ul`
         a {
             cursor: pointer;
             color: white;
+            margin-right:15px;
 	    &:hover {
 	    	color: #ccc;
 	    }
         }
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
     }
 `;
 
@@ -158,7 +161,7 @@ const MyPlugins = (props) => {
                         <SearchBox changed={searchChanged} />
                     </section>
                     {loading ?
-                        <div style={{ textAlign: "center", fontSize: "24px", marginTop: "25px" }}>
+                        <div style={{ textAlign: "left", fontSize: "24px" }}>
                             <FontAwesomeIcon
                                 icon={faSpinner} spin
                             />
@@ -176,14 +179,13 @@ const MyPlugins = (props) => {
                                         if (pluginListType === "wanted" && !pluginsWanted[p.id_plugin]) return;
                                         return (
                                             <li key={p.id_plugin}>
+                                                <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px', whiteSpace: "nowrap" }}>
+                                                    <a title={isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
+                                                    <a title={isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={isPluginWanted(p) ? faStar : regFaStar} /></a>
+                                                </div>
                                                 <div>
                                                     <p className="small-text">{p.company} | {p.category}</p>
                                                     <p>{p.name}</p>
-                                                </div>
-                                                <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px', whiteSpace: "nowrap" }}>
-                                                    <a title={isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
-                                                    &nbsp;&nbsp;
-                                                        <a title={isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={isPluginWanted(p) ? faStar : regFaStar} /></a>
                                                 </div>
                                             </li>
                                         );

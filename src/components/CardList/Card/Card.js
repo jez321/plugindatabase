@@ -32,7 +32,6 @@ margin:2px 0;
 
 const Card = (props) => {
   const { data } = props;
-  console.log(data)
   return (
     <CardWrapper data-test="component-card-wrapper">
       <SplitDiv>

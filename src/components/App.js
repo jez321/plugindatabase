@@ -5,13 +5,16 @@ import * as SC from '../constants/Style';
 import { withAuth } from '@okta/okta-react';
 import { useAuth } from '../auth';
 import { Link, NavLink } from 'react-router-dom';
+import { slide as Menu } from 'react-burger-menu';
 import styled from 'styled-components';
 
 const SignIn = styled.div`
 font-size:16px;
-text-align:right;
 font-weight:normal;
-float:right;
+@media (min-width: 980px) {
+  float:right;
+  text-align:right;
+}
 p {
   margin:0;
   padding:0;
@@ -25,6 +28,7 @@ const App = withAuth((props) => {
       {props.children}
     </div>
   );
+  const [menuOpen, setMenuOpen] = useState(false);
   const [auth, user] = useAuth(props.auth);
   const [authenticated, setAuthenticated] = useState('authenticated');
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
@@ -37,16 +41,44 @@ const App = withAuth((props) => {
       setAuthenticated(at);
     }
   }
+  const closeMenu = function (event) {
+    setMenuOpen(false);
+  }
+  const handleStateChange = function (state) {
+    setMenuOpen(state.isOpen);
+  }
   return (
     <div className="App">
-      <header
+      <Menu isOpen={menuOpen}
+        onStateChange={(state) => handleStateChange(state)} right disableAutoFocus width={'250px'}>
+        <div>
+          {authenticated !== null && (
+            authenticated ? (
+              <SignIn>
+                <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
+                <a style={{ cursor: "pointer" }} onClick={() => { props.auth.logout(); closeMenu(); }}>Sign out</a>
+              </SignIn>
+            )
+              :
+              (
+                <SignIn>
+                  <p>Not signed in</p>
+                  <Link onClick={() => { closeMenu(); }} to="login">Sign in/Sign up</Link>
+                </SignIn>
+              )
+          )}
+        </div>
+        <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/deals">Deals</NavLink>
+        {authenticated ? <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/myplugins">My plugins</NavLink> : ''}
+      </Menu>
+      <header style={{ padding: "0 10px", paddingTop: "10px" }}
         className="App-header"
       >
         <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
           Database
         </div>
-        {authenticated !== null && (
+        {!isTabletOrMobile && authenticated !== null && (
           authenticated ? (
             <SignIn>
               <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
@@ -70,14 +102,10 @@ const App = withAuth((props) => {
         <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
           Up to date and historical audio plugin sale information
           </p>
-
-        {isTabletOrMobile ?
-          <div className="clearfix" style={{ marginBottom: "5px" }}>
-            <NavLink activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/deals">Deals</NavLink>
-            {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/myplugins">My plugins</NavLink> : ''}
-          </div> : ''}
       </header>
-      {props.children}
+      <div style={{ padding: "0 10px" }}>
+        {props.children}
+      </div>
     </div>
   );
 });
