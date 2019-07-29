@@ -9,17 +9,17 @@ import { slide as Menu } from 'react-burger-menu';
 import styled from 'styled-components';
 
 const SignIn = styled.div`
-font-size:16px;
-font-weight:normal;
-@media (min-width: 980px) {
-  float:right;
-  text-align:right;
-}
-p {
-  margin:0;
-  padding:0;
-  margin-bottom:2px;
-}
+  font-size:16px;
+  font-weight:normal;
+  @media (min-width: 980px) {
+    float:right;
+    text-align:right;
+  }
+  p {
+    margin:0;
+    padding:0;
+    margin-bottom:2px;
+  }
 `;
 
 const App = withAuth((props) => {

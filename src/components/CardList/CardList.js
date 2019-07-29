@@ -5,11 +5,6 @@ import Card from './Card/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-const ListWrap = styled.ul`
-list-style-type:none;
-padding:0;
-margin:0;
-`;
 const NoItemsMsg = styled.div`
   font-size:20px;
   text-align:center;

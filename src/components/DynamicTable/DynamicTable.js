@@ -7,52 +7,37 @@ import DynamicTableRow from './DynamicTableRow/DynamicTableRow';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const HeadCell = styled.th`
-padding: 10px;
-background-color: #333;
-color: white;
-cursor: pointer;
-.fa-chevron-up, .fa-chevron-down {
-  position: absolute;
-  right:-18px;
-  top: 3px;
-}
-span {
-  position: relative;
-}
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  .fa-chevron-up, .fa-chevron-down {
+    position: absolute;
+    right:-18px;
+    top: 3px;
+  }
+  span {
+    position: relative;
+  }
 `;
 
 const Table = styled.table`
-border-collapse: collapse;
-width: 100%;
-thead {
-  box-shadow: #aaa 1px 1px 2px
-}
+  border-collapse: collapse;
+  width: 100%;
+  thead {
+    box-shadow: #aaa 1px 1px 2px
+  }
 `;
 const TableWrap = styled.div`
-margin: auto;
+  margin: auto;
 `;
 
 const NoContentRow = styled.tr`
-td {
-  text-align:center;
-  padding: 10px;
-}
+  td {
+    text-align:center;
+    padding: 10px;
+  }
 `;
-/*
-const getSorted = (rows, columns, sortColumn, sortDir) => {
-  rows.sort((a, b) => {
-    if (columns.find(c => c.key === sortColumn).type === 'link') {
-      return sortDir === 'asc'
-        ? a[sortColumn].text.localeCompare(b[sortColumn].text)
-        : b[sortColumn].text.localeCompare(a[sortColumn].text);
-    }
-    return sortDir === 'asc'
-      ? a[sortColumn].localeCompare(b[sortColumn])
-      : b[sortColumn].localeCompare(a[sortColumn]);
-  });
-  return rows;
-};
-*/
 const DynamicTable = (props) => {
   const {
     rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
@@ -68,7 +53,6 @@ const DynamicTable = (props) => {
   );
   // update/resort rows when they get changed (by search etc.)
   useEffect(() => {
-    // const newRows = getSorted([...rows], columns, stateSortColumn, sortDir);
     setRows([...rows]);
   }, [rows, columns, stateRows, stateSortColumn, sortDir]);
   useEffect(() => {
