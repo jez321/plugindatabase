@@ -41,8 +41,6 @@ const App = withAuth((props) => {
     <div className="App">
       <header
         className="App-header"
-        style={{
-          fontWeight: 'bold', marginTop: '20px', marginBottom: '20px' }}
       >
         <div style={{ float: 'left', marginRight: '20px' }}>
           <span style={{ color: '#115599' }}>Plugin</span>
@@ -63,21 +61,21 @@ const App = withAuth((props) => {
               </SignIn>
             )
         )}
-        { !isTabletOrMobile ? 
-        <Fragment>
-        {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/myplugins">My plugins</NavLink> : ''}
-        <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
-        </Fragment> : ''}
+        {!isTabletOrMobile ?
+          <Fragment>
+            {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/myplugins">My plugins</NavLink> : ''}
+            <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
+          </Fragment> : ''}
         <div style={{ clear: 'both' }} />
-          <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
-            Up to date and historical audio plugin sale information
+        <p style={{ margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px' }}>
+          Up to date and historical audio plugin sale information
           </p>
-          
-        { isTabletOrMobile ? 
-        <div className="clearfix" style={{marginBottom: "5px"}}>
-        <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'none'}} to="/deals">Deals</NavLink>
-        {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" style={{float: 'none'}} to="/myplugins">My plugins</NavLink> : ''}
-        </div> : ''}
+
+        {isTabletOrMobile ?
+          <div className="clearfix" style={{ marginBottom: "5px" }}>
+            <NavLink activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/deals">Deals</NavLink>
+            {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/myplugins">My plugins</NavLink> : ''}
+          </div> : ''}
       </header>
       {props.children}
     </div>
