@@ -53,6 +53,7 @@ const DynamicTable = (props) => {
   );
   // update/resort rows when they get changed (by search etc.)
   useEffect(() => {
+    // TODO Fix endless looping
     setRows([...rows]);
   }, [rows, columns, stateRows, stateSortColumn, sortDir]);
   useEffect(() => {
