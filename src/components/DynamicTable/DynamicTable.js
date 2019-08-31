@@ -53,9 +53,8 @@ const DynamicTable = (props) => {
   );
   // update/resort rows when they get changed (by search etc.)
   useEffect(() => {
-    // TODO Fix endless looping
     setRows([...rows]);
-  }, [rows, columns, stateRows, stateSortColumn, sortDir]);
+  }, [rows, columns, stateSortColumn, sortDir]);
   useEffect(() => {
     setSortDir('desc');
     setSortColumn('added');
@@ -68,7 +67,6 @@ const DynamicTable = (props) => {
     setSortColumn(columnKey);
     sortChanged(columnKey, newSortDir);
   };
-
   const allColumns = columns.map(col => (
     <HeadCell
       data-test="component-head-cell"
