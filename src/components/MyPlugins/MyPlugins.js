@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCheckCircle, faSpinner, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import SearchBox from '../SearchBox/SearchBox';
+import { connect } from 'react-redux';
 import * as SC from '../../constants/Style';
+import { ADD_WANTED_PLUGIN, ADD_OWNED_PLUGIN, REMOVE_OWNED_PLUGIN, REMOVE_WANTED_PLUGIN } from '../../redux/actionTypes'
 
 const MyPluginsWrap = styled.div`
     display: flex;
@@ -126,11 +128,11 @@ const MyPlugins = (props) => {
         localStorage.setItem('pluginsWanted', JSON.stringify(temp))
         setPluginsWanted(temp);
     }
-    const isPluginOwned = (p) => {
-        return pluginsOwned[p.id_plugin];
+    const isPluginOwned = (id_plugin) => {
+        return props.owned && props.owned.includes(id_plugin);
     }
-    const isPluginWanted = (p) => {
-        return pluginsWanted[p.id_plugin];
+    const isPluginWanted = (id_plugin) => {
+        return props.wanted && props.wanted.includes(id_plugin);
     }
     useEffect(() => {
         // get from api
@@ -141,66 +143,78 @@ const MyPlugins = (props) => {
         });
     }, [pluginListType, searchTerm]);
     return (
-        <Fragment>
-            <MyPluginsWrap>
-                <div>
-                    <PluginListTypes className="clearfix" data-test="plugin-type-list">
-                        <li data-test="plugin-type-list-option">
-                            <a role="button" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCircle} /> All ({plugins.length})</a>
-                        </li>
-                        <li data-test="plugin-type-list-option">
-                            <a role="button" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCheckCircle} /> Owned ({Object.keys(pluginsOwned).length})</a>
-                        </li>
-                        <li data-test="plugin-type-list-option">
-                            <a role="button" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faStar} /> Wanted ({Object.keys(pluginsWanted).length})</a>
-                        </li>
-                    </PluginListTypes>
-                </div>
-                <div style={{ flexGrow: 1, padding: "0" }}>
-                    <section className="search-wrap">
-                        <SearchBox changed={searchChanged} />
-                    </section>
-                    {loading ?
-                        <div style={{ textAlign: "left", fontSize: "24px" }}>
-                            <FontAwesomeIcon
-                                icon={faSpinner} spin
-                            />
-                        </div>
-                        :
-                        <Fragment>
-                            {plugins.length === 0 || (pluginListType === "owned" && Object.keys(pluginsOwned).length === 0) || (pluginListType === "wanted" && Object.keys(pluginsWanted).length === 0) ?
-                                <div>
-                                    No plugins
-                                </div>
-                                :
-                                <PluginList>
-                                    {plugins.map((p, i) => {
-                                        if (pluginListType === "owned" && !pluginsOwned[p.id_plugin]) return;
-                                        if (pluginListType === "wanted" && !pluginsWanted[p.id_plugin]) return;
-                                        return (
-                                            <li key={p.id_plugin}>
-                                                <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px', whiteSpace: "nowrap" }}>
-                                                    <a title={isPluginOwned(p) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { togglePluginOwned(p) }} icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle} /></a>
-                                                    <a title={isPluginOwned(p) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { togglePluginWanted(p) }} icon={isPluginWanted(p) ? faStar : regFaStar} /></a>
-                                                </div>
-                                                <div>
-                                                    <p className="small-text">{p.company} | {p.category}</p>
-                                                    <p>{p.name}</p>
-                                                </div>
-                                            </li>
-                                        );
-                                    })}
-                                </PluginList>
-                            }
-                        </Fragment>
-                    }
-                </div>
-            </MyPluginsWrap>
-        </Fragment>
+        <MyPluginsWrap>
+            <div>
+                <PluginListTypes className="clearfix" data-test="plugin-type-list">
+                    <li data-test="plugin-type-list-option">
+                        <a role="button" onClick={() => setPluginListType("all")} className={pluginListType === "all" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCircle} /> All ({plugins.length})</a>
+                    </li>
+                    <li data-test="plugin-type-list-option">
+                        <a role="button" onClick={() => setPluginListType("owned")} className={pluginListType === "owned" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faCheckCircle} /> Owned ({Object.keys(pluginsOwned).length})</a>
+                    </li>
+                    <li data-test="plugin-type-list-option">
+                        <a role="button" onClick={() => setPluginListType("wanted")} className={pluginListType === "wanted" ? "plugin-list-type-active" : ""}><FontAwesomeIcon icon={faStar} /> Wanted ({Object.keys(pluginsWanted).length})</a>
+                    </li>
+                </PluginListTypes>
+            </div>
+            <div style={{ flexGrow: 1, padding: "0" }}>
+                <section className="search-wrap">
+                    <SearchBox changed={searchChanged} />
+                </section>
+                {loading ?
+                    <div style={{ textAlign: "left", fontSize: "24px" }}>
+                        <FontAwesomeIcon
+                            icon={faSpinner} spin
+                        />
+                    </div>
+                    :
+                    <Fragment>
+                        {plugins.length === 0 || (pluginListType === "owned" && Object.keys(pluginsOwned).length === 0) || (pluginListType === "wanted" && Object.keys(pluginsWanted).length === 0) ?
+                            <div>
+                                No plugins
+                            </div>
+                            :
+                            <PluginList>
+                                {plugins.map((p, i) => {
+                                    if (pluginListType === "owned" && !pluginsOwned[p.id_plugin]) return;
+                                    if (pluginListType === "wanted" && !pluginsWanted[p.id_plugin]) return;
+                                    return (
+                                        <li key={p.id_plugin}>
+                                            <div style={{ textAlign: "right", fontSize: '32px', lineHeight: '48px', whiteSpace: "nowrap" }}>
+                                                <a title={isPluginOwned(p.id_plugin) ? "I don't own this!" : "I own this!"}><FontAwesomeIcon onClick={() => { isPluginOwned(p.id_plugin) ? props.removeOwned(p.id_plugin) : props.addOwned(p.id_plugin) }} icon={isPluginOwned(p.id_plugin) ? faCheckCircle : regFaCheckCircle} /></a>
+                                                <a title={isPluginOwned(p.id_plugin) ? "I don't want this!" : "I want this!"}><FontAwesomeIcon onClick={() => { isPluginWanted(p.id_plugin) ? props.removeWanted(p.id_plugin) : props.addWanted(p.id_plugin) }} icon={isPluginWanted(p.id_plugin) ? faStar : regFaStar} /></a>
+                                            </div>
+                                            <div>
+                                                <p className="small-text">{p.company} | {p.category}</p>
+                                                <p>{p.name}</p>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </PluginList>
+                        }
+                    </Fragment>
+                }
+            </div>
+        </MyPluginsWrap>
     )
 };
 
 MyPlugins.propTypes = {
 };
+const mapStateToProps = state => {
+    return {
+        wanted: state.myPlugins.wantedPlugins,
+        owned: state.myPlugins.ownedPlugins
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        addWanted: (pluginId) => dispatch({ type: ADD_WANTED_PLUGIN, pluginId }),
+        removeWanted: (pluginId) => dispatch({ type: REMOVE_WANTED_PLUGIN, pluginId }),
+        addOwned: (pluginId) => dispatch({ type: ADD_OWNED_PLUGIN, pluginId }),
+        removeOwned: (pluginId) => dispatch({ type: REMOVE_OWNED_PLUGIN, pluginId })
+    }
+}
 
-export default MyPlugins;
+export default connect(mapStateToProps, mapDispatchToProps)(MyPlugins);
