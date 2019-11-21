@@ -19,5 +19,7 @@ Start the API server, then start the app (default port 3000).
 npm run start
 ```
 
+View http://localhost:3000 in your browser.
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
