@@ -12,13 +12,48 @@ const SignIn = styled.div`
   font-size:16px;
   font-weight:normal;
   @media (min-width: 980px) {
-    float:right;
     text-align:right;
   }
   p {
     margin:0;
     padding:0;
     margin-bottom:2px;
+  }
+`;
+
+const AppHeader = styled.header`
+  font-size: calc(10px + 3vmin);
+  color: #333;
+  font-size:32px;
+  text-align: left;
+  font-weight: bold;
+  padding: 10px 10px 0 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  .top-menu {
+    display: flex;
+    justify-content: flex-end;
+  }
+ .nav-link {
+    float:right;
+    text-decoration: none;
+    margin-right:30px;
+    font-size:24px;
+    line-height: 40px;
+    color: #999;
+  }
+  .nav-link:visited {
+    color: #999;
+  }
+  .nav-link:hover {
+    color: #777;
+  }
+  .nav-link-active {
+    color: #333;
+  }
+  .nav-link-active:visited {
+    color: #333;
   }
 `;
 
@@ -75,13 +110,11 @@ const App = withAuth((props) => {
           )}
         </div>
         <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/deals">Deals</NavLink>
-        {authenticated ? <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/myplugins">My plugins</NavLink> : ''}
+        <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/plugins">Plugins</NavLink>
+        {authenticated ? <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/profile">My profile</NavLink> : ''}
       </Menu>
-      <header
-        style={{ padding: '0 10px', paddingTop: '10px' }}
-        className="App-header"
-      >
-        <div style={{ float: 'left', marginRight: '20px' }}>
+      <AppHeader>
+        <div className="logo">
           <span style={{ color: '#115599' }}>Plugin</span>
           Database
           <p style={{
@@ -91,35 +124,31 @@ const App = withAuth((props) => {
             Up to date and historical audio plugin sale information
           </p>
         </div>
-        {!isTabletOrMobile && authenticated !== null && (
-          authenticated ? (
-            <SignIn>
-              <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
-              <a style={{ cursor: 'pointer' }} onClick={() => props.auth.logout()}>Sign out</a>
-            </SignIn>
-          )
-            : (
+        <div className="top-menu">
+          {!isTabletOrMobile ? (
+            <Fragment>
+              <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
+              <NavLink activeClassName="nav-link-active" className="nav-link" to="/plugins">Plugins</NavLink>
+              {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/profile">My profile</NavLink> : ''}
+            </Fragment>
+          ) : ''
+          }
+          {!isTabletOrMobile && authenticated !== null && (
+            authenticated ? (
               <SignIn>
-                <p>Not signed in</p>
-                <Link to="login">Sign in/Sign up</Link>
+                <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
+                <a style={{ cursor: 'pointer' }} onClick={() => props.auth.logout()}>Sign out</a>
               </SignIn>
             )
-        )}
-        {!isTabletOrMobile ? (
-          <Fragment>
-            {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/myplugins">My plugins</NavLink> : ''}
-            <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
-          </Fragment>
-        ) : ''
-          }
-        <div style={{ clear: 'both' }} />
-        <p style={{
-          margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px',
-        }}
-        >
-          Up to date and historical audio plugin sale information
-        </p>
-      </header>
+              : (
+                <SignIn>
+                  <p>Not signed in</p>
+                  <Link to="login">Sign in/Sign up</Link>
+                </SignIn>
+              )
+          )}
+        </div>
+      </AppHeader>
       <div style={{ padding: '0 10px' }}>
         {props.children}
       </div>

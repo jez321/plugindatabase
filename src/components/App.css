@@ -8,40 +8,11 @@
     width: 1400px;
   }
 }
-.App-header {
-  font-size: calc(10px + 3vmin);
-  color: #333;
-  font-size:32px;
-  text-align: left;
-  font-weight: bold;
-  padding-top: 10px;
-  margin-bottom: 20px;
-}
 
 .App-link {
   color: #61dafb;
 }
 
-.App-header .nav-link {
-  float:right;
-  text-decoration: none;
-  margin-right:30px;
-  font-size:24px;
-  line-height: 40px;
-  color: #999;
-}
-.App-header .nav-link:visited {
-  color: #999;
-}
-.App-header .nav-link:hover {
-  color: #777;
-}
-.App-header .nav-link-active {
-  color: #333;
-}
-.App-header .nav-link-active:visited {
-  color: #333;
-}
 
 /* Loading spinner */
 .lds-facebook {
