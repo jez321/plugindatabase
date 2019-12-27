@@ -1,13 +1,7 @@
 .App {
   text-align: left;
   margin: auto;
-  padding: 0 10px;
-}
-
-@media (max-width: 1400px) {
-  .App {
-    width: 96%;
-  }
+  padding: 0;
 }
 @media (min-width: 1401px) {
   .App {
@@ -17,13 +11,80 @@
 .App-header {
   font-size: calc(10px + 3vmin);
   color: #333;
-  text-align:left;
+  font-size:32px;
+  text-align: left;
+  font-weight: bold;
+  padding-top: 10px;
+  margin-bottom: 20px;
 }
 
 .App-link {
   color: #61dafb;
 }
 
+.App-header .nav-link {
+  float:right;
+  text-decoration: none;
+  margin-right:30px;
+  font-size:24px;
+  line-height: 40px;
+  color: #999;
+}
+.App-header .nav-link:visited {
+  color: #999;
+}
+.App-header .nav-link:hover {
+  color: #777;
+}
+.App-header .nav-link-active {
+  color: #333;
+}
+.App-header .nav-link-active:visited {
+  color: #333;
+}
+
+/* Loading spinner */
+.lds-facebook {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 6px;
+  width: 13px;
+  background: #666;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 6px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 26px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 45px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 6px;
+    height: 51px;
+  }
+  50%, 100% {
+    top: 19px;
+    height: 26px;
+  }
+}
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 a, a:visited {
   color: #64aff1;
   text-decoration: none;  
@@ -31,4 +92,68 @@ a, a:visited {
 a:hover {
   color: #2465a7;
   text-decoration: underline;
+}
+
+/* Burger menu */
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  color: white;
+  font-size: 24px;
+  /* Our sidebar item styling */
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+/* The rest copied directly from react-burger-menu docs */
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  right: 10px;
+  top: 10px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 20px 20px 0;
+  font-size: 1.15em;
+}
+
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 980px) {
+  .bm-overlay {
+    display: none;
+  }
+  .bm-burger-button {
+    display: none;
+  }
+  .bm-menu-wrap {
+    display: none;
+  }
 }

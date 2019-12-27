@@ -4,6 +4,9 @@ import styled from 'styled-components';
 
 const Cell = styled.td`
 padding: 10px;
+.lowest-price {
+  color: #00d800;
+}
 `;
 const Row = styled.tr`
 border-bottom: solid #eee 1px;
@@ -12,7 +15,7 @@ const DynamicTableRow = (props) => {
   const { columnData } = props;
   const allCells = columnData.map((col) => {
     const data = props.rowData[col.key];
-    const { id } = props.rowData;
+    const { id, lowestPrice } = props.rowData;
     if (data === null) { return <Cell data-test="component-cell" key={`${id}_${col.key}`}>Unknown</Cell>; }
     if (col.type && col.type === 'link') {
       return (
@@ -31,7 +34,7 @@ const DynamicTableRow = (props) => {
     if (col.type && col.type === 'price') {
       return (
         <Cell style={{ textAlign: 'right' }} data-test="component-cell" key={`${id}_${col.key}`}>
-          {`$${data}`}
+          <span className={data === lowestPrice ? 'lowest-price' : ''}>{`$${data}`}</span>
         </Cell>
       );
     }

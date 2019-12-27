@@ -2,29 +2,35 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from './Card/Card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-const ListWrap = styled.ul`
-list-style-type:none;
-padding:0;
-margin:0;
-`;
 const NoItemsMsg = styled.div`
   font-size:20px;
   text-align:center;
 `;
 const CardList = (props) => {
-  const { data, sortChanged } = props;
-  const cards = data.map(d => <Card data-test="component-card" key={d.id_deal} data={d} />);
+  const { data, sortChanged, loading } = props;
+  let cards;
   useEffect(() => {
     sortChanged('added', 'desc');
   }, []);
+  if (loading) {
+    cards = <div style={{ textAlign: "center", fontSize: "24px" }}>
+      <FontAwesomeIcon
+        icon={faSpinner} spin
+      />
+    </div>
+  } else {
+    cards = data.map(d => <Card data-test="component-card" key={d.id_deal} data={d} />)
+  }
   return (
     data.length > 0 ? (
-      <ListWrap>
+      <div>
         {cards}
-      </ListWrap>
+      </div>
     ) : (
-        <NoItemsMsg>No items</NoItemsMsg>
+        <NoItemsMsg>No deals</NoItemsMsg>
       )
   );
 };
