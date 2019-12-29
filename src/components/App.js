@@ -1,4 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, {
+  useState, useEffect, useCallback, Fragment,
+} from 'react';
 import { useMedia } from 'use-media';
 import './App.css';
 import { withAuth } from '@okta/okta-react';
@@ -57,31 +59,39 @@ const AppHeader = styled.header`
   }
 `;
 
-const App = withAuth((props) => {
+const App = withAuth(({ children, auth }) => {
   if (window.location.pathname === '/login') {
     return (
       <div className="App">
-        {props.children}
+        {children}
       </div>
     );
   }
   const [menuOpen, setMenuOpen] = useState(false);
-  const [auth, user] = useAuth(props.auth);
+  const [_auth, user] = useAuth(auth);
   const [authenticated, setAuthenticated] = useState('authenticated');
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
-  useEffect(() => {
-    checkAuthentication();
-  });
   async function checkAuthentication() {
-    const at = await props.auth.isAuthenticated();
+    const at = await auth.isAuthenticated();
     if (at !== authenticated) {
       setAuthenticated(at);
     }
   }
-  const closeMenu = function (event) {
+  useEffect(() => {
+    checkAuthentication();
+  });
+  const closeMenu = useCallback(() => {
     setMenuOpen(false);
-  };
-  const handleStateChange = function (state) {
+  }, [setMenuOpen]);
+  const signOutAndCloseMenu = useCallback(() => {
+    auth.logout();
+    closeMenu();
+  }, [setMenuOpen]);
+  const signOut = useCallback(() => {
+    auth.logout();
+  }, [setMenuOpen]);
+
+  const handleStateChange = function handleStateChange(state) {
     setMenuOpen(state.isOpen);
   };
   return (
@@ -98,7 +108,7 @@ const App = withAuth((props) => {
             authenticated ? (
               <SignIn>
                 <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
-                <a style={{ cursor: 'pointer' }} onClick={() => { props.auth.logout(); closeMenu(); }}>Sign out</a>
+                <button className="link-button" type="button" style={{ cursor: 'pointer' }} onClick={signOutAndCloseMenu}>Sign out</button>
               </SignIn>
             )
               : (
@@ -137,7 +147,7 @@ const App = withAuth((props) => {
             authenticated ? (
               <SignIn>
                 <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
-                <a style={{ cursor: 'pointer' }} onClick={() => props.auth.logout()}>Sign out</a>
+                <button type="button" className="link-button" style={{ cursor: 'pointer' }} onClick={signOut}>Sign out</button>
               </SignIn>
             )
               : (
@@ -150,7 +160,7 @@ const App = withAuth((props) => {
         </div>
       </AppHeader>
       <div style={{ padding: '0 10px' }}>
-        {props.children}
+        {children}
       </div>
     </div>
   );
