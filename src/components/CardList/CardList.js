@@ -50,7 +50,10 @@ CardList.propTypes = {
     }).isRequired,
   ).isRequired,
   sortChanged: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
+};
+CardList.defaultProps = {
+  loading: false,
 };
 
 export default CardList;
