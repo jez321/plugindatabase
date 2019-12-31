@@ -7,8 +7,22 @@ import { withAuth } from '@okta/okta-react';
 import { Link, NavLink } from 'react-router-dom';
 import { slide as Menu } from 'react-burger-menu';
 import styled from 'styled-components';
-import { useAuth } from '../auth';
+import LinkButton from './LinkButton/LinkButton.component';
 import * as SC from '../constants/Style';
+
+const AppLogo = styled.div`
+  span:first-child {
+    color: #115599;
+  }
+  .tag-text {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: #333;
+    font-weight: normal;
+    margin-top: 5px;
+  }
+`;
 
 const SignIn = styled.div`
   font-size:16px;
@@ -68,8 +82,13 @@ const App = withAuth(({ children, auth }) => {
     );
   }
   const [menuOpen, setMenuOpen] = useState(false);
-  const [_auth, user] = useAuth(auth);
+  const [user, setUser] = useState(null);
   const [authenticated, setAuthenticated] = useState('authenticated');
+  if (authenticated && !user) {
+    auth.getUser().then((info) => {
+      setUser(info);
+    });
+  }
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
   async function checkAuthentication() {
     const at = await auth.isAuthenticated();
@@ -108,7 +127,7 @@ const App = withAuth(({ children, auth }) => {
             authenticated ? (
               <SignIn>
                 <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
-                <button className="link-button" type="button" style={{ cursor: 'pointer' }} onClick={signOutAndCloseMenu}>Sign out</button>
+                <LinkButton onClick={signOutAndCloseMenu}>Sign out</LinkButton>
               </SignIn>
             )
               : (
@@ -119,27 +138,56 @@ const App = withAuth(({ children, auth }) => {
               )
           )}
         </div>
-        <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/deals">Deals</NavLink>
-        <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/plugins">Plugins</NavLink>
-        {authenticated ? <NavLink onClick={closeMenu} activeClassName="nav-link-active" className="nav-link" style={{ float: 'none' }} to="/profile">My profile</NavLink> : ''}
+        <NavLink
+          onClick={closeMenu}
+          activeClassName="nav-link-active"
+          className="nav-link"
+          to="/deals"
+        >
+Deals
+        </NavLink>
+        <NavLink
+          onClick={closeMenu}
+          activeClassName="nav-link-active"
+          className="nav-link"
+          to="/plugins"
+        >
+Plugins
+        </NavLink>
+        {authenticated ? (
+          <NavLink
+            onClick={closeMenu}
+            activeClassName="nav-link-active"
+            className="nav-link"
+            style={{ float: 'none' }}
+            to="/profile"
+          >
+My profile
+          </NavLink>
+        ) : ''}
       </Menu>
       <AppHeader>
-        <div className="logo">
-          <span style={{ color: '#115599' }}>Plugin</span>
+        <AppLogo>
+          <span>Plugin</span>
           Database
-          <p style={{
-            margin: 0, padding: 0, fontSize: '16px', color: '#333', fontWeight: 'normal', marginTop: '5px',
-          }}
-          >
+          <p className="tag-text">
             Up to date and historical audio plugin sale information
           </p>
-        </div>
+        </AppLogo>
         <div className="top-menu">
           {!isTabletOrMobile ? (
             <Fragment>
               <NavLink activeClassName="nav-link-active" className="nav-link" to="/deals">Deals</NavLink>
               <NavLink activeClassName="nav-link-active" className="nav-link" to="/plugins">Plugins</NavLink>
-              {authenticated ? <NavLink activeClassName="nav-link-active" className="nav-link" to="/profile">My profile</NavLink> : ''}
+              {authenticated ? (
+                <NavLink
+                  activeClassName="nav-link-active"
+                  className="nav-link"
+                  to="/profile"
+                >
+My profile
+                </NavLink>
+              ) : ''}
             </Fragment>
           ) : ''
           }
@@ -147,7 +195,7 @@ const App = withAuth(({ children, auth }) => {
             authenticated ? (
               <SignIn>
                 <p>{user ? `Welcome, ${user.given_name}` : ''}</p>
-                <button type="button" className="link-button" style={{ cursor: 'pointer' }} onClick={signOut}>Sign out</button>
+                <LinkButton onClick={signOut}>Sign out</LinkButton>
               </SignIn>
             )
               : (

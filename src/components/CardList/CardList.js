@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Card from './Card/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import Card from './Card/Card';
 
 const NoItemsMsg = styled.div`
   font-size:20px;
@@ -16,13 +16,16 @@ const CardList = (props) => {
     sortChanged('added', 'desc');
   }, []);
   if (loading) {
-    cards = <div style={{ textAlign: "center", fontSize: "24px" }}>
-      <FontAwesomeIcon
-        icon={faSpinner} spin
-      />
-    </div>
+    cards = (
+      <div style={{ textAlign: 'center', fontSize: '24px' }}>
+        <FontAwesomeIcon
+          icon={faSpinner}
+          spin
+        />
+      </div>
+    );
   } else {
-    cards = data.map(d => <Card data-test="component-card" key={d.id_deal} data={d} />)
+    cards = data.map(d => <Card data-test="component-card" key={d.id_deal} data={d} />);
   }
   return (
     data.length > 0 ? (
@@ -30,8 +33,8 @@ const CardList = (props) => {
         {cards}
       </div>
     ) : (
-        <NoItemsMsg>No deals</NoItemsMsg>
-      )
+      <NoItemsMsg>No deals</NoItemsMsg>
+    )
   );
 };
 
@@ -44,8 +47,10 @@ CardList.propTypes = {
       end_date: PropTypes.string,
       description: PropTypes.string.isRequired,
       link: PropTypes.shape({ url: PropTypes.string.isRequired, title: PropTypes.string.isRequired }).isRequired,
-    }).isRequired).isRequired,
+    }).isRequired,
+  ).isRequired,
   sortChanged: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default CardList;

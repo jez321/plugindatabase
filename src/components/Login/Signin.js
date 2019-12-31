@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import OktaSignIn from '@okta/okta-signin-widget';
 import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
 
-export default class Login extends Component {
+export default class SignIn extends Component {
+  constructor(props) {
+    super(props);
+    this.thisRef = React.createRef();
+  }
+
   componentDidMount() {
-    const el = ReactDOM.findDOMNode(this);
+    const { onSuccess, onError, baseUrl } = this.props;
     this.widget = new OktaSignIn({
-      baseUrl: this.props.baseUrl,
+      baseUrl,
       brandName: 'PluginDatabase',
       logo: '/logo.png',
       features: {
-        registration: true,                 // Enable self-service registration flow
-        rememberMe: true                  // Enable voice call-based account recovery
-      }
+        registration: true, // Enable self-service registration flow
+        rememberMe: true, // Enable voice call-based account recovery
+      },
       // redirectUri: window.location.origin + '/implicit/callback'
     });
-    this.widget.renderEl({ el }, this.props.onSuccess, this.props.onError);
+    this.widget.renderEl({ el: this.thisRef.current }, onSuccess, onError);
   }
 
   componentWillUnmount() {
@@ -24,6 +29,12 @@ export default class Login extends Component {
   }
 
   render() {
-    return <div />;
+    return <div ref={this.thisRef} />;
   }
+}
+
+SignIn.propTypes = {
+  onSuccess: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
+  baseUrl: PropTypes.string.isRequired,
 };
