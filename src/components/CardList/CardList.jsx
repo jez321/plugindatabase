@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Card from './Card/Card';
+import NoItemsMsg from './CardList.styles';
 
-const NoItemsMsg = styled.div`
-  font-size:20px;
-  text-align:center;
-`;
 const CardList = (props) => {
   const { data, sortChanged, loading } = props;
   let cards;

@@ -1,16 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { Cell, Row } from './DynamicTableRow.styles';
 
-const Cell = styled.td`
-padding: 10px;
-.lowest-price {
-  color: #00d800;
-}
-`;
-const Row = styled.tr`
-border-bottom: solid #eee 1px;
-`;
 const DynamicTableRow = (props) => {
   const { columnData } = props;
   const allCells = columnData.map((col) => {
