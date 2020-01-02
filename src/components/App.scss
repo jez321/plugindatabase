@@ -1,56 +1,15 @@
-.App {
+.app {
   text-align: left;
   margin: auto;
   padding: 0;
 }
+
 @media (min-width: 1401px) {
-  .App {
+  .app {
     width: 1400px;
   }
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-
-/* Loading spinner */
-.lds-facebook {
-  display: inline-block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-}
-.lds-facebook div {
-  display: inline-block;
-  position: absolute;
-  left: 6px;
-  width: 13px;
-  background: #666;
-  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-}
-.lds-facebook div:nth-child(1) {
-  left: 6px;
-  animation-delay: -0.24s;
-}
-.lds-facebook div:nth-child(2) {
-  left: 26px;
-  animation-delay: -0.12s;
-}
-.lds-facebook div:nth-child(3) {
-  left: 45px;
-  animation-delay: 0;
-}
-@keyframes lds-facebook {
-  0% {
-    top: 6px;
-    height: 51px;
-  }
-  50%, 100% {
-    top: 19px;
-    height: 26px;
-  }
-}
 .clearfix::after {
   content: "";
   clear: both;
@@ -66,7 +25,6 @@ a:hover {
 }
 
 /* Burger menu */
-
 /* Individual item */
 .bm-item {
   display: inline-block;
@@ -127,15 +85,4 @@ a:hover {
   .bm-menu-wrap {
     display: none;
   }
-}
-
-.link-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-  display: inline;
-  margin: 0;
-  padding: 0;
-  color: #64aff1;
 }

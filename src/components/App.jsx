@@ -51,7 +51,7 @@ const App = withAuth(({ children, auth }) => {
     setMenuOpen(state.isOpen);
   };
   return (
-    <div className="App">
+    <div className="app">
       <Menu
         isOpen={menuOpen}
         onStateChange={state => handleStateChange(state)}
