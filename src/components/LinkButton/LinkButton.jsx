@@ -8,7 +8,7 @@ const LinkButton = (props) => {
 };
 
 LinkButton.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
 };
 
