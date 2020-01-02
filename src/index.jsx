@@ -33,7 +33,7 @@ ReactDOM.render(
           <Route path="/implicit/callback" component={ImplicitCallback} />
           <Route path="/plugins" exact component={Plugins} />
           <Route path="/deals" exact component={Deals} />
-          <Route path="/profile" exact component={Profile} />
+          <SecureRoute path="/profile" exact component={Profile} />
         </Switch>
       </App>
     </Security>
