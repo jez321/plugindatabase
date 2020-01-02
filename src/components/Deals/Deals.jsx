@@ -34,8 +34,8 @@ const Deals = () => {
   useEffect(() => {
     setLoading(true);
     api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`).then((response) => {
-      setLoading(false);
       setDeals(response.data);
+      setLoading(false);
     });
   }, [searchTerm, sortDir, sortCol, isTabletOrMobile]);
   return (
