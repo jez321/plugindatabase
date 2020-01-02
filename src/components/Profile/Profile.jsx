@@ -1,6 +1,6 @@
 import React from 'react';
 
 const Profile = () => (
-  <div>Profile</div>
+  <div>Coming soon...</div>
 );
 export default Profile;
