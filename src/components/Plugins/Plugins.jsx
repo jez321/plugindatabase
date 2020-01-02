@@ -6,6 +6,7 @@ import {
 import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { withAuth } from '@okta/okta-react';
 import { PropTypes } from 'prop-types';
+import axios from 'axios';
 import { PluginsWrap, PluginListTypes, PluginList } from './Plugins.styles';
 import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
@@ -59,10 +60,16 @@ export const PluginsRaw = ({ auth }) => {
   useEffect(() => {
     // get from api
     setLoading(true);
-    api.get(`plugins?search=${searchTerm}&sortby=name&sortdr=asc`).then((response) => {
+    const source = axios.CancelToken.source();
+    api.get(`plugins?search=${searchTerm}&sortby=name&sortdr=asc`, {
+      cancelToken: source.token,
+    }).then((response) => {
       setLoading(false);
       setPlugins(response.data);
     });
+    return () => {
+      source.cancel('Cancelling axios request in Plugins cleanup');
+    };
   }, [pluginListType, searchTerm]);
   return (
     <>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMedia } from 'use-media';
+import axios from 'axios';
 import DynamicTable from '../DynamicTable/DynamicTable';
 import CardList from '../CardList/CardList';
 import SearchBox from '../SearchBox/SearchBox';
@@ -33,10 +34,16 @@ const Deals = () => {
   }
   useEffect(() => {
     setLoading(true);
-    api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`).then((response) => {
+    const source = axios.CancelToken.source();
+    api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
+      cancelToken: source.token,
+    }).then((response) => {
       setDeals(response.data);
       setLoading(false);
     });
+    return () => {
+      source.cancel('Cancelling axios request in Deals cleanup');
+    };
   }, [searchTerm, sortDir, sortCol, isTabletOrMobile]);
   return (
     <Fragment>
