@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import '../../matchMedia.mock';
-import { Plugins } from './Plugins';
+import { PluginsRaw } from './Plugins';
 import TestUtil from '../../test/testUtil';
 
 const setup = (props = {}, state = null) => {
-  const wrapper = shallow(<Plugins {...props} />);
+  const wrapper = shallow(<PluginsRaw {...props} />);
   if (state) wrapper.setState(state);
   return wrapper;
 };

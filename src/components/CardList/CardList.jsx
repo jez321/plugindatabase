@@ -10,7 +10,7 @@ const CardList = (props) => {
   let cards;
   useEffect(() => {
     sortChanged('added', 'desc');
-  }, []);
+  }, [sortChanged]);
   if (loading) {
     cards = (
       <div style={{ textAlign: 'center', fontSize: '24px' }}>

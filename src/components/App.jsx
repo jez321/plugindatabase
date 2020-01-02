@@ -42,10 +42,10 @@ const App = withAuth(({ children, auth }) => {
   const signOutAndCloseMenu = useCallback(() => {
     auth.logout();
     closeMenu();
-  }, [setMenuOpen]);
+  }, [auth, closeMenu]);
   const signOut = useCallback(() => {
     auth.logout();
-  }, [setMenuOpen]);
+  }, [auth]);
 
   const handleStateChange = function handleStateChange(state) {
     setMenuOpen(state.isOpen);

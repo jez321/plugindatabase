@@ -28,6 +28,7 @@ const DynamicTable = (props) => {
     setSortDir('desc');
     setSortColumn('added');
     sortChanged('added', 'desc');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const sortRows = (columnKey) => {
     const revSortDir = sortDir === 'asc' ? 'desc' : 'asc';

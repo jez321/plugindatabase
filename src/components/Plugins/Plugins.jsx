@@ -11,7 +11,7 @@ import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
 import LinkButton from '../LinkButton/LinkButton';
 
-export const Plugins = ({ auth }) => {
+export const PluginsRaw = ({ auth }) => {
   // TODO: Save to db instead of localStorage
   const lsOwned = localStorage.getItem('pluginsOwned');
   const lsWanted = localStorage.getItem('pluginsWanted');
@@ -22,15 +22,15 @@ export const Plugins = ({ auth }) => {
   const [pluginListType, setPluginListType] = useState('all');
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
-  async function checkAuthentication() {
-    const at = await auth.isAuthenticated();
-    if (at !== authenticated) {
-      setAuthenticated(at);
-    }
-  }
   useEffect(() => {
+    async function checkAuthentication() {
+      const at = await auth.isAuthenticated();
+      if (at !== authenticated) {
+        setAuthenticated(at);
+      }
+    }
     checkAuthentication();
-  }, [auth]);
+  }, [auth, authenticated]);
   function searchChanged(st) {
     setSearchTerm(st);
   }
@@ -169,10 +169,10 @@ export const Plugins = ({ auth }) => {
   );
 };
 
-Plugins.propTypes = {
+PluginsRaw.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default withAuth(Plugins);
+export default withAuth(PluginsRaw);
