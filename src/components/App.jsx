@@ -7,7 +7,7 @@ import { withAuth } from '@okta/okta-react';
 import { Link, NavLink } from 'react-router-dom';
 import { slide as Menu } from 'react-burger-menu';
 import styled from 'styled-components';
-import LinkButton from './LinkButton/LinkButton.component';
+import LinkButton from './LinkButton/LinkButton';
 import * as SC from '../constants/Style';
 
 const AppLogo = styled.div`

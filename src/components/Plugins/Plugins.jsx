@@ -7,7 +7,7 @@ import {
 import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
-import LinkButton from '../LinkButton/LinkButton.component';
+import LinkButton from '../LinkButton/LinkButton';
 
 const PluginsWrap = styled.div`
     display: flex;
