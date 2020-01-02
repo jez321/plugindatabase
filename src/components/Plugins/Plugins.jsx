@@ -170,7 +170,9 @@ export const Plugins = ({ auth }) => {
 };
 
 Plugins.propTypes = {
-  auth: PropTypes.func.isRequired,
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default withAuth(Plugins);

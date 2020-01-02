@@ -12,14 +12,18 @@ const setup = (props = {}, state = null) => {
 
 test('renders without error', () => {
   const wrapper = setup({
-    auth: jest.fn().mockImplementation(() => Promise.resolve(false)),
+    auth: {
+      isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(false)),
+    },
   });
   expect(wrapper).toBeTruthy();
 });
 
 test('renders plugin type list menu correctly when logged out', (done) => {
   const wrapper = setup({
-    auth: jest.fn().mockImplementation(() => Promise.resolve(false)),
+    auth: {
+      isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(false)),
+    },
   });
   setImmediate(() => {
     wrapper.update();
@@ -35,7 +39,9 @@ test('renders plugin type list menu correctly when logged out', (done) => {
 
 test('renders plugin type list menu correctly when logged in', (done) => {
   const wrapper = setup({
-    auth: jest.fn().mockImplementation(() => Promise.resolve(true)),
+    auth: {
+      isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(true)),
+    },
   });
   setImmediate(() => {
     wrapper.update();
@@ -51,7 +57,9 @@ test('renders plugin type list menu correctly when logged in', (done) => {
 
 test('renders plugin type list menu options', () => {
   const wrapper = setup({
-    auth: jest.fn().mockImplementation(() => Promise.resolve(false)),
+    auth: {
+      isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(false)),
+    },
   });
   const pluginTypeListOptions = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list-option');
   expect(pluginTypeListOptions.length).toBe(1);
