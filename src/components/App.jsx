@@ -6,72 +6,9 @@ import './App.css';
 import { withAuth } from '@okta/okta-react';
 import { Link, NavLink } from 'react-router-dom';
 import { slide as Menu } from 'react-burger-menu';
-import styled from 'styled-components';
 import LinkButton from './LinkButton/LinkButton';
+import { AppLogo, SignIn, AppHeader } from './App.styles';
 import * as SC from '../constants/Style';
-
-const AppLogo = styled.div`
-  span:first-child {
-    color: #115599;
-  }
-  .tag-text {
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-    color: #333;
-    font-weight: normal;
-    margin-top: 5px;
-  }
-`;
-
-const SignIn = styled.div`
-  font-size:16px;
-  font-weight:normal;
-  @media (min-width: 980px) {
-    text-align:right;
-  }
-  p {
-    margin:0;
-    padding:0;
-    margin-bottom:2px;
-  }
-`;
-
-const AppHeader = styled.header`
-  font-size: calc(10px + 3vmin);
-  color: #333;
-  font-size:32px;
-  text-align: left;
-  font-weight: bold;
-  padding: 10px 10px 0 10px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  .top-menu {
-    display: flex;
-    justify-content: flex-end;
-  }
- .nav-link {
-    float:right;
-    text-decoration: none;
-    margin-right:30px;
-    font-size:24px;
-    line-height: 40px;
-    color: #999;
-  }
-  .nav-link:visited {
-    color: #999;
-  }
-  .nav-link:hover {
-    color: #777;
-  }
-  .nav-link-active {
-    color: #333;
-  }
-  .nav-link-active:visited {
-    color: #333;
-  }
-`;
 
 const App = withAuth(({ children, auth }) => {
   if (window.location.pathname === '/login') {
@@ -83,7 +20,7 @@ const App = withAuth(({ children, auth }) => {
   }
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [authenticated, setAuthenticated] = useState('authenticated');
+  const [authenticated, setAuthenticated] = useState(false);
   if (authenticated && !user) {
     auth.getUser().then((info) => {
       setUser(info);
@@ -162,7 +99,7 @@ Plugins
             style={{ float: 'none' }}
             to="/profile"
           >
-My profile
+Profile
           </NavLink>
         ) : ''}
       </Menu>
@@ -185,7 +122,7 @@ My profile
                   className="nav-link"
                   to="/profile"
                 >
-My profile
+Profile
                 </NavLink>
               ) : ''}
             </Fragment>

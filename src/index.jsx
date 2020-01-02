@@ -11,6 +11,7 @@ import Login from './components/Login/Login';
 import * as serviceWorker from './serviceWorker';
 import Plugins from './components/Plugins/Plugins';
 import Deals from './components/Deals/Deals';
+import Profile from './components/Profile/Profile';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -30,8 +31,9 @@ ReactDOM.render(
           />
           <Route path="/login" exact render={() => <Login baseUrl="https://dev-786379.okta.com" />} />
           <Route path="/implicit/callback" component={ImplicitCallback} />
-          <SecureRoute path="/plugins" exact component={Plugins} />
+          <Route path="/plugins" exact component={Plugins} />
           <Route path="/deals" exact component={Deals} />
+          <Route path="/profile" exact component={Profile} />
         </Switch>
       </App>
     </Security>

@@ -4,12 +4,13 @@ import {
   faStar, faCheckCircle, faSpinner, faCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { withAuth } from '@okta/okta-react';
 import { PluginsWrap, PluginListTypes, PluginList } from './Plugins.styles';
 import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
 import LinkButton from '../LinkButton/LinkButton';
 
-const Plugins = () => {
+const Plugins = withAuth(({ auth }) => {
   // TODO: Save to db instead of localStorage
   const lsOwned = localStorage.getItem('pluginsOwned');
   const lsWanted = localStorage.getItem('pluginsWanted');
@@ -19,6 +20,16 @@ const Plugins = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [pluginListType, setPluginListType] = useState('all');
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  async function checkAuthentication() {
+    const at = await auth.isAuthenticated();
+    if (at !== authenticated) {
+      setAuthenticated(at);
+    }
+  }
+  useEffect(() => {
+    checkAuthentication();
+  });
   function searchChanged(st) {
     setSearchTerm(st);
   }
@@ -66,24 +77,29 @@ const Plugins = () => {
                 {` All (${plugins.length})`}
               </LinkButton>
             </li>
-            <li data-test="plugin-type-list-option">
-              <LinkButton
-                onClick={() => setPluginListType('owned')}
-                className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
-              >
-                <FontAwesomeIcon icon={faCheckCircle} />
-                {` Owned (${Object.keys(pluginsOwned).length})`}
-              </LinkButton>
-            </li>
-            <li data-test="plugin-type-list-option">
-              <LinkButton
-                onClick={() => setPluginListType('wanted')}
-                className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
-              >
-                <FontAwesomeIcon icon={faStar} />
-                {` Wanted (${Object.keys(pluginsWanted).length})`}
-              </LinkButton>
-            </li>
+            {authenticated
+              ? (
+                <>
+                  <li data-test="plugin-type-list-option">
+                    <LinkButton
+                      onClick={() => setPluginListType('owned')}
+                      className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
+                    >
+                      <FontAwesomeIcon icon={faCheckCircle} />
+                      {` Owned (${Object.keys(pluginsOwned).length})`}
+                    </LinkButton>
+                  </li>
+                  <li data-test="plugin-type-list-option">
+                    <LinkButton
+                      onClick={() => setPluginListType('wanted')}
+                      className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
+                    >
+                      <FontAwesomeIcon icon={faStar} />
+                      {` Wanted (${Object.keys(pluginsWanted).length})`}
+                    </LinkButton>
+                  </li>
+                </>
+              ) : null}
           </PluginListTypes>
         </div>
         <div style={{ flexGrow: 1, padding: '0' }}>
@@ -150,7 +166,7 @@ const Plugins = () => {
       </PluginsWrap>
     </Fragment>
   );
-};
+});
 
 Plugins.propTypes = {
 };
