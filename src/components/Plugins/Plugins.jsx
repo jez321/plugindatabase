@@ -130,23 +130,25 @@ const Plugins = withAuth(({ auth }) => {
                         if (pluginListType === 'wanted' && !pluginsWanted[p.id_plugin]) return '';
                         return (
                           <li key={p.id_plugin}>
-                            <div style={{
-                              textAlign: 'right', fontSize: '32px', lineHeight: '48px', whiteSpace: 'nowrap',
-                            }}
-                            >
-                              <LinkButton title={isPluginOwned(p) ? "I don't own this!" : 'I own this!'}>
-                                <FontAwesomeIcon
-                                  onClick={() => { togglePluginOwned(p); }}
-                                  icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle}
-                                />
-                              </LinkButton>
-                              <LinkButton title={isPluginOwned(p) ? "I don't want this!" : 'I want this!'}>
-                                <FontAwesomeIcon
-                                  onClick={() => { togglePluginWanted(p); }}
-                                  icon={isPluginWanted(p) ? faStar : regFaStar}
-                                />
-                              </LinkButton>
-                            </div>
+                            { authenticated ? (
+                              <div style={{
+                                textAlign: 'right', fontSize: '32px', lineHeight: '48px', whiteSpace: 'nowrap',
+                              }}
+                              >
+                                <LinkButton title={isPluginOwned(p) ? "I don't own this!" : 'I own this!'}>
+                                  <FontAwesomeIcon
+                                    onClick={() => { togglePluginOwned(p); }}
+                                    icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle}
+                                  />
+                                </LinkButton>
+                                <LinkButton title={isPluginOwned(p) ? "I don't want this!" : 'I want this!'}>
+                                  <FontAwesomeIcon
+                                    onClick={() => { togglePluginWanted(p); }}
+                                    icon={isPluginWanted(p) ? faStar : regFaStar}
+                                  />
+                                </LinkButton>
+                              </div>
+                            ) : null }
                             <div>
                               <p className="small-text">
                                 {`${p.company} | ${p.category}`}
