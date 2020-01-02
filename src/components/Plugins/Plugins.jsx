@@ -1,16 +1,17 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faStar, faCheckCircle, faSpinner, faCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { withAuth } from '@okta/okta-react';
+import { PropTypes } from 'prop-types';
 import { PluginsWrap, PluginListTypes, PluginList } from './Plugins.styles';
 import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
 import LinkButton from '../LinkButton/LinkButton';
 
-const Plugins = withAuth(({ auth }) => {
+export const Plugins = ({ auth }) => {
   // TODO: Save to db instead of localStorage
   const lsOwned = localStorage.getItem('pluginsOwned');
   const lsWanted = localStorage.getItem('pluginsWanted');
@@ -29,7 +30,7 @@ const Plugins = withAuth(({ auth }) => {
   }
   useEffect(() => {
     checkAuthentication();
-  });
+  }, [auth]);
   function searchChanged(st) {
     setSearchTerm(st);
   }
@@ -64,44 +65,42 @@ const Plugins = withAuth(({ auth }) => {
     });
   }, [pluginListType, searchTerm]);
   return (
-    <Fragment>
+    <>
       <PluginsWrap>
-        <div>
-          <PluginListTypes className="clearfix" data-test="plugin-type-list">
-            <li data-test="plugin-type-list-option">
-              <LinkButton
-                onClick={() => setPluginListType('all')}
-                className={pluginListType === 'all' ? 'plugin-list-type-active' : ''}
-              >
-                <FontAwesomeIcon icon={faCircle} />
-                {` All (${plugins.length})`}
-              </LinkButton>
-            </li>
-            {authenticated
-              ? (
-                <>
-                  <li data-test="plugin-type-list-option">
-                    <LinkButton
-                      onClick={() => setPluginListType('owned')}
-                      className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
-                    >
-                      <FontAwesomeIcon icon={faCheckCircle} />
-                      {` Owned (${Object.keys(pluginsOwned).length})`}
-                    </LinkButton>
-                  </li>
-                  <li data-test="plugin-type-list-option">
-                    <LinkButton
-                      onClick={() => setPluginListType('wanted')}
-                      className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
-                    >
-                      <FontAwesomeIcon icon={faStar} />
-                      {` Wanted (${Object.keys(pluginsWanted).length})`}
-                    </LinkButton>
-                  </li>
-                </>
-              ) : null}
-          </PluginListTypes>
-        </div>
+        <PluginListTypes className="clearfix" data-test="plugin-type-list">
+          <li data-test="plugin-type-list-option">
+            <LinkButton
+              onClick={() => setPluginListType('all')}
+              className={pluginListType === 'all' ? 'plugin-list-type-active' : ''}
+            >
+              <FontAwesomeIcon icon={faCircle} />
+              {` All (${plugins.length})`}
+            </LinkButton>
+          </li>
+          {authenticated
+            ? (
+              <>
+                <li data-test="plugin-type-list-option">
+                  <LinkButton
+                    onClick={() => setPluginListType('owned')}
+                    className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
+                  >
+                    <FontAwesomeIcon icon={faCheckCircle} />
+                    {` Owned (${Object.keys(pluginsOwned).length})`}
+                  </LinkButton>
+                </li>
+                <li data-test="plugin-type-list-option">
+                  <LinkButton
+                    onClick={() => setPluginListType('wanted')}
+                    className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
+                  >
+                    <FontAwesomeIcon icon={faStar} />
+                    {` Wanted (${Object.keys(pluginsWanted).length})`}
+                  </LinkButton>
+                </li>
+              </>
+            ) : null}
+        </PluginListTypes>
         <div style={{ flexGrow: 1, padding: '0' }}>
           <section className="search-wrap">
             <SearchBox changed={searchChanged} />
@@ -116,7 +115,7 @@ const Plugins = withAuth(({ auth }) => {
               </div>
             )
             : (
-              <Fragment>
+              <>
                 {plugins.length === 0
                 || (pluginListType === 'owned' && Object.keys(pluginsOwned).length === 0)
                 || (pluginListType === 'wanted' && Object.keys(pluginsWanted).length === 0)
@@ -161,16 +160,17 @@ const Plugins = withAuth(({ auth }) => {
                     </PluginList>
                   )
                 }
-              </Fragment>
+              </>
             )
           }
         </div>
       </PluginsWrap>
-    </Fragment>
+    </>
   );
-});
-
-Plugins.propTypes = {
 };
 
-export default Plugins;
+Plugins.propTypes = {
+  auth: PropTypes.func.isRequired,
+};
+
+export default withAuth(Plugins);
