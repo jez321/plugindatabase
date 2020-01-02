@@ -16,7 +16,7 @@ export const PluginListTypes = styled.ul`
     margin:0;
     padding:0;
     li {
-        a {
+        button {
             cursor: pointer;
             display: block;
             color: #333;
@@ -72,7 +72,7 @@ export const PluginList = styled.ul`
         .small-text {
             font-size:70%;
         }
-        a {
+        button {
             cursor: pointer;
             color: white;
             margin-right:15px;
