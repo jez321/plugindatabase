@@ -1,8 +1,8 @@
-import { combineReducers } from "redux";
-import myPluginsReducer from "./myPluginsReducer";
+import { combineReducers } from 'redux';
+import pluginsReducer from './pluginsReducer';
 
 const rootReducer = combineReducers({
-    myPlugins: myPluginsReducer,
+  plugins: pluginsReducer,
 });
 
 export default rootReducer;

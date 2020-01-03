@@ -1,43 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DynamicTableRow from './DynamicTableRow/DynamicTableRow';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  HeadCell, Table, TableWrap, NoContentRow,
+} from './DynamicTable.styles';
 
-const HeadCell = styled.th`
-  padding: 10px;
-  background-color: #333;
-  color: white;
-  cursor: pointer;
-  .fa-chevron-up, .fa-chevron-down {
-    position: absolute;
-    right:-18px;
-    top: 3px;
-  }
-  span {
-    position: relative;
-  }
-`;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  width: 100%;
-  thead {
-    box-shadow: #aaa 1px 1px 2px
-  }
-`;
-const TableWrap = styled.div`
-  margin: auto;
-`;
-
-const NoContentRow = styled.tr`
-  td {
-    text-align:center;
-    padding: 10px;
-  }
-`;
 const DynamicTable = (props) => {
   const {
     rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
@@ -59,6 +28,7 @@ const DynamicTable = (props) => {
     setSortDir('desc');
     setSortColumn('added');
     sortChanged('added', 'desc');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const sortRows = (columnKey) => {
     const revSortDir = sortDir === 'asc' ? 'desc' : 'asc';
@@ -88,10 +58,21 @@ const DynamicTable = (props) => {
 
   let tableRowContent;
   if (loading) {
-    tableRowContent = <NoContentRow><td style={{ height: '50px', verticalAlign: 'middle', textAlign: 'center', fontSize: '24px' }} colSpan={props.columns.length}>
-      <FontAwesomeIcon
-        icon={faSpinner} spin
-      /></td></NoContentRow>;
+    tableRowContent = (
+      <NoContentRow>
+        <td
+          style={{
+            height: '50px', verticalAlign: 'middle', textAlign: 'center', fontSize: '24px',
+          }}
+          colSpan={props.columns.length}
+        >
+          <FontAwesomeIcon
+            icon={faSpinner}
+            spin
+          />
+        </td>
+      </NoContentRow>
+    );
   } else if (stateRows.length > 0) {
     tableRowContent = stateRows.map(row => (
       <DynamicTableRow
@@ -121,11 +102,13 @@ DynamicTable.propTypes = {
   defaultSortDir: PropTypes.string,
   defaultSortColumn: PropTypes.string,
   sortChanged: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 DynamicTable.defaultProps = {
   defaultSortDir: 'asc',
   defaultSortColumn: null,
+  loading: false,
 };
 
 export default DynamicTable;
