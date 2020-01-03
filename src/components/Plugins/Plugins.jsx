@@ -128,8 +128,8 @@ export const PluginsRaw = ({
                   : (
                     <PluginList>
                       {plugins.map((p) => {
-                        if (pluginListType === 'owned' && !isPluginOwned(p.id_plugin)) return '';
-                        if (pluginListType === 'wanted' && !isPluginWanted(p.id_plugin)) return '';
+                        if (pluginListType === 'owned' && !isPluginOwned(p)) return '';
+                        if (pluginListType === 'wanted' && !isPluginWanted(p)) return '';
                         return (
                           <li key={p.id_plugin}>
                             { authenticated ? (
@@ -180,8 +180,8 @@ PluginsRaw.propTypes = {
   removeWanted: PropTypes.func.isRequired,
   addOwned: PropTypes.func.isRequired,
   removeOwned: PropTypes.func.isRequired,
-  owned: PropTypes.shape([]).isRequired,
-  wanted: PropTypes.shape([]).isRequired,
+  owned: PropTypes.arrayOf(PropTypes.number).isRequired,
+  wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 const mapStateToProps = state => ({
