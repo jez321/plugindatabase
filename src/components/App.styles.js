@@ -35,7 +35,7 @@ export const AppHeader = styled.header`
   text-align: left;
   font-weight: bold;
   padding: 10px 10px 0 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   .top-menu {

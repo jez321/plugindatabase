@@ -3,7 +3,7 @@ import style from 'styled-components';
 import * as SC from '../../constants/Style';
 
 const SearchInput = style.input`
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border-radius: 4px;
   border: solid 1px #ccc;
   font-size: 22px;
