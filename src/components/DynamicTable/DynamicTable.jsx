@@ -9,7 +9,7 @@ import {
   HeadCell, Table, TableWrap, NoContentRow,
 } from './DynamicTable.styles';
 
-const DynamicTable = (props) => {
+export const DynamicTableRaw = (props) => {
   const {
     auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
   } = props;
@@ -115,7 +115,7 @@ const DynamicTable = (props) => {
   );
 };
 
-DynamicTable.propTypes = {
+DynamicTableRaw.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,
   }).isRequired,
@@ -129,7 +129,7 @@ DynamicTable.propTypes = {
   loading: PropTypes.bool,
 };
 
-DynamicTable.defaultProps = {
+DynamicTableRaw.defaultProps = {
   defaultSortDir: 'asc',
   defaultSortColumn: null,
   loading: false,
@@ -140,4 +140,4 @@ const mapStateToProps = state => ({
   wanted: state.plugins.wantedPlugins,
 });
 
-export default connect(mapStateToProps)(withAuth(DynamicTable));
+export default connect(mapStateToProps)(withAuth(DynamicTableRaw));
