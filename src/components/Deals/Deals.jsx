@@ -3,7 +3,7 @@ import { useMedia } from 'use-media';
 import axios from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import DynamicTable from '../DynamicTable/DynamicTable';
-import CardList from '../CardList/CardList';
+import { CardList } from '../CardList/CardList';
 import SearchBox from '../SearchBox/SearchBox';
 import api from '../../api/api';
 import * as SC from '../../constants/Style';
@@ -34,6 +34,9 @@ const Deals = () => {
     400,
   );
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  useEffect(() => {
     setLoading(true);
     const source = axios.CancelToken.source();
     api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
@@ -42,7 +45,6 @@ const Deals = () => {
       setDeals(response.data);
       setLoading(false);
     });
-    setIsMounted(true);
     return () => {
       source.cancel('Cancelling axios request in Deals cleanup');
     };
