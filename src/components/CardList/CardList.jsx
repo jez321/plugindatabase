@@ -1,16 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withAuth } from '@okta/okta-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Card from './Card/Card';
 import NoItemsMsg from './CardList.styles';
 
-const CardList = (props) => {
-  const { data, sortChanged, loading } = props;
+const CardListRaw = (props) => {
+  const {
+    auth, owned, wanted, data, sortChanged, loading,
+  } = props;
   let cards;
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    async function checkAuthentication() {
+      const at = await auth.isAuthenticated();
+      if (at !== authenticated) {
+        setAuthenticated(at);
+      }
+    }
+    checkAuthentication();
+  }, [auth, authenticated]);
   useEffect(() => {
     sortChanged('added', 'desc');
   }, [sortChanged]);
+  const isPluginOwned = pluginId => owned.includes(pluginId);
+  const isPluginWanted = pluginId => wanted.includes(pluginId);
   if (loading) {
     cards = (
       <div style={{ textAlign: 'center', fontSize: '24px' }}>
@@ -21,7 +37,16 @@ const CardList = (props) => {
       </div>
     );
   } else {
-    cards = data.map(d => <Card data-test="component-card" key={d.id_deal} data={d} />);
+    cards = data.map(d => (
+      <Card
+        data-test="component-card"
+        key={d.id_deal}
+        data={d}
+        owned={isPluginOwned(d.id_plugin)}
+        wanted={isPluginWanted(d.id_plugin)}
+        showOwnedWanted={authenticated}
+      />
+    ));
   }
   return (
     data.length > 0 ? (
@@ -34,7 +59,12 @@ const CardList = (props) => {
   );
 };
 
-CardList.propTypes = {
+CardListRaw.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func.isRequired,
+  }).isRequired,
+  owned: PropTypes.arrayOf(PropTypes.number).isRequired,
+  wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       company: PropTypes.string.isRequired,
@@ -48,8 +78,13 @@ CardList.propTypes = {
   sortChanged: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
-CardList.defaultProps = {
+CardListRaw.defaultProps = {
   loading: false,
 };
 
-export default CardList;
+const mapStateToProps = state => ({
+  owned: state.plugins.ownedPlugins,
+  wanted: state.plugins.wantedPlugins,
+});
+
+export default connect(mapStateToProps)(withAuth(CardListRaw));

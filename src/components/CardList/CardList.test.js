@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import CardList from './CardList';
+import CardListRaw from './CardList';
 import TestUtil from '../../test/testUtil';
 
 const data = [
@@ -32,7 +32,7 @@ const defaultProps = { data, sortChanged: () => { } };
 
 const setup = (props = {}, state = null) => {
   const setupProps = { ...defaultProps, ...props };
-  const wrapper = shallow(<CardList {...setupProps} />);
+  const wrapper = shallow(<CardListRaw {...setupProps} />);
   if (state) wrapper.setState(state);
   return wrapper;
 };
@@ -44,5 +44,5 @@ test('renders two cards', () => {
 });
 
 test('does not throw warning with expected props', () => {
-  TestUtil.checkProps(CardList, defaultProps);
+  TestUtil.checkProps(CardListRaw, defaultProps);
 });

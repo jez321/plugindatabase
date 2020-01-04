@@ -14,6 +14,10 @@ export const CardWrapper = styled.div`
   a { 
     color: #4aabff;
   }
+  .link-owned-wanted {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 export const SplitDiv = styled.div`
   display: flex;
