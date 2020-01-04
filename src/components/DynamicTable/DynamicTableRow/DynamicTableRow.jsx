@@ -7,7 +7,7 @@ import {
 import { Cell, Row } from './DynamicTableRow.styles';
 
 const DynamicTableRow = ({
-  columnData, rowData, owned, wanted,
+  showOwnedWanted, columnData, rowData, owned, wanted,
 }) => {
   const allCells = columnData.map((col) => {
     const data = rowData[col.key];
@@ -16,10 +16,15 @@ const DynamicTableRow = ({
     if (col.key === 'name') {
       return (
         <Cell className="name" data-test="component-cell" key={`${id}_${col.key}`}>
-          <FontAwesomeIcon title="Owned" className={!owned ? 'semi-transparent' : ''} icon={faCheckCircle} />
-          &nbsp;
-          <FontAwesomeIcon title="Wanted" className={!wanted ? 'semi-transparent' : ''} icon={faStar} />
-          &nbsp;
+          { showOwnedWanted ? (
+            <>
+              <FontAwesomeIcon title="Owned" className={!owned ? 'semi-transparent' : ''} icon={faCheckCircle} />
+              &nbsp;
+              <FontAwesomeIcon title="Wanted" className={!wanted ? 'semi-transparent' : ''} icon={faStar} />
+              &nbsp;
+            </>
+          ) : null
+           }
           <div>
             {data}
           </div>
@@ -70,11 +75,13 @@ DynamicTableRow.propTypes = {
   }).isRequired,
   owned: PropTypes.bool,
   wanted: PropTypes.bool,
+  showOwnedWanted: PropTypes.bool,
 };
 
 DynamicTableRow.defaultProps = {
   owned: false,
   wanted: false,
+  showOwnedWanted: false,
 };
 
 export default DynamicTableRow;

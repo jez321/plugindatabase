@@ -95,6 +95,7 @@ const DynamicTable = (props) => {
         columnData={props.columns}
         owned={isPluginOwned(row.id_plugin)}
         wanted={isPluginWanted(row.id_plugin)}
+        showOwnedWanted={authenticated}
       />
     ));
   } else {
