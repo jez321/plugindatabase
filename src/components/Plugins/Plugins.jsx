@@ -109,7 +109,7 @@ export const PluginsRaw = ({
             ) : null}
         </PluginListTypes>
         <div style={{ flexGrow: 1, padding: '0' }}>
-          <section className="search-wrap">
+          <section className="search-wrap" style={{ marginBottom: '10px' }}>
             <SearchBox changed={searchChanged} />
           </section>
           {loading

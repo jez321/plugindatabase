@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import '../../matchMedia.mock';
-import Deals from './Deals';
+import { Deals } from './Deals';
 
 const setup = (props = {}, state = null) => {
   const wrapper = shallow(<Deals {...props} />);

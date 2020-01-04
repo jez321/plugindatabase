@@ -7,9 +7,9 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Card from './Card/Card';
 import NoItemsMsg from './CardList.styles';
 
-export const CardList = (props) => {
+export const CardListRaw = (props) => {
   const {
-    auth, owned, wanted, data, sortChanged, loading,
+    auth, owned, wanted, data, sortChanged, loading, showWantedOnly,
   } = props;
   let cards;
   const [authenticated, setAuthenticated] = useState(false);
@@ -38,18 +38,20 @@ export const CardList = (props) => {
     );
   } else {
     cards = data.map(d => (
-      <Card
-        data-test="component-card"
-        key={d.id_deal}
-        data={d}
-        owned={isPluginOwned(d.id_plugin)}
-        wanted={isPluginWanted(d.id_plugin)}
-        showOwnedWanted={authenticated}
-      />
+      (!showWantedOnly || isPluginWanted(d.id_plugin)) && (
+        <Card
+          data-test="component-card"
+          key={d.id_deal}
+          data={d}
+          owned={isPluginOwned(d.id_plugin)}
+          wanted={isPluginWanted(d.id_plugin)}
+          showOwnedWanted={authenticated}
+        />
+      )
     ));
   }
   return (
-    data.length > 0 ? (
+    loading || data.length > 0 ? (
       <div>
         {cards}
       </div>
@@ -59,12 +61,13 @@ export const CardList = (props) => {
   );
 };
 
-CardList.propTypes = {
+CardListRaw.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,
   }).isRequired,
   owned: PropTypes.arrayOf(PropTypes.number).isRequired,
   wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
+  showWantedOnly: PropTypes.bool,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       company: PropTypes.string.isRequired,
@@ -78,8 +81,9 @@ CardList.propTypes = {
   sortChanged: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
-CardList.defaultProps = {
+CardListRaw.defaultProps = {
   loading: false,
+  showWantedOnly: false,
 };
 
 const mapStateToProps = state => ({
@@ -87,4 +91,4 @@ const mapStateToProps = state => ({
   wanted: state.plugins.wantedPlugins,
 });
 
-export default connect(mapStateToProps)(withAuth(CardList));
+export default connect(mapStateToProps)(withAuth(CardListRaw));

@@ -11,7 +11,7 @@ import {
 
 export const DynamicTableRaw = (props) => {
   const {
-    auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
+    auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading, showWantedOnly,
   } = props;
   const [stateRows, setRows] = useState(rows);
   const [stateSortColumn, setSortColumn] = useState(
@@ -88,7 +88,7 @@ export const DynamicTableRaw = (props) => {
       </NoContentRow>
     );
   } else if (stateRows.length > 0) {
-    tableRowContent = stateRows.map(row => (
+    tableRowContent = stateRows.map(row => (!showWantedOnly || isPluginWanted(row.id_plugin)) && (
       <DynamicTableRow
         key={row.id_deal}
         rowData={row}
@@ -121,6 +121,7 @@ DynamicTableRaw.propTypes = {
   }).isRequired,
   owned: PropTypes.arrayOf(PropTypes.number).isRequired,
   wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
+  showWantedOnly: PropTypes.bool,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   defaultSortDir: PropTypes.string,
@@ -133,6 +134,7 @@ DynamicTableRaw.defaultProps = {
   defaultSortDir: 'asc',
   defaultSortColumn: null,
   loading: false,
+  showWantedOnly: false,
 };
 
 const mapStateToProps = state => ({
