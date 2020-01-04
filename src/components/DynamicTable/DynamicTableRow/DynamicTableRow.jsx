@@ -18,9 +18,9 @@ const DynamicTableRow = ({
         <Cell className="name" data-test="component-cell" key={`${id}_${col.key}`}>
           { showOwnedWanted ? (
             <>
-              <FontAwesomeIcon title="Owned" className={!owned ? 'semi-transparent' : ''} icon={faCheckCircle} />
+              <FontAwesomeIcon title="Owned" className={!owned ? 'opacity-2' : ''} icon={faCheckCircle} />
               &nbsp;
-              <FontAwesomeIcon title="Wanted" className={!wanted ? 'semi-transparent' : ''} icon={faStar} />
+              <FontAwesomeIcon title="Wanted" className={!wanted ? 'opacity-2' : ''} icon={faStar} />
               &nbsp;
             </>
           ) : null
@@ -63,6 +63,8 @@ const DynamicTableRow = ({
 };
 
 DynamicTableRow.propTypes = {
+  owned: PropTypes.bool,
+  wanted: PropTypes.bool,
   columnData: PropTypes.arrayOf(PropTypes.object).isRequired,
   rowData: PropTypes.shape({
     id_deal: PropTypes.number,
@@ -73,8 +75,6 @@ DynamicTableRow.propTypes = {
     end_date: PropTypes.string,
     link: PropTypes.shape({ title: PropTypes.string, url: PropTypes.string }),
   }).isRequired,
-  owned: PropTypes.bool,
-  wanted: PropTypes.bool,
   showOwnedWanted: PropTypes.bool,
 };
 

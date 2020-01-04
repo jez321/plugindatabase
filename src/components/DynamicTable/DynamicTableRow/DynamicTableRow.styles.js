@@ -10,9 +10,6 @@ padding: 10px;
   display: flex;
   justify-content: flex-start;
 }
-.semi-transparent {
-  opacity: 0.2;
-}
 `;
 export const Row = styled.tr`
 border-bottom: solid #eee 1px;
