@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import CardListRaw from './CardList';
+import { CardList } from './CardList';
 import TestUtil from '../../test/testUtil';
 
 const data = [
@@ -28,11 +28,19 @@ const data = [
     },
   },
 ];
-const defaultProps = { data, sortChanged: () => { } };
+const defaultProps = {
+  data,
+  sortChanged: jest.fn().mockImplementation(() => {}),
+  auth: {
+    isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(false)),
+  },
+  owned: [],
+  wanted: [],
+};
 
 const setup = (props = {}, state = null) => {
   const setupProps = { ...defaultProps, ...props };
-  const wrapper = shallow(<CardListRaw {...setupProps} />);
+  const wrapper = shallow(<CardList {...setupProps} />);
   if (state) wrapper.setState(state);
   return wrapper;
 };
@@ -44,5 +52,5 @@ test('renders two cards', () => {
 });
 
 test('does not throw warning with expected props', () => {
-  TestUtil.checkProps(CardListRaw, defaultProps);
+  TestUtil.checkProps(CardList, defaultProps);
 });

@@ -7,7 +7,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Card from './Card/Card';
 import NoItemsMsg from './CardList.styles';
 
-const CardListRaw = (props) => {
+export const CardList = (props) => {
   const {
     auth, owned, wanted, data, sortChanged, loading,
   } = props;
@@ -59,7 +59,7 @@ const CardListRaw = (props) => {
   );
 };
 
-CardListRaw.propTypes = {
+CardList.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,
   }).isRequired,
@@ -78,7 +78,7 @@ CardListRaw.propTypes = {
   sortChanged: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
-CardListRaw.defaultProps = {
+CardList.defaultProps = {
   loading: false,
 };
 
@@ -87,4 +87,4 @@ const mapStateToProps = state => ({
   wanted: state.plugins.wantedPlugins,
 });
 
-export default connect(mapStateToProps)(withAuth(CardListRaw));
+export default connect(mapStateToProps)(withAuth(CardList));
