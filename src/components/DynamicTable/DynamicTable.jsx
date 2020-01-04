@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withAuth } from '@okta/okta-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DynamicTableRow from './DynamicTableRow/DynamicTableRow';
@@ -9,7 +11,7 @@ import {
 
 const DynamicTable = (props) => {
   const {
-    rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
+    auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading,
   } = props;
   const [stateRows, setRows] = useState(rows);
   const [stateSortColumn, setSortColumn] = useState(
@@ -20,6 +22,16 @@ const DynamicTable = (props) => {
   const [sortDir, setSortDir] = useState(
     defaultSortDir !== undefined ? defaultSortDir : 'asc',
   );
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    async function checkAuthentication() {
+      const at = await auth.isAuthenticated();
+      if (at !== authenticated) {
+        setAuthenticated(at);
+      }
+    }
+    checkAuthentication();
+  }, [auth, authenticated]);
   // update/resort rows when they get changed (by search etc.)
   useEffect(() => {
     setRows([...rows]);
@@ -30,6 +42,8 @@ const DynamicTable = (props) => {
     sortChanged('added', 'desc');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const isPluginOwned = pluginId => owned.includes(pluginId);
+  const isPluginWanted = pluginId => wanted.includes(pluginId);
   const sortRows = (columnKey) => {
     const revSortDir = sortDir === 'asc' ? 'desc' : 'asc';
     const newSortDir = stateSortColumn === columnKey ? revSortDir : 'asc';
@@ -79,6 +93,8 @@ const DynamicTable = (props) => {
         key={row.id_deal}
         rowData={row}
         columnData={props.columns}
+        owned={isPluginOwned(row.id_plugin)}
+        wanted={isPluginWanted(row.id_plugin)}
       />
     ));
   } else {
@@ -88,7 +104,9 @@ const DynamicTable = (props) => {
     <TableWrap>
       <Table>
         <thead>
-          <tr>{allColumns}</tr>
+          <tr>
+            {allColumns}
+          </tr>
         </thead>
         <tbody>{tableRowContent}</tbody>
       </Table>
@@ -97,6 +115,11 @@ const DynamicTable = (props) => {
 };
 
 DynamicTable.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func.isRequired,
+  }).isRequired,
+  owned: PropTypes.arrayOf(PropTypes.number).isRequired,
+  wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   defaultSortDir: PropTypes.string,
@@ -111,4 +134,9 @@ DynamicTable.defaultProps = {
   loading: false,
 };
 
-export default DynamicTable;
+const mapStateToProps = state => ({
+  owned: state.plugins.ownedPlugins,
+  wanted: state.plugins.wantedPlugins,
+});
+
+export default connect(mapStateToProps)(withAuth(DynamicTable));

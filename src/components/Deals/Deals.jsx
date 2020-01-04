@@ -70,4 +70,5 @@ const Deals = () => {
 Deals.propTypes = {
 };
 
+
 export default Deals;

@@ -1,13 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faStar, faCheckCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { Cell, Row } from './DynamicTableRow.styles';
 
-const DynamicTableRow = (props) => {
-  const { columnData } = props;
+const DynamicTableRow = ({
+  columnData, rowData, owned, wanted,
+}) => {
   const allCells = columnData.map((col) => {
-    const data = props.rowData[col.key];
-    const { id, lowestPrice } = props.rowData;
+    const data = rowData[col.key];
+    const { id, lowestPrice } = rowData;
     if (data === null) { return <Cell data-test="component-cell" key={`${id}_${col.key}`}>Unknown</Cell>; }
+    if (col.key === 'name') {
+      return (
+        <Cell className="name" data-test="component-cell" key={`${id}_${col.key}`}>
+          <FontAwesomeIcon title="Owned" className={!owned ? 'semi-transparent' : ''} icon={faCheckCircle} />
+          &nbsp;
+          <FontAwesomeIcon title="Wanted" className={!wanted ? 'semi-transparent' : ''} icon={faStar} />
+          &nbsp;
+          <div>
+            {data}
+          </div>
+        </Cell>
+      );
+    }
     if (col.type && col.type === 'link') {
       return (
         <Cell data-test="component-cell" key={`${id}_${col.key}`}>
@@ -50,6 +68,13 @@ DynamicTableRow.propTypes = {
     end_date: PropTypes.string,
     link: PropTypes.shape({ title: PropTypes.string, url: PropTypes.string }),
   }).isRequired,
+  owned: PropTypes.bool,
+  wanted: PropTypes.bool,
+};
+
+DynamicTableRow.defaultProps = {
+  owned: false,
+  wanted: false,
 };
 
 export default DynamicTableRow;

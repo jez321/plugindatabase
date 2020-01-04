@@ -37,22 +37,22 @@ export const PluginsRaw = ({
   function searchChanged(st) {
     setSearchTerm(st);
   }
-  const togglePluginOwned = (p) => {
-    if (owned.includes(p.id_plugin)) {
-      removeOwned(p.id_plugin);
+  const togglePluginOwned = (pluginId) => {
+    if (owned.includes(pluginId)) {
+      removeOwned(pluginId);
     } else {
-      addOwned(p.id_plugin);
+      addOwned(pluginId);
     }
   };
-  const togglePluginWanted = (p) => {
-    if (wanted.includes(p.id_plugin)) {
-      removeWanted(p.id_plugin);
+  const togglePluginWanted = (pluginId) => {
+    if (wanted.includes(pluginId)) {
+      removeWanted(pluginId);
     } else {
-      addWanted(p.id_plugin);
+      addWanted(pluginId);
     }
   };
-  const isPluginOwned = p => owned.includes(p.id_plugin);
-  const isPluginWanted = p => wanted.includes(p.id_plugin);
+  const isPluginOwned = pluginId => owned.includes(pluginId);
+  const isPluginWanted = pluginId => wanted.includes(pluginId);
   useEffect(() => {
     // get plugin list from api
     setLoading(true);
@@ -128,8 +128,8 @@ export const PluginsRaw = ({
                   : (
                     <PluginList>
                       {plugins.map((p) => {
-                        if (pluginListType === 'owned' && !isPluginOwned(p)) return '';
-                        if (pluginListType === 'wanted' && !isPluginWanted(p)) return '';
+                        if (pluginListType === 'owned' && !isPluginOwned(p.id_plugin)) return '';
+                        if (pluginListType === 'wanted' && !isPluginWanted(p.id_plugin)) return '';
                         return (
                           <li key={p.id_plugin}>
                             { authenticated ? (
@@ -137,16 +137,16 @@ export const PluginsRaw = ({
                                 textAlign: 'right', fontSize: '32px', lineHeight: '48px', whiteSpace: 'nowrap',
                               }}
                               >
-                                <LinkButton title={isPluginOwned(p) ? "I don't own this!" : 'I own this!'}>
+                                <LinkButton title={isPluginOwned(p.id_plugin) ? "I don't own this!" : 'I own this!'}>
                                   <FontAwesomeIcon
-                                    onClick={() => { togglePluginOwned(p); }}
-                                    icon={isPluginOwned(p) ? faCheckCircle : regFaCheckCircle}
+                                    onClick={() => { togglePluginOwned(p.id_plugin); }}
+                                    icon={isPluginOwned(p.id_plugin) ? faCheckCircle : regFaCheckCircle}
                                   />
                                 </LinkButton>
-                                <LinkButton title={isPluginOwned(p) ? "I don't want this!" : 'I want this!'}>
+                                <LinkButton title={isPluginOwned(p.id_plugin) ? "I don't want this!" : 'I want this!'}>
                                   <FontAwesomeIcon
-                                    onClick={() => { togglePluginWanted(p); }}
-                                    icon={isPluginWanted(p) ? faStar : regFaStar}
+                                    onClick={() => { togglePluginWanted(p.id_plugin); }}
+                                    icon={isPluginWanted(p.id_plugin) ? faStar : regFaStar}
                                   />
                                 </LinkButton>
                               </div>
@@ -185,8 +185,8 @@ PluginsRaw.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  wanted: state.plugins.wantedPlugins,
   owned: state.plugins.ownedPlugins,
+  wanted: state.plugins.wantedPlugins,
 });
 const mapDispatchToProps = dispatch => ({
   addWanted: pluginId => dispatch({ type: ADD_WANTED_PLUGIN, pluginId }),
