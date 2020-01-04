@@ -24,6 +24,7 @@ const Deals = () => {
   const [sortCol, setSortCol] = useState('added');
   const [sortDir, setSortDir] = useState('desc');
   const [deals, setDeals] = useState([]);
+  const [isMounted, setIsMounted] = useState(false);
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
   function searchChanged(st) {
     setSearchTerm(st);
@@ -41,6 +42,7 @@ const Deals = () => {
       setDeals(response.data);
       setLoading(false);
     });
+    setIsMounted(true);
     return () => {
       source.cancel('Cancelling axios request in Deals cleanup');
     };
@@ -50,19 +52,23 @@ const Deals = () => {
       <section className="search-wrap">
         <SearchBox changed={searchChanged} />
       </section>
-      <section>
-        {isTabletOrMobile ? (
-          <CardList data-test="component-card-list" loading={loading} data={deals} sortChanged={sortChanged} />
-        ) : (
-          <DynamicTable
-            data-test="component-dynamic-table"
-            loading={loading}
-            columns={columns}
-            rows={deals}
-            sortChanged={sortChanged}
-          />
-        )}
-      </section>
+      {isMounted
+        ? (
+          <section>
+            {isTabletOrMobile ? (
+              <CardList data-test="component-card-list" loading={loading} data={deals} sortChanged={sortChanged} />
+            ) : (
+              <DynamicTable
+                data-test="component-dynamic-table"
+                loading={loading}
+                columns={columns}
+                rows={deals}
+                sortChanged={sortChanged}
+              />
+            )}
+          </section>
+        )
+        : null}
     </Fragment>
   );
 };
