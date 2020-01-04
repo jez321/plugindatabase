@@ -7,6 +7,7 @@ import { faStar as regFaStar, faCheckCircle as regFaCheckCircle } from '@fortawe
 import { withAuth } from '@okta/okta-react';
 import { PropTypes } from 'prop-types';
 import axios from 'axios';
+import { useDebouncedCallback } from 'use-debounce';
 import { connect } from 'react-redux';
 import { PluginsWrap, PluginListTypes, PluginList } from './Plugins.styles';
 import api from '../../api/api';
@@ -25,18 +26,12 @@ export const PluginsRaw = ({
   const [pluginListType, setPluginListType] = useState('all');
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
-  useEffect(() => {
-    async function checkAuthentication() {
-      const at = await auth.isAuthenticated();
-      if (at !== authenticated) {
-        setAuthenticated(at);
-      }
-    }
-    checkAuthentication();
-  }, [auth, authenticated]);
-  function searchChanged(st) {
-    setSearchTerm(st);
-  }
+  const [searchChanged] = useDebouncedCallback(
+    (st) => {
+      setSearchTerm(st);
+    },
+    400,
+  );
   const togglePluginOwned = (pluginId) => {
     if (owned.includes(pluginId)) {
       removeOwned(pluginId);
@@ -53,6 +48,15 @@ export const PluginsRaw = ({
   };
   const isPluginOwned = pluginId => owned.includes(pluginId);
   const isPluginWanted = pluginId => wanted.includes(pluginId);
+  useEffect(() => {
+    async function checkAuthentication() {
+      const at = await auth.isAuthenticated();
+      if (at !== authenticated) {
+        setAuthenticated(at);
+      }
+    }
+    checkAuthentication();
+  }, [auth, authenticated]);
   useEffect(() => {
     // get plugin list from api
     setLoading(true);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMedia } from 'use-media';
 import axios from 'axios';
+import { useDebouncedCallback } from 'use-debounce';
 import DynamicTable from '../DynamicTable/DynamicTable';
 import CardList from '../CardList/CardList';
 import SearchBox from '../SearchBox/SearchBox';
@@ -26,13 +27,12 @@ const Deals = () => {
   const [deals, setDeals] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
-  function searchChanged(st) {
-    setSearchTerm(st);
-  }
-  function sortChanged(newSortCol, newSortDir) {
-    setSortCol(newSortCol);
-    setSortDir(newSortDir);
-  }
+  const [searchChanged] = useDebouncedCallback(
+    (st) => {
+      setSearchTerm(st);
+    },
+    400,
+  );
   useEffect(() => {
     setLoading(true);
     const source = axios.CancelToken.source();
@@ -47,6 +47,10 @@ const Deals = () => {
       source.cancel('Cancelling axios request in Deals cleanup');
     };
   }, [searchTerm, sortDir, sortCol, isTabletOrMobile]);
+  function sortChanged(newSortCol, newSortDir) {
+    setSortCol(newSortCol);
+    setSortDir(newSortDir);
+  }
   return (
     <Fragment>
       <section className="search-wrap">
