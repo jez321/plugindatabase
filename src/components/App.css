@@ -24,6 +24,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.opacity-2 {
+  opacity: 0.2;
+}
+
 /* Burger menu */
 /* Individual item */
 .bm-item {
