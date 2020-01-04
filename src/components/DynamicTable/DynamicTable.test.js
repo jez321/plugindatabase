@@ -13,7 +13,7 @@ const defaultProps = {
   wanted: [],
   columns,
   rows,
-  sortChanged: () => { },
+  sortChanged: jest.fn().mockImplementation(() => {}),
 };
 
 const setup = (props = {}, state = null) => {

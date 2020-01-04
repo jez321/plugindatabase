@@ -4,31 +4,32 @@ import '../../matchMedia.mock';
 import { PluginsRaw } from './Plugins';
 import TestUtil from '../../test/testUtil';
 
-const setup = (props = {}, state = null) => {
-  const wrapper = shallow(<PluginsRaw {...props} />);
-  if (state) wrapper.setState(state);
-  return wrapper;
-};
-
-const testProps = {
+const defaultProps = {
   auth: {
     isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(false)),
   },
+  owned: [],
+  wanted: [],
   addWanted: jest.fn().mockImplementation(() => {}),
   removeWanted: jest.fn().mockImplementation(() => {}),
   addOwned: jest.fn().mockImplementation(() => {}),
   removeOwned: jest.fn().mockImplementation(() => {}),
-  owned: [],
-  wanted: [],
+};
+const setup = (props = {}, state = null) => {
+  const setupProps = { ...defaultProps, ...props };
+  const wrapper = shallow(<PluginsRaw {...setupProps} />);
+  if (state) wrapper.setState(state);
+  return wrapper;
 };
 
+
 test('renders without error', () => {
-  const wrapper = setup(testProps);
+  const wrapper = setup();
   expect(wrapper).toBeTruthy();
 });
 
 test('renders plugin type list menu correctly when logged out', (done) => {
-  const wrapper = setup(testProps);
+  const wrapper = setup();
   setImmediate(() => {
     wrapper.update();
     try {
@@ -43,7 +44,6 @@ test('renders plugin type list menu correctly when logged out', (done) => {
 
 test('renders plugin type list menu correctly when logged in', (done) => {
   const wrapper = setup({
-    ...testProps,
     auth: {
       isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(true)),
     },
@@ -61,7 +61,7 @@ test('renders plugin type list menu correctly when logged in', (done) => {
 });
 
 test('renders plugin type list menu options', () => {
-  const wrapper = setup(testProps);
+  const wrapper = setup();
   const pluginTypeListOptions = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list-option');
   expect(pluginTypeListOptions.length).toBe(1);
 });

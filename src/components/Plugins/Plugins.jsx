@@ -176,12 +176,12 @@ PluginsRaw.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,
   }).isRequired,
+  owned: PropTypes.arrayOf(PropTypes.number).isRequired,
+  wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
   addWanted: PropTypes.func.isRequired,
   removeWanted: PropTypes.func.isRequired,
   addOwned: PropTypes.func.isRequired,
   removeOwned: PropTypes.func.isRequired,
-  owned: PropTypes.arrayOf(PropTypes.number).isRequired,
-  wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 const mapStateToProps = state => ({
