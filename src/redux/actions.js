@@ -10,6 +10,7 @@ import {
   REMOVE_OWNED_PLUGIN,
 } from './actionTypes';
 
+
 export function addWantedPlugin(pluginId) {
   return {
     type: ADD_WANTED_PLUGIN,
@@ -53,7 +54,7 @@ export function receiveDeals(deals) {
 export function fetchDeals(searchTerm, sortCol, sortDir, source) {
   return function fetch(dispatch) {
     dispatch(requestDeals(searchTerm, sortCol, sortDir));
-    api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
+    return api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
       cancelToken: source.token,
     }).then((response) => {
       dispatch(receiveDeals(response.data));
