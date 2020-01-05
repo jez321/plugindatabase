@@ -40,6 +40,13 @@ export const Deals = ({
     },
     400,
   );
+  const [sortChanged] = useDebouncedCallback(
+    (newSortCol, newSortDir) => {
+      setSortCol(newSortCol);
+      setSortDir(newSortDir);
+    },
+    400,
+  );
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -66,10 +73,6 @@ export const Deals = ({
       source.cancel('Cancelling axios request in Deals cleanup');
     };
   }, [searchTerm, sortDir, sortCol, isMounted, dispatch]);
-  function sortChanged(newSortCol, newSortDir) {
-    setSortCol(newSortCol);
-    setSortDir(newSortDir);
-  }
   return (
     <Fragment>
       <DealsSearchWrapper className="search-wrap">
