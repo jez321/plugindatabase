@@ -1,15 +1,15 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMedia } from 'use-media';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce';
 import { withAuth } from '@okta/okta-react';
 import { PropTypes } from 'prop-types';
 import DynamicTable from '../DynamicTable/DynamicTable';
 import CardList from '../CardList/CardList';
 import SearchBox from '../SearchBox/SearchBox';
-import api from '../../api/api';
 import * as SC from '../../constants/Style';
 import { ShowWantedButton, DealsSearchWrapper } from './Deals.styles';
+import { fetchDeals } from '../../redux/actions';
 
 const columns = [
   { title: 'Plugin', key: 'name' },
@@ -22,13 +22,14 @@ const columns = [
   { title: 'Link', key: 'link', type: 'link' },
 ];
 
-export const Deals = ({ auth }) => {
-  const [loading, setLoading] = useState(true);
+export const Deals = ({
+  auth, isLoading, dispatch, deals,
+}) => {
   const [showWantedOnly, setShowWantedOnly] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortCol, setSortCol] = useState('added');
   const [sortDir, setSortDir] = useState('desc');
-  const [deals, setDeals] = useState([]);
+  const [displayDeals, setDisplayDeals] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const isTabletOrMobile = useMedia({ maxWidth: SC.MOBILE_MAX_WIDTH });
@@ -51,20 +52,25 @@ export const Deals = ({ auth }) => {
     checkAuthentication();
   }, [auth, authenticated]);
   useEffect(() => {
+    setDisplayDeals(deals);
+    // filter for wanted
+  }, [deals]);
+  useEffect(() => {
     if (!isMounted) {
       return () => {};
     }
-    setLoading(true);
+    dispatch(fetchDeals(searchTerm, sortCol, sortDir));
+    /*
     const source = axios.CancelToken.source();
     api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
       cancelToken: source.token,
     }).then((response) => {
       setDeals(response.data);
-      setLoading(false);
     });
     return () => {
       source.cancel('Cancelling axios request in Deals cleanup');
-    };
+    }; */
+    return () => {};
   }, [searchTerm, sortDir, sortCol, isTabletOrMobile, isMounted]);
   function sortChanged(newSortCol, newSortDir) {
     setSortCol(newSortCol);
@@ -90,17 +96,17 @@ export const Deals = ({ auth }) => {
             {isTabletOrMobile ? (
               <CardList
                 data-test="component-card-list"
-                loading={loading}
-                data={deals}
+                loading={isLoading}
+                data={displayDeals}
                 sortChanged={sortChanged}
                 showWantedOnly={showWantedOnly}
               />
             ) : (
               <DynamicTable
                 data-test="component-dynamic-table"
-                loading={loading}
+                loading={isLoading}
                 columns={columns}
-                rows={deals}
+                rows={displayDeals}
                 sortChanged={sortChanged}
                 showWantedOnly={showWantedOnly}
               />
@@ -116,7 +122,14 @@ Deals.propTypes = {
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,
   }).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  deals: PropTypes.array.isRequired,
 };
 
+const mapStateToProps = state => ({
+  deals: state.deals.deals,
+  isLoading: state.deals.isLoading,
+});
 
-export default withAuth(Deals);
+export default connect(mapStateToProps)(withAuth(Deals));
