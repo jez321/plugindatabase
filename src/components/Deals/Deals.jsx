@@ -124,7 +124,22 @@ Deals.propTypes = {
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  deals: PropTypes.array.isRequired,
+  deals: PropTypes.arrayOf(PropTypes.shape({
+    id_deal: PropTypes.number.isRequired,
+    id_plugin: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
+    end_date: PropTypes.string,
+    added: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+    updated: PropTypes.string.isRequired,
+    lowest_price: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string.isRequired),
+  })).isRequired,
 };
 
 const mapStateToProps = state => ({
