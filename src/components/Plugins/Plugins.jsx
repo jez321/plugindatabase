@@ -74,40 +74,39 @@ export const PluginsRaw = ({
   return (
     <>
       <PluginsWrap>
-        <PluginListTypes className="clearfix" data-test="plugin-type-list">
-          <li data-test="plugin-type-list-option">
-            <LinkButton
-              onClick={() => setPluginListType('all')}
-              className={pluginListType === 'all' ? 'plugin-list-type-active' : ''}
-            >
-              <FontAwesomeIcon icon={faCircle} />
-              {` All (${plugins.length})`}
-            </LinkButton>
-          </li>
-          {authenticated
-            ? (
-              <>
-                <li data-test="plugin-type-list-option">
-                  <LinkButton
-                    onClick={() => setPluginListType('owned')}
-                    className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
-                  >
-                    <FontAwesomeIcon icon={faCheckCircle} />
-                    {` Owned (${owned.length})`}
-                  </LinkButton>
-                </li>
-                <li data-test="plugin-type-list-option">
-                  <LinkButton
-                    onClick={() => setPluginListType('wanted')}
-                    className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
-                  >
-                    <FontAwesomeIcon icon={faStar} />
-                    {` Wanted (${wanted.length})`}
-                  </LinkButton>
-                </li>
-              </>
-            ) : null}
-        </PluginListTypes>
+        {authenticated ? (
+          <PluginListTypes className="clearfix" data-test="plugin-type-list">
+            <li data-test="plugin-type-list-option">
+              <LinkButton
+                onClick={() => setPluginListType('all')}
+                className={pluginListType === 'all' ? 'plugin-list-type-active' : ''}
+              >
+                <FontAwesomeIcon icon={faCircle} />
+                {` All (${plugins.length})`}
+              </LinkButton>
+            </li>
+            <>
+              <li data-test="plugin-type-list-option">
+                <LinkButton
+                  onClick={() => setPluginListType('owned')}
+                  className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
+                >
+                  <FontAwesomeIcon icon={faCheckCircle} />
+                  {` Owned (${owned.length})`}
+                </LinkButton>
+              </li>
+              <li data-test="plugin-type-list-option">
+                <LinkButton
+                  onClick={() => setPluginListType('wanted')}
+                  className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
+                >
+                  <FontAwesomeIcon icon={faStar} />
+                  {` Wanted (${wanted.length})`}
+                </LinkButton>
+              </li>
+            </>
+          </PluginListTypes>
+        ) : null }
         <div style={{ flexGrow: 1, padding: '0' }}>
           <section className="search-wrap" style={{ marginBottom: '0.625rem' }}>
             <SearchBox changed={searchChanged} />
