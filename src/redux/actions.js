@@ -4,8 +4,36 @@ import api from '../api/api';
 import {
   REQUEST_DEALS,
   RECEIVE_DEALS,
+  ADD_WANTED_PLUGIN,
+  REMOVE_WANTED_PLUGIN,
+  ADD_OWNED_PLUGIN,
+  REMOVE_OWNED_PLUGIN,
 } from './actionTypes';
 
+export function addWantedPlugin(pluginId) {
+  return {
+    type: ADD_WANTED_PLUGIN,
+    pluginId,
+  };
+}
+export function removeWantedPlugin(pluginId) {
+  return {
+    type: REMOVE_WANTED_PLUGIN,
+    pluginId,
+  };
+}
+export function addOwnedPlugin(pluginId) {
+  return {
+    type: ADD_OWNED_PLUGIN,
+    pluginId,
+  };
+}
+export function removeOwnedPlugin(pluginId) {
+  return {
+    type: REMOVE_OWNED_PLUGIN,
+    pluginId,
+  };
+}
 export function requestDeals(searchTerm, sortCol, sortDir) {
   return {
     type: REQUEST_DEALS,

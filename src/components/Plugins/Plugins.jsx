@@ -13,12 +13,10 @@ import { PluginsWrap, PluginListTypes, PluginList } from './Plugins.styles';
 import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
 import LinkButton from '../LinkButton/LinkButton';
-import {
-  ADD_WANTED_PLUGIN, ADD_OWNED_PLUGIN, REMOVE_OWNED_PLUGIN, REMOVE_WANTED_PLUGIN,
-} from '../../redux/actionTypes';
+import * as actions from '../../redux/actions';
 
 export const PluginsRaw = ({
-  auth, removeOwned, removeWanted, addOwned, addWanted, owned, wanted,
+  auth, removeOwnedPlugin, removeWantedPlugin, addOwnedPlugin, addWantedPlugin, owned, wanted,
 }) => {
   // TODO: Save to db instead of localStorage
   const [plugins, setPlugins] = useState([]);
@@ -34,16 +32,16 @@ export const PluginsRaw = ({
   );
   const togglePluginOwned = (pluginId) => {
     if (owned.includes(pluginId)) {
-      removeOwned(pluginId);
+      removeOwnedPlugin(pluginId);
     } else {
-      addOwned(pluginId);
+      addOwnedPlugin(pluginId);
     }
   };
   const togglePluginWanted = (pluginId) => {
     if (wanted.includes(pluginId)) {
-      removeWanted(pluginId);
+      removeWantedPlugin(pluginId);
     } else {
-      addWanted(pluginId);
+      addWantedPlugin(pluginId);
     }
   };
   const isPluginOwned = pluginId => owned.includes(pluginId);
@@ -181,10 +179,10 @@ PluginsRaw.propTypes = {
   }).isRequired,
   owned: PropTypes.arrayOf(PropTypes.number).isRequired,
   wanted: PropTypes.arrayOf(PropTypes.number).isRequired,
-  addWanted: PropTypes.func.isRequired,
-  removeWanted: PropTypes.func.isRequired,
-  addOwned: PropTypes.func.isRequired,
-  removeOwned: PropTypes.func.isRequired,
+  addWantedPlugin: PropTypes.func.isRequired,
+  removeWantedPlugin: PropTypes.func.isRequired,
+  addOwnedPlugin: PropTypes.func.isRequired,
+  removeOwnedPlugin: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -192,10 +190,10 @@ const mapStateToProps = state => ({
   wanted: state.plugins.wantedPlugins,
 });
 const mapDispatchToProps = dispatch => ({
-  addWanted: pluginId => dispatch({ type: ADD_WANTED_PLUGIN, pluginId }),
-  removeWanted: pluginId => dispatch({ type: REMOVE_WANTED_PLUGIN, pluginId }),
-  addOwned: pluginId => dispatch({ type: ADD_OWNED_PLUGIN, pluginId }),
-  removeOwned: pluginId => dispatch({ type: REMOVE_OWNED_PLUGIN, pluginId }),
+  addWantedPlugin: pluginId => dispatch(actions.addWantedPlugin(pluginId)),
+  removeWantedPlugin: pluginId => dispatch(actions.removeWantedPlugin(pluginId)),
+  addOwnedPlugin: pluginId => dispatch(actions.addOwnedPlugin(pluginId)),
+  removeOwnedPlugin: pluginId => dispatch(actions.removeOwnedPlugin(pluginId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withAuth(PluginsRaw));
