@@ -2,7 +2,6 @@
 import * as types from './actionTypes';
 import * as actions from './actions';
 
-
 describe('actions', () => {
   it('should create an action to add a wanted plugin', () => {
     const pluginId = 1;
