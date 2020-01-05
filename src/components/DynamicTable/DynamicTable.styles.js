@@ -7,10 +7,12 @@ export const HeadCell = styled.th`
   cursor: pointer;
   .fa-chevron-up, .fa-chevron-down {
     position: absolute;
-    right: -1.125rem;
+    right: 0;
     top: 0.1875rem;
   }
-  span {
+  p {
+    padding: 0;
+    margin: 0;
     position: relative;
   }
 `;

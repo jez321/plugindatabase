@@ -10,7 +10,7 @@ import {
 } from './DynamicTable.styles';
 
 export const DynamicTableRaw = ({
-  auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading, showWantedOnly,
+  auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, isLoading, showWantedOnly,
 }) => {
   const [stateRows, setRows] = useState(rows);
   const [stateSortColumn, setSortColumn] = useState(
@@ -58,20 +58,20 @@ export const DynamicTableRaw = ({
         sortRows(col.key);
       }}
     >
-      <span>
+      <p>
         {col.title}
         {stateSortColumn === col.key ? (
           <FontAwesomeIcon
             icon={sortDir === 'asc' ? faChevronUp : faChevronDown}
           />
         ) : null}
-      </span>
+      </p>
     </HeadCell>
   ));
 
   const noItems = <NoContentRow><td colSpan={columns.length}>No deals</td></NoContentRow>;
   let tableRowContent;
-  if (loading) {
+  if (isLoading && rows.length === 0) {
     tableRowContent = (
       <NoContentRow>
         <td
@@ -119,7 +119,7 @@ export const DynamicTableRaw = ({
             {allColumns}
           </tr>
         </thead>
-        <tbody>{tableRowContent}</tbody>
+        <tbody className={isLoading ? 'opacity-5' : ''}>{tableRowContent}</tbody>
       </Table>
     </TableWrap>
   );
@@ -137,13 +137,13 @@ DynamicTableRaw.propTypes = {
   defaultSortDir: PropTypes.string,
   defaultSortColumn: PropTypes.string,
   sortChanged: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
+  isLoading: PropTypes.bool,
 };
 
 DynamicTableRaw.defaultProps = {
   defaultSortDir: 'asc',
   defaultSortColumn: null,
-  loading: false,
+  isLoading: false,
   showWantedOnly: false,
 };
 

@@ -8,7 +8,7 @@ import Card from './Card/Card';
 import NoItemsMsg from './CardList.styles';
 
 export const CardListRaw = ({
-  auth, owned, wanted, data, sortChanged, loading, showWantedOnly,
+  auth, owned, wanted, data, sortChanged, isLoading, showWantedOnly,
 }) => {
   let cards;
   const [authenticated, setAuthenticated] = useState(false);
@@ -27,7 +27,7 @@ export const CardListRaw = ({
   const isPluginOwned = pluginId => owned.includes(pluginId);
   const isPluginWanted = pluginId => wanted.includes(pluginId);
   const noItems = <NoItemsMsg>No deals</NoItemsMsg>;
-  if (loading) {
+  if (isLoading && data.length === 0) {
     cards = (
       <div style={{ textAlign: 'center', fontSize: '1.5rem' }}>
         <FontAwesomeIcon
@@ -59,8 +59,8 @@ export const CardListRaw = ({
     }
   }
   return (
-    loading || data.length > 0 ? (
-      <div>
+    isLoading || data.length > 0 ? (
+      <div className={isLoading ? 'opacity-5' : ''}>
         {cards}
       </div>
     ) : noItems
@@ -85,10 +85,10 @@ CardListRaw.propTypes = {
     }).isRequired,
   ).isRequired,
   sortChanged: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
+  isLoading: PropTypes.bool,
 };
 CardListRaw.defaultProps = {
-  loading: false,
+  isLoading: false,
   showWantedOnly: false,
 };
 

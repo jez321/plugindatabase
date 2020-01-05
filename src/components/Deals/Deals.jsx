@@ -93,7 +93,7 @@ export const Deals = ({
             {isTabletOrMobile ? (
               <CardList
                 data-test="component-card-list"
-                loading={isLoading}
+                isLoading={isLoading}
                 data={displayDeals}
                 sortChanged={sortChanged}
                 showWantedOnly={showWantedOnly}
@@ -101,7 +101,7 @@ export const Deals = ({
             ) : (
               <DynamicTable
                 data-test="component-dynamic-table"
-                loading={isLoading}
+                isLoading={isLoading}
                 columns={columns}
                 rows={displayDeals}
                 sortChanged={sortChanged}
