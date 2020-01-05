@@ -45,7 +45,7 @@ export const Deals = ({
       setSortCol(newSortCol);
       setSortDir(newSortDir);
     },
-    400,
+    200,
   );
   useEffect(() => {
     setIsMounted(true);
