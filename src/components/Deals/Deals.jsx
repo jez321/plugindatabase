@@ -80,7 +80,7 @@ export const Deals = ({ auth }) => {
           className={showWantedOnly ? 'active' : ''}
           type="button"
         >
-          Show wanted only
+          Wanted only
         </ShowWantedButton>
         ) }
       </DealsSearchWrapper>
