@@ -131,7 +131,7 @@ Deals.propTypes = {
     added: PropTypes.string.isRequired,
     created: PropTypes.string.isRequired,
     updated: PropTypes.string.isRequired,
-    lowest_price: PropTypes.string.isRequired,
+    lowestPrice: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string.isRequired),
   })).isRequired,
 };
