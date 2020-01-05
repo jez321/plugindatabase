@@ -71,7 +71,7 @@ export const Deals = ({
       source.cancel('Cancelling axios request in Deals cleanup');
     }; */
     return () => {};
-  }, [searchTerm, sortDir, sortCol, isTabletOrMobile, isMounted]);
+  }, [searchTerm, sortDir, sortCol, isMounted]);
   function sortChanged(newSortCol, newSortDir) {
     setSortCol(newSortCol);
     setSortDir(newSortDir);
