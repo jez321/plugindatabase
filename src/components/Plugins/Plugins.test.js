@@ -34,7 +34,7 @@ test('renders plugin type list menu correctly when logged out', (done) => {
     wrapper.update();
     try {
       const pluginTypeList = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list');
-      expect(pluginTypeList.length).toBe(1);
+      expect(pluginTypeList.length).toBe(0);
       done();
     } catch (error) {
       done.fail(error);
@@ -42,26 +42,8 @@ test('renders plugin type list menu correctly when logged out', (done) => {
   });
 });
 
-test('renders plugin type list menu correctly when logged in', (done) => {
-  const wrapper = setup({
-    auth: {
-      isAuthenticated: jest.fn().mockImplementation(() => Promise.resolve(true)),
-    },
-  });
-  setImmediate(() => {
-    wrapper.update();
-    try {
-      const pluginTypeList = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list');
-      expect(pluginTypeList.length).toBe(1);
-      done();
-    } catch (error) {
-      done.fail(error);
-    }
-  });
-});
-
-test('renders plugin type list menu options', () => {
+test('doesnt render plugin type list menu options when logged out', () => {
   const wrapper = setup();
   const pluginTypeListOptions = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-type-list-option');
-  expect(pluginTypeListOptions.length).toBe(1);
+  expect(pluginTypeListOptions.length).toBe(0);
 });
