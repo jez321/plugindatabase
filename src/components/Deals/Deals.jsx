@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMedia } from 'use-media';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import { withAuth } from '@okta/okta-react';
 import { PropTypes } from 'prop-types';
@@ -59,18 +60,11 @@ export const Deals = ({
     if (!isMounted) {
       return () => {};
     }
-    dispatch(fetchDeals(searchTerm, sortCol, sortDir));
-    /*
     const source = axios.CancelToken.source();
-    api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
-      cancelToken: source.token,
-    }).then((response) => {
-      setDeals(response.data);
-    });
+    dispatch(fetchDeals(searchTerm, sortCol, sortDir, source));
     return () => {
       source.cancel('Cancelling axios request in Deals cleanup');
-    }; */
-    return () => {};
+    };
   }, [searchTerm, sortDir, sortCol, isMounted, dispatch]);
   function sortChanged(newSortCol, newSortDir) {
     setSortCol(newSortCol);

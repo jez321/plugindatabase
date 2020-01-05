@@ -1,6 +1,5 @@
 
 
-import axios from 'axios';
 import api from '../api/api';
 import {
   REQUEST_DEALS,
@@ -23,10 +22,9 @@ export function receiveDeals(deals) {
   };
 }
 
-export function fetchDeals(searchTerm, sortCol, sortDir) {
+export function fetchDeals(searchTerm, sortCol, sortDir, source) {
   return function fetch(dispatch) {
     dispatch(requestDeals(searchTerm, sortCol, sortDir));
-    const source = axios.CancelToken.source();
     api.get(`deals?search=${searchTerm}&sortdir=${sortDir}&sortby=${sortCol}`, {
       cancelToken: source.token,
     }).then((response) => {
@@ -34,9 +32,5 @@ export function fetchDeals(searchTerm, sortCol, sortDir) {
     }).catch((reason) => {
       console.log('An error occurred.', reason);
     });
-    /* return () => {
-      source.cancel('Cancelling axios request in Deals cleanup');
-    };
-    */
   };
 }
