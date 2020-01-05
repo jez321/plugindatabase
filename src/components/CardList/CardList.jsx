@@ -7,10 +7,9 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Card from './Card/Card';
 import NoItemsMsg from './CardList.styles';
 
-export const CardListRaw = (props) => {
-  const {
-    auth, owned, wanted, data, sortChanged, loading, showWantedOnly,
-  } = props;
+export const CardListRaw = ({
+  auth, owned, wanted, data, sortChanged, loading, showWantedOnly,
+}) => {
   let cards;
   const [authenticated, setAuthenticated] = useState(false);
   useEffect(() => {
@@ -27,6 +26,7 @@ export const CardListRaw = (props) => {
   }, [sortChanged]);
   const isPluginOwned = pluginId => owned.includes(pluginId);
   const isPluginWanted = pluginId => wanted.includes(pluginId);
+  const noItems = <NoItemsMsg>No deals</NoItemsMsg>;
   if (loading) {
     cards = (
       <div style={{ textAlign: 'center', fontSize: '24px' }}>
@@ -37,27 +37,33 @@ export const CardListRaw = (props) => {
       </div>
     );
   } else {
-    cards = data.map(d => (
-      (!showWantedOnly || isPluginWanted(d.id_plugin)) && (
-        <Card
-          data-test="component-card"
-          key={d.id_deal}
-          data={d}
-          owned={isPluginOwned(d.id_plugin)}
-          wanted={isPluginWanted(d.id_plugin)}
-          showOwnedWanted={authenticated}
-        />
-      )
-    ));
+    let hasRows = false;
+    cards = data.map((d) => {
+      if (!showWantedOnly || isPluginWanted(d.id_plugin)) {
+        hasRows = true;
+        return (
+          <Card
+            data-test="component-card"
+            key={d.id_deal}
+            data={d}
+            owned={isPluginOwned(d.id_plugin)}
+            wanted={isPluginWanted(d.id_plugin)}
+            showOwnedWanted={authenticated}
+          />
+        );
+      }
+      return null;
+    });
+    if (!hasRows) {
+      cards = noItems;
+    }
   }
   return (
     loading || data.length > 0 ? (
       <div>
         {cards}
       </div>
-    ) : (
-      <NoItemsMsg>No deals</NoItemsMsg>
-    )
+    ) : noItems
   );
 };
 

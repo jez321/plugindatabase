@@ -9,10 +9,9 @@ import {
   HeadCell, Table, TableWrap, NoContentRow,
 } from './DynamicTable.styles';
 
-export const DynamicTableRaw = (props) => {
-  const {
-    auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading, showWantedOnly,
-  } = props;
+export const DynamicTableRaw = ({
+  auth, owned, wanted, rows, defaultSortColumn, defaultSortDir, columns, sortChanged, loading, showWantedOnly,
+}) => {
   const [stateRows, setRows] = useState(rows);
   const [stateSortColumn, setSortColumn] = useState(
     defaultSortColumn !== null
@@ -70,6 +69,7 @@ export const DynamicTableRaw = (props) => {
     </HeadCell>
   ));
 
+  const noItems = <NoContentRow><td colSpan={columns.length}>No deals</td></NoContentRow>;
   let tableRowContent;
   if (loading) {
     tableRowContent = (
@@ -78,7 +78,7 @@ export const DynamicTableRaw = (props) => {
           style={{
             height: '50px', verticalAlign: 'middle', textAlign: 'center', fontSize: '24px',
           }}
-          colSpan={props.columns.length}
+          colSpan={columns.length}
         >
           <FontAwesomeIcon
             icon={faSpinner}
@@ -88,18 +88,28 @@ export const DynamicTableRaw = (props) => {
       </NoContentRow>
     );
   } else if (stateRows.length > 0) {
-    tableRowContent = stateRows.map(row => (!showWantedOnly || isPluginWanted(row.id_plugin)) && (
-      <DynamicTableRow
-        key={row.id_deal}
-        rowData={row}
-        columnData={props.columns}
-        owned={isPluginOwned(row.id_plugin)}
-        wanted={isPluginWanted(row.id_plugin)}
-        showOwnedWanted={authenticated}
-      />
-    ));
+    let hasRows = false;
+    tableRowContent = stateRows.map((row) => {
+      if (!showWantedOnly || isPluginWanted(row.id_plugin)) {
+        hasRows = true;
+        return (
+          <DynamicTableRow
+            key={row.id_deal}
+            rowData={row}
+            columnData={columns}
+            owned={isPluginOwned(row.id_plugin)}
+            wanted={isPluginWanted(row.id_plugin)}
+            showOwnedWanted={authenticated}
+          />
+        );
+      }
+      return null;
+    });
+    if (!hasRows) {
+      tableRowContent = noItems;
+    }
   } else {
-    tableRowContent = <NoContentRow><td colSpan={props.columns.length}>No deals</td></NoContentRow>;
+    tableRowContent = noItems;
   }
   return (
     <TableWrap>
