@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 export const HeadCell = styled.th`
-  padding: 10px;
+  padding: 0.625rem;
   background-color: #333;
   color: white;
   cursor: pointer;
   .fa-chevron-up, .fa-chevron-down {
     position: absolute;
-    right:-18px;
-    top: 3px;
+    right: -1.125rem;
+    top: 0.1875rem;
   }
   span {
     position: relative;
@@ -29,6 +29,6 @@ export const TableWrap = styled.div`
 export const NoContentRow = styled.tr`
   td {
     text-align:center;
-    padding: 10px;
+    padding: 0.625rem;
   }
 `;

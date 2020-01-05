@@ -8,34 +8,34 @@ export const AppLogo = styled.div`
   .tag-text {
     margin: 0;
     padding: 0;
-    font-size: 16px;
     color: #333;
     font-weight: normal;
-    margin-top: 5px;
+    margin-top: 0.3125rem;
+    font-size: 1rem;
   }
 `;
 
 export const SignIn = styled.div`
-  font-size:16px;
   font-weight:normal;
+  font-size: 1rem;
   @media (min-width: 980px) {
     text-align:right;
   }
   p {
     margin:0;
     padding:0;
-    margin-bottom:2px;
+    margin-bottom: 0.125rem;
   }
 `;
 
 export const AppHeader = styled.header`
-  font-size: calc(10px + 3vmin);
+  font-size: calc(0.625rem + 3vmin);
   color: #333;
-  font-size:32px;
+  font-size: 2rem;
   text-align: left;
   font-weight: bold;
-  padding: 10px 10px 0 10px;
-  margin-bottom: 10px;
+  padding: 0.625rem 0.625rem 0 0.625rem;
+  margin-bottom: 0.625rem;
   display: flex;
   justify-content: space-between;
   .top-menu {
@@ -45,9 +45,9 @@ export const AppHeader = styled.header`
  .nav-link {
     float:right;
     text-decoration: none;
-    margin-right:30px;
-    font-size:24px;
-    line-height: 40px;
+    margin-right: 1.875rem;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
     color: #999;
   }
   .nav-link:visited {

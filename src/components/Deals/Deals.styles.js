@@ -4,15 +4,15 @@ import styled from 'styled-components';
 export const DealsSearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 `;
 
 export const ShowWantedButton = styled.button`
-  margin-left:20px;
+  margin-left: 1.25rem;
   border: none;
   color: #333;
-  border-radius:4px;
-  padding: 10px 15px;
+  border-radius: 0.25rem;
+  padding: 0.625rem 0.9375rem;
   cursor: pointer;
   flex: 0 0 auto;
   &.active {

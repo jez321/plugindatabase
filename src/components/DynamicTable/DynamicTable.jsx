@@ -76,7 +76,7 @@ export const DynamicTableRaw = ({
       <NoContentRow>
         <td
           style={{
-            height: '50px', verticalAlign: 'middle', textAlign: 'center', fontSize: '24px',
+            height: '3.125rem', verticalAlign: 'middle', textAlign: 'center', fontSize: '1.5rem',
           }}
           colSpan={columns.length}
         >

@@ -29,7 +29,7 @@ export const CardListRaw = ({
   const noItems = <NoItemsMsg>No deals</NoItemsMsg>;
   if (loading) {
     cards = (
-      <div style={{ textAlign: 'center', fontSize: '24px' }}>
+      <div style={{ textAlign: 'center', fontSize: '1.5rem' }}>
         <FontAwesomeIcon
           icon={faSpinner}
           spin

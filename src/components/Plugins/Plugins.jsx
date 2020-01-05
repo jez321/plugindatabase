@@ -109,12 +109,12 @@ export const PluginsRaw = ({
             ) : null}
         </PluginListTypes>
         <div style={{ flexGrow: 1, padding: '0' }}>
-          <section className="search-wrap" style={{ marginBottom: '10px' }}>
+          <section className="search-wrap" style={{ marginBottom: '0.625rem' }}>
             <SearchBox changed={searchChanged} />
           </section>
           {loading
             ? (
-              <div style={{ textAlign: 'left', fontSize: '24px' }}>
+              <div style={{ textAlign: 'left', fontSize: '1.5rem' }}>
                 <FontAwesomeIcon
                   icon={faSpinner}
                   spin
@@ -138,7 +138,7 @@ export const PluginsRaw = ({
                           <li key={p.id_plugin}>
                             { authenticated ? (
                               <div style={{
-                                textAlign: 'right', fontSize: '32px', lineHeight: '48px', whiteSpace: 'nowrap',
+                                textAlign: 'right', fontSize: '2rem', lineHeight: '3rem', whiteSpace: 'nowrap',
                               }}
                               >
                                 <LinkButton title={isPluginOwned(p.id_plugin) ? "I don't own this!" : 'I own this!'}>

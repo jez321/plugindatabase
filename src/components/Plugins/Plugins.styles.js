@@ -20,11 +20,11 @@ export const PluginListTypes = styled.ul`
             cursor: pointer;
             display: block;
             color: #333;
-            border-radius:4px;
+            border-radius: 0.25rem;
             &:hover {
                 background: #E2F3FF;
             }
-            padding: 10px;
+            padding: 0.625rem;
             text-decoration: none;
             &.plugin-list-type-active {
                 background: #0868AE;
@@ -32,7 +32,7 @@ export const PluginListTypes = styled.ul`
             }
 
         }
-        margin-bottom:4px;
+        margin-bottom: 0.25rem;
     }
     .column {
       display: flex;
@@ -44,10 +44,10 @@ export const PluginListTypes = styled.ul`
       li {
         float:left;
       }
-      margin-bottom:10px;
+      margin-bottom: 0.625rem;
     }
     @media (min-width: 980px) {
-      margin-right:20px;
+      margin-right: 1.25rem;
     }
 `;
 export const PluginList = styled.ul`
@@ -61,21 +61,21 @@ export const PluginList = styled.ul`
         box-shadow: #aaa 2px 2px 4px;
         background: #333;
         color: white;
-        border-radius:4px;
+        border-radius: 0.25rem;
         p {
             margin:0;
             padding:0;
         }
-        font-size:24px;
-        padding: 10px 15px;
-        margin-bottom: 5px;
+        font-size: 1.5rem;
+        padding: 0.625rem 0.9375rem;
+        margin-bottom: 0.3125rem;
         .small-text {
             font-size:70%;
         }
         button {
             cursor: pointer;
             color: white;
-            margin-right:15px;
+            margin-right: 0.9375rem;
         &:hover {
           color: #ccc;
         }
