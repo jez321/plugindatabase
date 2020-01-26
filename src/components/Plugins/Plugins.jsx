@@ -9,10 +9,10 @@ import { PropTypes } from 'prop-types';
 import axios from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import { connect } from 'react-redux';
-import { PluginsWrap, PluginListTypes, PluginList } from './Plugins.styles';
+import LinkButton from '../LinkButton/LinkButton';
+import { PluginsWrap, PluginListTypes, PluginList, PluginListTypeButton } from './Plugins.styles';
 import api from '../../api/api';
 import SearchBox from '../SearchBox/SearchBox';
-import LinkButton from '../LinkButton/LinkButton';
 import * as actions from '../../redux/actions';
 
 export const PluginsRaw = ({
@@ -75,36 +75,36 @@ export const PluginsRaw = ({
         {authenticated ? (
           <PluginListTypes className="clearfix" data-test="plugin-type-list">
             <li data-test="plugin-type-list-option">
-              <LinkButton
+              <PluginListTypeButton
                 onClick={() => setPluginListType('all')}
                 className={pluginListType === 'all' ? 'plugin-list-type-active' : ''}
               >
                 <FontAwesomeIcon icon={faCircle} />
                 {` All (${plugins.length})`}
-              </LinkButton>
+              </PluginListTypeButton>
             </li>
             <>
               <li data-test="plugin-type-list-option">
-                <LinkButton
+                <PluginListTypeButton
                   onClick={() => setPluginListType('owned')}
                   className={pluginListType === 'owned' ? 'plugin-list-type-active' : ''}
                 >
                   <FontAwesomeIcon icon={faCheckCircle} />
                   {` Owned (${owned.length})`}
-                </LinkButton>
+                </PluginListTypeButton>
               </li>
               <li data-test="plugin-type-list-option">
-                <LinkButton
+                <PluginListTypeButton
                   onClick={() => setPluginListType('wanted')}
                   className={pluginListType === 'wanted' ? 'plugin-list-type-active' : ''}
                 >
                   <FontAwesomeIcon icon={faStar} />
                   {` Wanted (${wanted.length})`}
-                </LinkButton>
+                </PluginListTypeButton>
               </li>
             </>
           </PluginListTypes>
-        ) : null }
+        ) : null}
         <div style={{ flexGrow: 1, padding: '0' }}>
           <section className="search-wrap" style={{ marginBottom: '0.625rem' }}>
             <SearchBox changed={searchChanged} />
@@ -121,8 +121,8 @@ export const PluginsRaw = ({
             : (
               <>
                 {plugins.length === 0
-                || (pluginListType === 'owned' && owned.length === 0)
-                || (pluginListType === 'wanted' && wanted.length === 0)
+                  || (pluginListType === 'owned' && owned.length === 0)
+                  || (pluginListType === 'wanted' && wanted.length === 0)
                   ? (
                     <div>No plugins</div>
                   )
@@ -133,7 +133,7 @@ export const PluginsRaw = ({
                         if (pluginListType === 'wanted' && !isPluginWanted(p.id_plugin)) return '';
                         return (
                           <li key={p.id_plugin}>
-                            { authenticated ? (
+                            {authenticated ? (
                               <div style={{
                                 textAlign: 'right', fontSize: '2rem', lineHeight: '3rem', whiteSpace: 'nowrap',
                               }}
@@ -151,7 +151,7 @@ export const PluginsRaw = ({
                                   />
                                 </LinkButton>
                               </div>
-                            ) : null }
+                            ) : null}
                             <div>
                               <p className="small-text">
                                 {`${p.company} | ${p.category}`}

@@ -1,5 +1,6 @@
 
 import styled from 'styled-components';
+import LinkButton from '../LinkButton/LinkButton';
 
 export const PluginsWrap = styled.div`
     display: flex;
@@ -11,27 +12,28 @@ export const PluginsWrap = styled.div`
     }
 `;
 
+export const PluginListTypeButton = styled(LinkButton)`
+  display: block;
+  color: #333;
+  width: 100%;
+  text-align: left;
+  border-radius: 0.25rem;
+  &:hover {
+      background: #E2F3FF;
+  }
+  padding: 0.625rem;
+  text-decoration: none;
+  &.plugin-list-type-active {
+      background: #0868AE;
+      color: white;
+  }
+`;
+
 export const PluginListTypes = styled.ul`
     list-style-type: none;
     margin:0;
     padding:0;
     li {
-        button {
-            cursor: pointer;
-            display: block;
-            color: #333;
-            border-radius: 0.25rem;
-            &:hover {
-                background: #E2F3FF;
-            }
-            padding: 0.625rem;
-            text-decoration: none;
-            &.plugin-list-type-active {
-                background: #0868AE;
-                color: white;
-            }
-
-        }
         margin-bottom: 0.25rem;
     }
     .column {
