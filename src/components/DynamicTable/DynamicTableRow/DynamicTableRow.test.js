@@ -4,7 +4,7 @@ import DynamicTableRow from './DynamicTableRow';
 import TestUtil from '../../../test/testUtil';
 
 const columnData = [{ title: 'Name', key: 'name' }, { title: 'Count', key: 'count' }];
-const rowData = { id: 1, name: 'Test Name', count: 5 };
+const rowData = { id: 1, name: 'Test Name', count: 5, url: 'https://pd-test-url.com/plugin-name' };
 const defaultProps = { columnData, rowData, clicked: () => { } };
 
 const setup = (props = {}, state = null) => {
@@ -36,4 +36,11 @@ test('renders correct data in data columns', () => {
 
 test('does not throw warning with expected props', () => {
   TestUtil.checkProps(DynamicTableRow, defaultProps);
+});
+
+test('renders plugin link correctly', () => {
+  const wrapper = setup();
+  const pluginLink = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-link');
+  expect(pluginLink.text()).toBe(rowData.name);
+  expect(pluginLink.prop('href')).toBe(rowData.url);
 });

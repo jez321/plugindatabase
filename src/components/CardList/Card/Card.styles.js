@@ -30,4 +30,7 @@ export const SplitDiv = styled.div`
 
 export const Header = styled.h2`
   margin: 0.125rem 0;
+  a {
+    color: white;
+  }
 `;

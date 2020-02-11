@@ -10,10 +10,10 @@ const defaultProps = {
   },
   owned: [],
   wanted: [],
-  addWantedPlugin: jest.fn().mockImplementation(() => {}),
-  removeWantedPlugin: jest.fn().mockImplementation(() => {}),
-  addOwnedPlugin: jest.fn().mockImplementation(() => {}),
-  removeOwnedPlugin: jest.fn().mockImplementation(() => {}),
+  addWantedPlugin: jest.fn().mockImplementation(() => { }),
+  removeWantedPlugin: jest.fn().mockImplementation(() => { }),
+  addOwnedPlugin: jest.fn().mockImplementation(() => { }),
+  removeOwnedPlugin: jest.fn().mockImplementation(() => { }),
 };
 const setup = (props = {}, state = null) => {
   const setupProps = { ...defaultProps, ...props };

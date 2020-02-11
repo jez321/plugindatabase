@@ -22,7 +22,9 @@ const Card = (props) => {
         </p>
         <p>{new Date(data.added.replace(' ', 'T')).toLocaleDateString()}</p>
       </SplitDiv>
-      <Header>{data.name}</Header>
+      <Header>
+        <a data-test="plugin-link" title="Visit manufacturer's page" target="_blank" rel="noopener noreferrer" href={data.url}>{data.name}</a>
+      </Header>
       <section>
         <strong>Price:</strong>
         {' '}
@@ -38,15 +40,15 @@ const Card = (props) => {
       </section>
       <section className="link-owned-wanted">
         <a target="_blank" rel="noopener noreferrer" href={data.link.url}>{data.link.title}</a>
-        { showOwnedWanted ? (
+        {showOwnedWanted ? (
           <div>
             <FontAwesomeIcon title="Owned" className={!owned ? 'opacity-2' : ''} icon={faCheckCircle} />
-              &nbsp;
+            &nbsp;
             <FontAwesomeIcon title="Wanted" className={!wanted ? 'opacity-2' : ''} icon={faStar} />
-              &nbsp;
+            &nbsp;
           </div>
         ) : null
-           }
+        }
       </section>
     </CardWrapper>
   );

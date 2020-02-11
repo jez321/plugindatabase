@@ -156,7 +156,9 @@ export const PluginsRaw = ({
                               <p className="small-text">
                                 {`${p.company} | ${p.category}`}
                               </p>
-                              <p>{p.name}</p>
+                              <p>
+                                <a data-test="plugin-link" title="Visit manufacturer's page" target="_blank" rel="noopener noreferrer" href={p.url} style={{ color: "white" }}>{p.name}</a>
+                              </p>
                             </div>
                           </li>
                         );

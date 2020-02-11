@@ -14,6 +14,7 @@ const defaultProps = {
       url: 'http://www.test.com/',
       title: 'Test URL',
     },
+    url: 'https://pd-test-url.com/plugin-name',
   },
 };
 
@@ -30,6 +31,19 @@ test('renders a card', () => {
   expect(rows.length).toBe(1);
 });
 
+test('renders a card', () => {
+  const wrapper = setup();
+  const rows = TestUtil.findByDataTestAttrVal(wrapper, 'component-card-wrapper');
+  expect(rows.length).toBe(1);
+});
+
 test('does not throw warning with expected props', () => {
   TestUtil.checkProps(Card, defaultProps);
+});
+
+test('renders plugin link correctly', () => {
+  const wrapper = setup();
+  const pluginLink = TestUtil.findByDataTestAttrVal(wrapper, 'plugin-link');
+  expect(pluginLink.text()).toBe(defaultProps.data.name);
+  expect(pluginLink.prop('href')).toBe(defaultProps.data.url);
 });

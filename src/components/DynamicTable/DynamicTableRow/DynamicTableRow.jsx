@@ -14,9 +14,10 @@ const DynamicTableRow = ({
     const { id, lowestPrice } = rowData;
     if (data === null) { return <Cell data-test="component-cell" key={`${id}_${col.key}`}>Unknown</Cell>; }
     if (col.key === 'name') {
+      const url = rowData['url'];
       return (
         <Cell className="name" data-test="component-cell" key={`${id}_${col.key}`}>
-          { showOwnedWanted ? (
+          {showOwnedWanted ? (
             <>
               <FontAwesomeIcon title="Owned" className={!owned ? 'opacity-2' : ''} icon={faCheckCircle} />
               &nbsp;
@@ -24,9 +25,9 @@ const DynamicTableRow = ({
               &nbsp;
             </>
           ) : null
-           }
+          }
           <div>
-            {data}
+            <a data-test="plugin-link" title="Visit manufacturer's page" target="_blank" rel="noopener noreferrer" href={url}>{data}</a>
           </div>
         </Cell>
       );
